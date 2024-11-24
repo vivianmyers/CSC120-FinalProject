@@ -7,4 +7,11 @@ public class Item {
         this.name = name;
         this.dangerLevel = dangerLevel;
     }
+
+    public String getName() {
+        return this.name;
+    }
+    public int getDangerLevel() {
+        return this.dangerLevel;
+    }
 }

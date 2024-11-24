@@ -16,7 +16,15 @@ public class Character {
 
     }
 
-    public void grab(Item item){
+    public int getCurX(){
+        return this.curX;
+    }
+
+    public int getCurY(){
+        return this.curY;
+    }
+
+    public void grab(String item){
         
 
     }
@@ -26,7 +34,20 @@ public class Character {
     }
 
     public void go(String direction){
-        
+        switch(direction) {
+            case "NORTH":
+                this.curX--;
+                break;
+            case "SOUTH":
+                this.curX++;
+                break;
+            case "EAST":
+                this.curY++;
+                break;
+            case "WEST": 
+                this.curY--;
+                break;
+        }
 
     }
 
@@ -34,8 +55,24 @@ public class Character {
 
     }
 
-    public void eat(Item item){
-
+    public boolean eat(String item){
+        for (Item i : inventory) {
+            if (i.getName().equals(item)) {
+                if (i.getDangerLevel() == 0) {
+                    inventory.remove(i);
+                    System.out.println("Successfully eaten a "+item);
+                    
+                } else {
+                    System.out.println("You are dead");
+                    return false;
+                    
+                }
+                
+        } else {
+            System.out.println("You ");
+        }
+        }
+        return true;
     }
 
 }
