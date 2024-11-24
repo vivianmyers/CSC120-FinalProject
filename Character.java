@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 public class Character {
     
-    String name;
-    ArrayList<Item> items;
-    int curX;
-    int curY;
-    int numSheep;
+    private String name;
+    private ArrayList<Item> items;
+    private int curX;
+    private int curY;
+    private int numSheep;
 }

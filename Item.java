@@ -1,5 +1,5 @@
 public class Item {
     
-    String name;
-    int dangerLevel;
+    private String name;
+    private int dangerLevel;
 }
