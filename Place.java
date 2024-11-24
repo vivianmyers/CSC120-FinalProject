@@ -2,7 +2,7 @@ import java.util.ArrayList;
 public class Place{
 
     String name;
-    Stirng description;
+    String description;
     int placeX;
     int placeY;
     ArrayList<Item> items;
