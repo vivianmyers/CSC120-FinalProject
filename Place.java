@@ -8,12 +8,13 @@ public class Place{
     private ArrayList<Item> items;
     private NPC npc;
 
-    public Place(String name, String description, int x, int y, ArrayList<Item> items, NPC npc){
+    public Place(String name, String description, int x, int y, Item item, NPC npc){
         this.name = name;
         this.description = description;
         this.placeX = x;
         this.placeY = y;
-        this.items = items;
+        this.items = new ArrayList<>();
+        this.items.add(item);
         this.npc = npc;
     }
 
