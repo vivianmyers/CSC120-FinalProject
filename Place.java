@@ -34,4 +34,8 @@ public class Place{
         }
         return null;
     }
+
+    public void killNPC(){
+        this.npc = null;
+    }
 }
