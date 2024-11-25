@@ -84,7 +84,12 @@ public class Character {
             } else{
                 System.out.println("BAAAAAAAHH!!!!!💀 You swung your " + weapon.getName().toLowerCase() + " at nothing and killed 1 sheep.");
                 this.numSheep --;
-                return false;
+                System.out.print("You have ");
+                for(int i = 0; i<this.numSheep; i++){
+                    System.out.print("🐑 ");
+                }
+                System.out.println("remaining 🕊️ 🪦.");
+                return true;
             }
         } else{
             throw new RuntimeException("You cannot fight with this item.");
