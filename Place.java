@@ -14,6 +14,10 @@ public class Place{
         this.npc = npc;
     }
 
+    public String getName(){
+        return this.name;
+    }
+
     public String describe(){
         return this.description;
     }

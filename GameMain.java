@@ -4,40 +4,35 @@ import java.util.Arrays;
 
 public class GameMain {
 
-    public static Place[][] map;
+    //items
+    static Item sword = new Item("SWORD", 10);
+    static Item banana = new Item("BANANA", 0);
+    static Item burger = new Item("BURGER", 0);
 
-    public GameMain() {
-        Item sword = new Item("Sword", 10);
-        Item banana = new Item("Banana", 0);
-        Item burger = new Item("Burger", 0);
+    // npcs
+    static NPC bat = new NPC("BAT");
+    static NPC wolf = new NPC("WOLF");
+    static NPC thief = new NPC("THIEF");
+    static NPC monkey = new NPC("MONKEY");
 
-        // npcs
-        NPC bat = new NPC("Bat");
-        NPC wolf = new NPC("Wolf");
-        NPC thief = new NPC("Thief");
-        NPC monkey = new NPC("Monkey");
+    // place
+    static Place cave = new Place("Cave", "Dark", sword, bat);
+    static Place forestPath = new Place("Forest path", "You are on a path in the forest.", banana, null);
+    static Place forestClearing = new Place("Forest clearing", "You are in a forest clearing.", burger, null);
+    static Place forestTree = new Place("Forest w/ monkey", "You see a monkey.", null, monkey);
+        static Place field = new Place("Empty Field", "Field", null, null);
+        static Place start = new Place("Start", "starting place", null, null);
+        static Place barn = new Place("Barn", "ending place", null, null);
 
-        // place
-        Place cave = new Place("Cave", "Dark", sword, bat);
-        Place forestPath = new Place("Forest path", "You are on a path in the forest.", banana, null);
-        Place forestClearing = new Place("Forest clearing", "You are in a forest clearing.", burger, null);
-        Place forestTree = new Place("Forest w/ monkey", "You see a monkey.", null, monkey);
-        Place field = new Place("Empty Field", "Field", null, null);
-        Place start = new Place("Start", "starting place", null, null);
-        Place barn = new Place("Barn", "ending place", null, null);
-
-        Place[][] map = { { start, field, field, field, field },
+        static Place[][] map = { { start, field, field, field, field },
                 { field, field, cave, field, field },
                 { forestPath, forestClearing, field, field },
                 { forestPath, forestTree, field, field },
                 { field, field, field, field, barn }
 
         };
-    }
 
     public static void main(String[] args) {
-
-        GameMain newGame = new GameMain();
 
         // This is a "flag" to let us know when the loop should end
         boolean stillPlaying = true;
@@ -68,7 +63,7 @@ public class GameMain {
                 for (String direction : directions) {
                     if (input.equals(direction)) {
                         player.go(input);
-                        System.out.println(GameMain.map[player.getCurX()][player.getCurY()].describe());
+                        System.out.println(map[player.getCurX()][player.getCurY()].describe());
                     }
                 }
                 for (String command : commands) {
@@ -98,7 +93,7 @@ public class GameMain {
                             case "DROP":
                                 try {
                                     String objectToDrop = inputWords[index + 1];
-                                    player.grab(objectToDrop);
+                                    player.drop(objectToDrop);
                                 } catch (ArrayIndexOutOfBoundsException e) {
                                     System.out.println("You must put a word after drop");
                                 } catch (Exception e) {

@@ -30,6 +30,7 @@ public class Character {
         if(curPlaceItem !=null){
             this.inventory.add(curPlaceItem);
             curPlace.items.remove(curPlaceItem);
+            System.out.println("You grabbed a " + item.toLowerCase());
         }else{
             throw new RuntimeException("You cannot pick up an item that does not exist here.");
         }
@@ -41,6 +42,7 @@ public class Character {
         if(curItemInventory !=null){
             this.inventory.remove(curItemInventory);
             curPlace.items.add(curItemInventory);
+            System.out.println("You dropped a " + item.toLowerCase());
         }else{
             throw new RuntimeException("You cannot drop an item you do not own.");
         }
