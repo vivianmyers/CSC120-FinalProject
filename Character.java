@@ -6,6 +6,7 @@ public class Character {
     private int curX;
     private int curY;
     private int numSheep;
+    private boolean inside;
 
     public Character(String name){
         this.name = name;
@@ -13,7 +14,7 @@ public class Character {
         this.curX = 0;
         this.curY = 0;
         this.numSheep = 10;
-
+        this.inside = false;
     }
 
     public int getCurX(){
@@ -81,7 +82,8 @@ public class Character {
                     return false;
                 }
             } else{
-                System.out.println("You tried to fight yourself. You are dead.");
+                System.out.println("BAAAAAAAHH!!!!!💀 You swung your " + weapon.getName().toLowerCase() + " at nothing and killed 1 sheep.");
+                this.numSheep --;
                 return false;
             }
         } else{
