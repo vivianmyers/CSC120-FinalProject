@@ -116,6 +116,20 @@ public class Character {
         return true;
     }
 
+    public void enter(){
+        Place curPlace = GameMain.map[this.curX][this.curY];
+        if(curPlace instanceof Building){
+            if(curPlace.isUnlocked()){
+                this.inside = true;
+            }
+        }
+        if(curPlace.)
+    }
+
+    public void setInside(){
+        this.inside = true;
+    }
+
     public Item findItemInInventory(String item){
         for(Item i: this.inventory){
             if(i.getName().equals(item)){

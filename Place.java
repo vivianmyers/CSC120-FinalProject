@@ -38,4 +38,8 @@ public class Place{
     public void killNPC(){
         this.npc = null;
     }
+
+    public boolean isUnlocked(){
+        return true;
+    }
 }
