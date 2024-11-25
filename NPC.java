@@ -4,8 +4,9 @@ public class NPC{
     private String name;
     private int strengthLevel;
 
-    public NPC(String name){
+    public NPC(String name, int strengthLevel){
         this.name = name;
+        this.strengthLevel = strengthLevel;
     }
 
     public String getName(){
