@@ -100,11 +100,25 @@ public class GameMain {
                                     System.out.println(e);
                                 }
                                 break;
+                            case "FIGHT":
+                                try {
+                                    String nextWord = inputWords[index + 1];
+                                    if(nextWord.equals("WITH")){
+                                        String objectToFightWith = inputWords[index + 2];
+                                        stillPlaying = player.fight(objectToFightWith);
+                                    } else{
+                                        System.out.println("You must fight with an item.");
+                                    }
+                                } catch (ArrayIndexOutOfBoundsException e) {
+                                        System.out.println("You must put a word after with.");
+                                } catch (Exception e) {
+                                        System.out.println(e);
+                                    }
+                                break;
                         }
-
-                    } else {
-                        // request input again
                     }
+
+                    
                 }
             }
 

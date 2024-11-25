@@ -18,6 +18,10 @@ public class Place{
         return this.name;
     }
 
+    public NPC getNPC(){
+        return this.npc;
+    }
+
     public String describe(){
         return this.description;
     }

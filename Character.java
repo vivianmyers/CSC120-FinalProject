@@ -66,8 +66,22 @@ public class Character {
 
     }
 
-    public void fight(Item item){
-
+    public boolean fight(String item){
+        Item weapon = this.findItemInInventory(item);
+        Place curPlace = GameMain.map[curX][curY];
+        NPC curNPC = curPlace.getNPC();
+        if(curNPC != null){
+            if(weapon.getDangerLevel() > curNPC.getStrengthLevel()){
+                System.out.println("You killed " + curNPC.getName());
+                return true;
+            } else{
+                System.out.println("You are dead.");
+                return false;
+            }
+        } else{
+            System.out.println("You tried to fight yourself. You are dead.");
+            return false;
+        }
     }
 
     public boolean eat(String item){
