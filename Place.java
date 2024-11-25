@@ -18,7 +18,7 @@ public class Place{
         return this.description;
     }
 
-    public Item checkItems(String item){
+    public Item findItemInPlace(String item){
         for(Item i: this.items){
             if(i.getName().equals(item)){
                 return i;

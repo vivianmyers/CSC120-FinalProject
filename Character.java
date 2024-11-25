@@ -25,18 +25,22 @@ public class Character {
     }
 
     public void grab(String item){
-        if(this.checkInventory(item)!=null){
-            this.inventory.remove(this.checkInventory(item));
-            
+        Place curPlace = GameMain.map[this.curX][this.curY];
+        Item curPlaceItem = curPlace.findItemInPlace(item);
+        if(curPlaceItem !=null){
+            this.inventory.add(curPlaceItem);
+            curPlace.items.remove(curPlaceItem);
         }else{
-            throw new RuntimeException("You cannot drop an item you do not own.");
+            throw new RuntimeException("You cannot pick up an item that does not exist here.");
         }
     }
 
     public void drop(String item){
-        if(this.checkInventory(item)!=null){
-            this.inventory.remove(this.checkInventory(item));
-            
+        Place curPlace = GameMain.map[this.curX][this.curY];
+        Item curItemInventory = this.findItemInInventory(item);
+        if(curItemInventory !=null){
+            this.inventory.remove(curItemInventory);
+            curPlace.items.add(curItemInventory);
         }else{
             throw new RuntimeException("You cannot drop an item you do not own.");
         }
@@ -84,7 +88,7 @@ public class Character {
         return true;
     }
 
-    public Item checkInventory(String item){
+    public Item findItemInInventory(String item){
         for(Item i: this.inventory){
             if(i.getName().equals(item)){
                 return i;
