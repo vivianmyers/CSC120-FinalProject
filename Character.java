@@ -25,12 +25,21 @@ public class Character {
     }
 
     public void grab(String item){
-        
-
+        if(this.checkInventory(item)!=null){
+            this.inventory.remove(this.checkInventory(item));
+            
+        }else{
+            throw new RuntimeException("You cannot drop an item you do not own.");
+        }
     }
 
-    public void drop(Item item){
-
+    public void drop(String item){
+        if(this.checkInventory(item)!=null){
+            this.inventory.remove(this.checkInventory(item));
+            
+        }else{
+            throw new RuntimeException("You cannot drop an item you do not own.");
+        }
     }
 
     public void go(String direction){
@@ -73,6 +82,15 @@ public class Character {
         }
         }
         return true;
+    }
+
+    public Item checkInventory(String item){
+        for(Item i: this.inventory){
+            if(i.getName().equals(item)){
+                return i;
+            }
+        }
+        return null;
     }
 
 }

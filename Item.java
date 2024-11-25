@@ -11,6 +11,7 @@ public class Item {
     public String getName() {
         return this.name;
     }
+    
     public int getDangerLevel() {
         return this.dangerLevel;
     }

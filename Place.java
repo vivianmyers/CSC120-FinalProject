@@ -3,16 +3,12 @@ public class Place{
 
     private String name;
     private String description;
-    private int placeX;
-    private int placeY;
-    private ArrayList<Item> items;
+    public ArrayList<Item> items;
     private NPC npc;
 
-    public Place(String name, String description, int x, int y, Item item, NPC npc){
+    public Place(String name, String description, Item item, NPC npc){
         this.name = name;
         this.description = description;
-        this.placeX = x;
-        this.placeY = y;
         this.items = new ArrayList<>();
         this.items.add(item);
         this.npc = npc;
@@ -20,5 +16,14 @@ public class Place{
 
     public String describe(){
         return this.description;
+    }
+
+    public Item checkItems(String item){
+        for(Item i: this.items){
+            if(i.getName().equals(item)){
+                return i;
+            }
+        }
+        return null;
     }
 }
