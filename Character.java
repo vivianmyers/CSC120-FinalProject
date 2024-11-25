@@ -70,17 +70,21 @@ public class Character {
         Item weapon = this.findItemInInventory(item);
         Place curPlace = GameMain.map[curX][curY];
         NPC curNPC = curPlace.getNPC();
-        if(curNPC != null){
-            if(weapon.getDangerLevel() > curNPC.getStrengthLevel()){
-                System.out.println("You killed " + curNPC.getName());
-                return true;
+        if(weapon != null){
+            if(curNPC != null){
+                if(weapon.getDangerLevel() > curNPC.getStrengthLevel()){
+                    System.out.println("You killed " + curNPC.getName());
+                    return true;
+                } else{
+                    System.out.println("You are dead.");
+                    return false;
+                }
             } else{
-                System.out.println("You are dead.");
+                System.out.println("You tried to fight yourself. You are dead.");
                 return false;
             }
         } else{
-            System.out.println("You tried to fight yourself. You are dead.");
-            return false;
+            throw new RuntimeException("You cannot fight with this item.");
         }
     }
 
