@@ -23,7 +23,20 @@ public class Place{
     }
 
     public String describe(){
-        return this.description;
+        String desc = description;
+        if(this.npc != null){
+            desc += " ";
+            desc += this.npc.getDescription();
+            desc += " ";
+        }
+        if(this.items.size()!= 0){
+            for(Item i : this.items){
+                if(i != null){
+                    desc += i.getDescription();
+                }
+            }
+        }
+        return desc;
     }
 
     public Item findItemInPlace(String item){

@@ -53,15 +53,27 @@ public class Character {
         switch(direction) {
             case "NORTH":
                 this.curX--;
+                if(this.curX<0){
+                    throw new RuntimeException("There are impassable mountains to the North. 🏔️ You cannot go farther.");
+                }
                 break;
             case "SOUTH":
                 this.curX++;
+                if(this.curX>4){
+                    throw new RuntimeException("There is an expansive ocean to the South. 🌊 You cannot go farther.");
+                }
                 break;
             case "EAST":
                 this.curY++;
+                if(this.curY<0){
+                    throw new RuntimeException("There is burning hot lava to the East. 🔥 You cannot go farther.");
+                }
                 break;
             case "WEST": 
                 this.curY--;
+                if(this.curY>4){
+                    throw new RuntimeException("There is an endless abyss to the West. 🕳️ You cannot go farther.");
+                }
                 break;
         }
 
@@ -116,15 +128,15 @@ public class Character {
         return true;
     }
 
-    public void enter(){
-        Place curPlace = GameMain.map[this.curX][this.curY];
-        if(curPlace instanceof Building){
-            if(curPlace.isUnlocked()){
-                this.inside = true;
-            }
-        }
-        if(curPlace.)
-    }
+    // public void enter(){
+    //     Place curPlace = GameMain.map[this.curX][this.curY];
+    //     if(curPlace instanceof Building){
+    //         if(curPlace.isUnlocked()){
+    //             this.inside = true;
+    //         }
+    //     }
+    //     if(curPlace.)
+    // }
 
     public void setInside(){
         this.inside = true;

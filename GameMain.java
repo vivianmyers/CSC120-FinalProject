@@ -5,15 +5,15 @@ import java.util.Arrays;
 public class GameMain {
 
     //items
-    static Item sword = new Item("SWORD", 8);
-    static Item banana = new Item("BANANA", 0);
-    static Item burger = new Item("BURGER", 0);
+    static Item sword = new Item("SWORD", 8, "You spot a beautiful, gleaming, sharp sword lying on the ground. 🗡️ ");
+    static Item banana = new Item("BANANA", 0, "A vibrant, ripe, glowing banana resides on the floor. 🍌 ");
+    static Item burger = new Item("BURGER", 0, "The most beautiful, delicious, juicy burger is laying in front of you. 🍔 ");
 
     // npcs
-    static NPC bat = new NPC("BAT", 2);
-    static NPC wolf = new NPC("WOLF", 7);
-    static NPC thief = new NPC("THIEF", 9);
-    static NPC monkey = new NPC("MONKEY", 3);
+    static NPC bat = new NPC("BAT", 2, "Shiny, foaming at the mouth bat");
+    static NPC wolf = new NPC("WOLF", 7, "Beautiful, giant white teeth.");
+    static NPC thief = new NPC("THIEF", 9, "Dark mysterious figure.");
+    static NPC monkey = new NPC("MONKEY", 3, "OOO OOO AHAHAHAHA");
 
     // place
     static Place cave = new Place("Cave", "Dark", sword, bat);
