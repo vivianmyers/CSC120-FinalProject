@@ -4,32 +4,35 @@ import java.util.Arrays;
 public class GameMain {
 
     //items
+    static Item key = new Item("KEY", 0, "You see a shiny, golden key.");
     static Item sword = new Item("SWORD", 8, "You spot a beautiful, gleaming, sharp sword lying on the ground. 🗡️ ");
     static Item banana = new Item("BANANA", 0, "A vibrant, ripe, glowing banana resides on the floor. 🍌 ");
     static Item burger = new Item("BURGER", 0, "The most beautiful, delicious, juicy burger is laying in front of you. 🍔 ");
 
     // npcs
-    static NPC bat = new NPC("BAT", 2, "Shiny, foaming at the mouth bat");
-    static NPC wolf = new NPC("WOLF", 7, "Beautiful, giant white teeth.");
-    static NPC thief = new NPC("THIEF", 9, "Dark mysterious figure.");
-    static NPC monkey = new NPC("MONKEY", 3, "OOO OOO AHAHAHAHA");
-
+    static NPC bat = new NPC("BAT", 2, " 🦇 A bat hovers in the shadows, its eyes gleaming with a predatory gleam as it lets out an eerie screech.");
+    static NPC wolf = new NPC("WOLF", 7, " 🐺 A lone grey wolf emerges from the shadows of the trees, its piercing eyes locked onto you, unreadable and wild.");
+    static NPC thief = new NPC("THIEF", 9, " 🥷 You spot a dark, cloaked figure lingering in the shadows.");
+    static NPC monkey = new NPC("MONKEY", 3, " 🐒 OOH OOH AAH AHH! A monkey peers at you from the dense foliage of the large tree, its curious eyes glinting with mischief. ");
+    static NPC mcDonald = new NPC("MCDONALD", 0, "A kind old man stands by the stove.");
     // place
-    static Place cave = new Place("Cave", "Dark", sword, bat);
-    static Place forestPath = new Place("Forest path", "You are on a path in the forest.", banana, null);
-    static Place forestClearing = new Place("Forest clearing", "You are in a forest clearing.", burger, null);
-    static Place forestTree = new Place("Forest w/ monkey", "You see a monkey.", null, monkey);
-        static Place field = new Place("Empty Field", "Field", null, null);
-        static Place start = new Place("Start", "starting place", null, null);
-        static Place barn = new Place("Barn", "ending place", null, null);
+    static Building cave = new Building("Cave", " 🪨 You stand at a cave's entrance, peering into the darkness, where shadows seem to shift and secrets await. The faint sound of something stirring sends a chill down your spine.", sword, bat, true, 1, "The cave's interior is cloaked in darkness, the air thick with dampness and the faint scent of earth.");
+    static Building cabin = new Building("Cabin", "You are standing on the steps of a log cabin, smoke gently curling from the chimney. The door is slightly ajar.", null, null, true, 2, ""); //how will we deal with multiple descriptions for each floor inside, npc on what floor?
+    static Place forestPath = new Place("Forest Path", " 🍃🌿 You step onto a forest path, where the trees arch overhead, their shadows hiding whispers of the unknown ahead.", banana, null);
+    static Place forestClearing = new Place("Forest Clearing", " 🌱🌳☀️ You step into the forest clearing, sunlight spilling through the canopy.", burger, null);
+    static Place forestTree = new Place("Forest w/ monkey", " 🌲🪵 A towering tree stands before you, its massive trunk scarred by time and its branches stretching high into the sky, whispering secrets of the forest through its rustling leaves.", null, monkey);
+    static Place field = new Place("Empty Field", " 🌾 You stand in an empty field, its quiet stillness broken only by the soft whisper of the wind.", null, null);
+    static Place start = new Place("Start", " 🪨 A large sheep-shaped rock stands before you.", null, null);
+    static Place barn = new Place("Barn", " 🚪 A red barn stands before you, its large door secured with chains and a large lock.", null, null);
+    
 
-        static Place[][] map = { { start, field, field, field, field },
-                { field, field, cave, field, field },
-                { forestPath, forestClearing, field, field },
-                { forestPath, forestTree, field, field },
-                { field, field, field, field, barn }
+    static Place[][] map = { { start, field, field, field, field },
+            { field, field, cave, field, field },
+            { forestPath, forestClearing, field, field },
+            { forestPath, forestTree, field, field },
+            { field, field, field, field, barn }
 
-        };
+    };
 
     public static void main(String[] args) {
 
