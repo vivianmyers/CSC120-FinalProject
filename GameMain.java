@@ -64,8 +64,12 @@ public class GameMain {
             for (String input : inputWords) {
                 for (String direction : directions) {
                     if (input.equals(direction)) {
-                        player.go(input);
-                        System.out.println(map[player.getCurX()][player.getCurY()].describe());
+                        try{
+                            player.go(input);
+                            System.out.println(map[player.getCurX()][player.getCurY()].describe());
+                        }catch(Exception e){
+                            System.out.println(e);
+                        }
                     }
                 }
                 for (String command : commands) {

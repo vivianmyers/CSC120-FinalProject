@@ -65,15 +65,17 @@ public class Character {
                 break;
             case "EAST":
                 this.curY++;
-                if(this.curY<0){
+                if(this.curY>4){
                     throw new RuntimeException("There is burning hot lava to the East. 🔥 You cannot go farther.");
                 }
                 break;
             case "WEST": 
                 this.curY--;
-                if(this.curY>4){
+                if(this.curY<0){
+                    this.curY++;
                     throw new RuntimeException("There is an endless abyss to the West. 🕳️ You cannot go farther.");
                 }
+
                 break;
         }
 
