@@ -86,7 +86,7 @@ public class Character {
         if(weapon != null){
             if(curNPC != null){
                 if(weapon.getDangerLevel() > curNPC.getStrengthLevel()){
-                    System.out.println("You killed " + curNPC.getName());
+                    System.out.println("You killed " + curNPC.getName().toLowerCase());
                     curPlace.killNPC();
                     return true;
                 } else{
