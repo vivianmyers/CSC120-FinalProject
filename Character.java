@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Character {
-    
+
     private String name;
     private ArrayList<Item> inventory;
     private int curX;
@@ -8,7 +10,7 @@ public class Character {
     private int numSheep;
     private boolean inside;
 
-    public Character(String name){
+    public Character(String name) {
         this.name = name;
         this.inventory = new ArrayList<Item>();
         this.curX = 0;
@@ -17,136 +19,229 @@ public class Character {
         this.inside = false;
     }
 
-    public int getCurX(){
+    public int getCurX() {
         return this.curX;
     }
 
-    public int getCurY(){
+    public int getCurY() {
         return this.curY;
     }
 
-    public void grab(String item){
+    public void grab(String item) {
         Place curPlace = GameMain.map[this.curX][this.curY];
         Item curPlaceItem = curPlace.findItemInPlace(item);
-        if(curPlaceItem !=null){
+        if (curPlaceItem != null) {
             this.inventory.add(curPlaceItem);
             curPlace.items.remove(curPlaceItem);
             System.out.println("You grabbed a " + item.toLowerCase());
-        }else{
+        } else {
             throw new RuntimeException("You cannot pick up an item that does not exist here.");
         }
     }
 
-    public void drop(String item){
+    public void drop(String item) {
         Place curPlace = GameMain.map[this.curX][this.curY];
         Item curItemInventory = this.findItemInInventory(item);
-        if(curItemInventory !=null){
+        if (curItemInventory != null) {
             this.inventory.remove(curItemInventory);
             curPlace.items.add(curItemInventory);
             System.out.println("You dropped a " + item.toLowerCase());
-        }else{
+        } else {
             throw new RuntimeException("You cannot drop an item you do not own.");
         }
+
+        if (this.name.equals("MONKEY")) {
+            if (curPlace.getName().equals("Forest w/ monkey") && item.equals("BANANA")) {
+                System.out.println("The monkey jumps down and grabs the banana!");
+                System.out.println("Monkey: Yum, thanks! I love bananas! Would you like a hint?");
+
+                Scanner scanner2 = new Scanner(System.in); // we cannot close this without an error in main
+                String input = "";
+
+                while (!input.equals("YES") && !input.equals("NO")) {
+                    System.out.print("Enter yes or no: ");
+                    input = scanner2.nextLine().toUpperCase();
+                }
+
+                if (input.equals("YES")) {
+                    System.out.println("Monkey: The barn is southeast from here. Good luck!");
+                } else {
+                    System.out.println("OOH OOH AHH AHH! Good luck anyways!");
+                }
+            }
+        }
+
     }
 
-    public void go(String direction){
-        switch(direction) {
+    public void go(String direction) {
+        Place curPlace = GameMain.map[this.curX][this.curY];
+        if (inside) {
+            throw new RuntimeException("You must exit the " + curPlace.getName() + " first.");
+        }
+
+        switch (direction) {
             case "NORTH":
                 this.curX--;
-                if(this.curX<0){
-                    throw new RuntimeException("There are impassable mountains to the North. 🏔️ You cannot go farther.");
+                if (this.curX < 0) {
+                    this.curX++;
+                    throw new RuntimeException(
+                            "There are impassable mountains to the North. 🏔️ You cannot go farther.");
                 }
                 break;
             case "SOUTH":
                 this.curX++;
-                if(this.curX>4){
+                if (this.curX > 4) {
+                    this.curX--;
                     throw new RuntimeException("There is an expansive ocean to the South. 🌊 You cannot go farther.");
                 }
                 break;
             case "EAST":
                 this.curY++;
-                if(this.curY>4){
+                if (this.curY > 4) {
+                    this.curY--;
                     throw new RuntimeException("There is burning hot lava to the East. 🔥 You cannot go farther.");
                 }
                 break;
-            case "WEST": 
+            case "WEST":
                 this.curY--;
-                if(this.curY<0){
+                if (this.curY < 0) {
                     this.curY++;
                     throw new RuntimeException("There is an endless abyss to the West. 🕳️ You cannot go farther.");
                 }
-
                 break;
         }
 
     }
 
-    public boolean fight(String item){
+    public boolean fight(String item) {
         Item weapon = this.findItemInInventory(item);
         Place curPlace = GameMain.map[curX][curY];
         NPC curNPC = curPlace.getNPC();
-        if(weapon != null){
-            if(curNPC != null){
-                if(weapon.getDangerLevel() > curNPC.getStrengthLevel()){
+        if (weapon != null) {
+            if (curNPC != null) {
+                if (weapon.getDangerLevel() > curNPC.getStrengthLevel()) {
                     System.out.println("You killed " + curNPC.getName().toLowerCase());
                     curPlace.killNPC();
                     return true;
-                } else{
+                } else {
                     System.out.println("You are dead.");
                     return false;
                 }
-            } else{
-                System.out.println("BAAAAAAAHH!!!!!💀 You swung your " + weapon.getName().toLowerCase() + " at nothing and killed 1 sheep.");
-                this.numSheep --;
+            } else {
+                System.out.println("BAAAAAAAHH!!!!!💀 You swung your " + weapon.getName().toLowerCase()
+                        + " at nothing and killed 1 sheep.");
+                this.numSheep--;
                 System.out.print("You have ");
-                for(int i = 0; i<this.numSheep; i++){
+                for (int i = 0; i < this.numSheep; i++) {
                     System.out.print("🐑 ");
                 }
                 System.out.println("remaining 🕊️ 🪦.");
                 return true;
             }
-        } else{
+        } else {
             throw new RuntimeException("You cannot fight with this item.");
         }
     }
 
-    public boolean eat(String item){
+    public boolean eat(String item) {
         for (Item i : inventory) {
             if (i.getName().equals(item)) {
                 if (i.getDangerLevel() == 0) {
                     inventory.remove(i);
-                    System.out.println("Successfully eaten a "+item);
-                    
+                    System.out.println("Successfully eaten a " + item);
+
                 } else {
                     System.out.println("You are dead");
                     return false;
-                    
+
                 }
-                
-        } else {
-            System.out.println("You ");
-        }
+
+            } else {
+                System.out.println("You ");
+            }
         }
         return true;
     }
 
-    // public void enter(){
-    //     Place curPlace = GameMain.map[this.curX][this.curY];
-    //     if(curPlace instanceof Building){
-    //         if(curPlace.isUnlocked()){
-    //             this.inside = true;
-    //         }
-    //     }
-    //     if(curPlace.)
-    // }
+    public void enter() {
 
-    public void setInside(){
+        Place curPlace = GameMain.map[this.curX][this.curY];
+
+        if (inside) {
+            throw new RuntimeException("You are already inside this location.");
+        }
+
+        if (curPlace instanceof Building) {
+            if (curPlace.isUnlocked()) {
+                inside = true;
+                System.out.println("You are now inside " + curPlace.getName() + ".");
+                curPlace.setCharacter(true);
+                System.out.println(curPlace.describe());
+            } else { // building is locked
+                System.out.println("The " + curPlace.getName() + " is locked.");
+            }
+        } else { // curPlace is not a building
+            throw new RuntimeException("This is not a valid command.");
+        }
+
+    }
+
+    public void exit() {
+        Place curPlace = GameMain.map[this.curX][this.curY];
+
+        if (!inside) {
+            throw new RuntimeException("You are not inside. Must call enter() before exit().");
+        }
+
+        System.out.println("You have left " + curPlace.getName() + ".");
+        this.inside = false;
+        curPlace.setCharacter(false);
+        System.out.println(curPlace.describe());
+
+    }
+
+    public void unlock() {
+        Place curPlace = GameMain.map[this.curX][this.curY];
+        if (curPlace.isUnlocked()) {
+            System.out.println("Already unlocked!");
+            return;
+        }
+
+        if (curPlace instanceof Building) {
+            if (findItemInInventory("KEY") != null) { // has key?
+                curPlace.setlockStatus(true);
+                System.out.println("Successfully unlocked door.");
+
+            } else {
+                throw new RuntimeException("You don't have a key.");
+            }
+        } else { // not a building
+            throw new RuntimeException("You cannot unlock this.");
+        }
+    }
+
+    public void conversation() {
+        Place curPlace = GameMain.map[this.curX][this.curY];
+        if (curPlace.getNPC() != null && curPlace.getNPC().conversable) {
+            curPlace.getNPC();
+        }
+    }
+
+    public void setInside() {
         this.inside = true;
     }
 
-    public Item findItemInInventory(String item){
-        for(Item i: this.inventory){
-            if(i.getName().equals(item)){
+    public boolean isInside() {
+        return inside;
+    }
+
+    public int getNumSheep() {
+        return numSheep;
+    }
+
+    public Item findItemInInventory(String item) {
+        for (Item i : this.inventory) {
+            if (i.getName().equals(item)) {
                 return i;
             }
         }

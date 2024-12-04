@@ -1,21 +1,58 @@
 public class Building extends Place{
     
-    private boolean unlocked;
-    private int numFloors;
+    public boolean unlocked;
     private String insideDescription;
+    private boolean hasCharacter;
+    
 
-    public Building(String name, String description, Item item, NPC npc, boolean unlocked, int numFloors, String insideDescription){
+    public Building(String name, String description, Item item, NPC npc, boolean unlocked, String insideDescription){
         super(name, description, item, npc);
         this.unlocked = unlocked;
-        this.numFloors = numFloors;
         this.insideDescription = insideDescription;
+    }
+
+    public String describe(){
+        String desc = "";
+        if(this.hasCharacter){ //inside
+            desc += insideDescription;
+            if(this.getNPC() != null){
+                desc += " ";
+                desc += this.getNPC().getDescription();
+                desc += " ";
+            }
+
+            if(super.items.size()!= 0){
+                for(Item i : this.items){
+                    if(i != null){
+                        desc += i.getDescription();
+                    }
+                }
+            }
+
+        }else{ //outside
+            desc = super.getDescription();
+        }
+        return desc;
     }
 
     public boolean isUnlocked(){
         return unlocked;
     }
 
-    public int getNumFloors(){
-        return this.numFloors;
+    public NPC getNPC(){
+        return super.getNPC();
     }
+
+    public void setlockStatus(boolean status){
+        unlocked = status;
+    }
+
+    public String getInsideDesc1(){
+        return insideDescription;
+    }
+
+    public void setCharacter(boolean inside){
+        this.hasCharacter = inside;
+    }
+
 }

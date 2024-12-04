@@ -10,26 +10,27 @@ public class GameMain {
     static Item burger = new Item("BURGER", 0, "The most beautiful, delicious, juicy burger is laying in front of you. 🍔 ");
 
     // npcs
-    static NPC bat = new NPC("BAT", 2, " 🦇 A bat hovers in the shadows, its eyes gleaming with a predatory gleam as it lets out an eerie screech.");
-    static NPC wolf = new NPC("WOLF", 7, " 🐺 A lone grey wolf emerges from the shadows of the trees, its piercing eyes locked onto you, unreadable and wild.");
-    static NPC thief = new NPC("THIEF", 9, " 🥷 You spot a dark, cloaked figure lingering in the shadows.");
-    static NPC monkey = new NPC("MONKEY", 3, " 🐒 OOH OOH AAH AHH! A monkey peers at you from the dense foliage of the large tree, its curious eyes glinting with mischief. ");
-    static NPC mcDonald = new NPC("MCDONALD", 0, "A kind old man stands by the stove.");
+    static NPC bat = new NPC("BAT", 2, " 🦇 A bat hovers in the shadows, its eyes gleaming with a predatory gleam as it lets out an eerie screech.", false);
+    static NPC wolf = new NPC("WOLF", 7, " 🐺 A lone grey wolf emerges from the shadows of the trees, its piercing eyes locked onto you, unreadable and wild.", false);
+    static NPC thief = new NPC("THIEF", 9, " 🥷 You spot a dark, cloaked figure lingering in the shadows.", true);
+    static NPC monkey = new NPC("MONKEY", 3, " 🐒 OOH OOH AAH AHH! A monkey peers at you from the dense foliage of the large tree, its curious eyes glinting with mischief.", true);
+    static NPC mcDonald = new NPC("MCDONALD", 0, "A kind old man stands by the stove.", true);
     // place
-    static Building cave = new Building("Cave", " 🪨 You stand at a cave's entrance, peering into the darkness, where shadows seem to shift and secrets await. The faint sound of something stirring sends a chill down your spine.", sword, bat, true, 1, "The cave's interior is cloaked in darkness, the air thick with dampness and the faint scent of earth.");
-    static Building cabin = new Building("Cabin", "You are standing on the steps of a log cabin, smoke gently curling from the chimney. The door is slightly ajar.", null, null, true, 2, ""); //how will we deal with multiple descriptions for each floor inside, npc on what floor?
+    static Building cave = new Building("Cave", " 🪨 You stand at a cave's entrance, peering into the darkness, where shadows seem to shift and secrets await. The faint sound of something stirring sends a chill down your spine.", sword, bat, true, "The cave's interior is cloaked in darkness, the air thick with dampness and the faint scent of earth.");
+    static Building cabin = new Building("Cabin", "You are standing on the steps of a log cabin, smoke gently curling from the chimney. The door is slightly ajar.", key, mcDonald, true, "You are in a simple living room."); 
     static Place forestPath = new Place("Forest Path", " 🍃🌿 You step onto a forest path, where the trees arch overhead, their shadows hiding whispers of the unknown ahead.", banana, null);
     static Place forestClearing = new Place("Forest Clearing", " 🌱🌳☀️ You step into the forest clearing, sunlight spilling through the canopy.", burger, null);
     static Place forestTree = new Place("Forest w/ monkey", " 🌲🪵 A towering tree stands before you, its massive trunk scarred by time and its branches stretching high into the sky, whispering secrets of the forest through its rustling leaves.", null, monkey);
     static Place field = new Place("Empty Field", " 🌾 You stand in an empty field, its quiet stillness broken only by the soft whisper of the wind.", null, null);
     static Place start = new Place("Start", " 🪨 A large sheep-shaped rock stands before you.", null, null);
-    static Place barn = new Place("Barn", " 🚪 A red barn stands before you, its large door secured with chains and a large lock.", null, null);
+    static Building barn = new Building("Barn", " 🚪 A red barn stands before you, its large door secured with chains and a large lock.", null, null, false, "The end!");
     
 
-    static Place[][] map = { { start, field, field, field, field },
+    static Place[][] map = { 
+            { start, field, field, field, cabin },
             { field, field, cave, field, field },
-            { forestPath, forestClearing, field, field },
-            { forestPath, forestTree, field, field },
+            { forestPath, forestClearing, field, field, field },
+            { forestPath, forestTree, field, field, field },
             { field, field, field, field, barn }
 
     };
@@ -51,7 +52,7 @@ public class GameMain {
         System.out.println("Welcome " + userResponse + "!");
 
         String[] directions = { "NORTH", "SOUTH", "EAST", "WEST" };
-        String[] commands = { "GRAB", "DROP", "EAT", "FIGHT" };
+        String[] commands = { "GRAB", "DROP", "EAT", "FIGHT", "ENTER", "EXIT", "UNLOCK" };
 
         System.out.println(
                 "You are a sheep herder with 10 sheep. You must find your way back to the barn with at least 7 sheep.");
@@ -81,7 +82,7 @@ public class GameMain {
                                     String objectToEat = inputWords[index + 1];
                                     stillPlaying = player.eat(objectToEat);
                                 } catch (ArrayIndexOutOfBoundsException e) {
-                                    System.out.println("You must put a word after eat");
+                                    System.out.println("Eat what?");
                                 } catch (Exception e) {
                                     System.out.println(e);
                                 }
@@ -91,7 +92,7 @@ public class GameMain {
                                     String objectToGrab = inputWords[index + 1];
                                     player.grab(objectToGrab);
                                 } catch (ArrayIndexOutOfBoundsException e) {
-                                    System.out.println("You must put a word after grab");
+                                    System.out.println("Grab what?");
                                 } catch (Exception e) {
                                     System.out.println(e);
                                 }
@@ -101,7 +102,7 @@ public class GameMain {
                                     String objectToDrop = inputWords[index + 1];
                                     player.drop(objectToDrop);
                                 } catch (ArrayIndexOutOfBoundsException e) {
-                                    System.out.println("You must put a word after drop");
+                                    System.out.println("Drop what?");
                                 } catch (Exception e) {
                                     System.out.println(e);
                                 }
@@ -113,18 +114,51 @@ public class GameMain {
                                         String objectToFightWith = inputWords[index + 2];
                                         stillPlaying = player.fight(objectToFightWith);
                                     } else{
-                                        System.out.println("You must fight with an item.");
+                                        System.out.println("Fight with what?");
                                     }
                                 } catch (ArrayIndexOutOfBoundsException e) {
-                                        System.out.println("You must put a word after with.");
+                                        System.out.println("Fight with what?");
                                 } catch (Exception e) {
                                         System.out.println(e);
                                     }
+                                break;
+                            case "ENTER":
+                                try {
+                                    player.enter();
+                                } catch (Exception e) {
+                                    System.out.println(e);
+                                }
+                                break; 
+                            case "EXIT":
+                                try {
+                                    player.exit();
+                                } catch (Exception e) {
+                                    System.out.println(e);
+                                }
+                                break;
+                            case "UNLOCK":
+                                try{
+                                    player.unlock();
+                                }catch(Exception e){
+                                    System.out.println(e);
+                                }
+                                break;
+                            default:
+                                System.out.println("This is not a valid command.");
                                 break;
                         }
                     }
 
                     
+                }
+            }
+
+            if(player.isInside() && player.getCurX() == 5 && player.getCurY() == 5){ //player has made it to barn
+                stillPlaying = false;
+                if(player.getNumSheep() > 7){ 
+                    //WINNING PRIZE
+                }else{
+                    //LOSING PUNISHMENT
                 }
             }
 

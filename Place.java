@@ -5,6 +5,7 @@ public class Place{
     private String description;
     public ArrayList<Item> items;
     private NPC npc;
+ 
 
     public Place(String name, String description, Item item, NPC npc){
         this.name = name;
@@ -21,6 +22,10 @@ public class Place{
     public NPC getNPC(){
         return this.npc;
     }
+
+    public String getDescription(){
+        return description;
+    };
 
     public String describe(){
         String desc = description;
@@ -55,4 +60,25 @@ public class Place{
     public boolean isUnlocked(){
         return true;
     }
+
+    public int getNumFloors(){
+        return 1;
+    }
+
+    public void setlockStatus(boolean status){
+    }
+
+    public String getInsideDesc1(){
+        return "";
+    }
+
+    public String getInsideDesc2(){
+        return "";
+    }
+
+    public void setCharacter(boolean inside){
+
+    }
+
+    
 }
