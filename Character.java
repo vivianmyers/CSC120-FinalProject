@@ -193,10 +193,9 @@ public class Character {
             throw new RuntimeException("You are not inside. Must call enter() before exit().");
         }
 
-        System.out.println("You have left " + curPlace.getName() + ".");
+        System.out.println("You have come out of " + curPlace.getName() + ".");
         this.inside = false;
         curPlace.setCharacter(false);
-        System.out.println(curPlace.describe());
 
     }
 
@@ -221,38 +220,46 @@ public class Character {
     }
 
     public void talk(String npc) {
-        
+
         Place curPlace = GameMain.map[this.curX][this.curY];
         NPC curNPC = curPlace.getNPC();
 
         if (curNPC != null && curNPC.conversable) {
 
-            if(!npc.equals(curNPC.getName())){ //not a valid NPC (ex. talk to vivian)
+            if (!npc.equals(curNPC.getName())) { // not a valid NPC (ex. talk to vivian)
                 throw new RuntimeException("Talk to who?");
             }
 
-            //the code below can be copied and changed for each npc!
-            if(curNPC.getName().equals("MCDONALD")){
+            // the code below can be copied and changed for each npc!
+            if (curNPC.getName().equals("MCDONALD")) {
                 Scanner scanner = new Scanner(System.in); // we cannot close this without an error in main
                 String input = "";
 
-                System.out.println("McDonald: Hello! My name is McDonald, welcome to my home. Would you like to try one of my burgers?"); //idk this can be changed, just a blueprint
+                System.out.println(
+                        "McDonald: Hello! My name is McDonald, welcome to my home. Would you like to try one of my burgers?"); // idk
+                                                                                                                               // this
+                                                                                                                               // can
+                                                                                                                               // be
+                                                                                                                               // changed,
+                                                                                                                               // just
+                                                                                                                               // a
+                                                                                                                               // blueprint
 
                 while (!input.equals("YES") && !input.equals("NO")) {
-                    System.out.print("Enter yes or no: "); //maybe remove this prompt?
+                    System.out.print("Enter yes or no: "); // maybe remove this prompt?
                     input = scanner.nextLine().toUpperCase();
                 }
 
                 if (input.equals("YES")) {
                     System.out.println("McDonald: Ok here");
-                    
+
                 } else {
                     System.out.println("McDonald: OK bye");
                 }
 
             }
 
-        }else{
+        } else {
             throw new RuntimeException("There is nothing here that you can talk to.");
         }
     }

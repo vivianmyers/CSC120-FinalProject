@@ -3,33 +3,60 @@ import java.util.Arrays;
 
 public class GameMain {
 
-    //items
+    // items
     static Item key = new Item("KEY", 0, "You see a shiny, golden key.");
     static Item sword = new Item("SWORD", 8, "You spot a beautiful, gleaming, sharp sword lying on the ground. 🗡️ ");
     static Item banana = new Item("BANANA", 0, "A vibrant, ripe, glowing banana resides on the floor. 🍌 ");
-    static Item burger = new Item("BURGER", 0, "The most beautiful, delicious, juicy burger is laying in front of you. 🍔 ");
+    static Item burger = new Item("BURGER", 0,
+            "The most beautiful, delicious, juicy burger is laying in front of you. 🍔 ");
 
     // npcs
-    static NPC bat = new NPC("BAT", 2, " 🦇 A bat hovers in the shadows, its eyes gleaming with a predatory gleam as it lets out an eerie screech.", false);
-    static NPC wolf = new NPC("WOLF", 7, " 🐺 A lone grey wolf emerges from the shadows of the trees, its piercing eyes locked onto you, unreadable and wild.", false);
+    static NPC bat = new NPC("BAT", 2,
+            " 🦇 A bat hovers in the shadows, its eyes gleaming with a predatory gleam as it lets out an eerie screech.",
+            false);
+    static NPC wolf = new NPC("WOLF", 7,
+            " 🐺 A lone grey wolf emerges from the shadows of the trees, its piercing eyes locked onto you, unreadable and wild.",
+            false);
     static NPC thief = new NPC("THIEF", 9, " 🥷 You spot a dark, cloaked figure lingering in the shadows.", true);
-    static NPC monkey = new NPC("MONKEY", 3, " 🐒 OOH OOH AAH AHH! A monkey peers at you from the dense foliage of the large tree, its curious eyes glinting with mischief.", true);
+    static NPC monkey = new NPC("MONKEY", 3,
+            " 🐒 OOH OOH AAH AHH! A monkey peers at you from the dense foliage of the large tree, its curious eyes glinting with mischief.",
+            true);
     static NPC mcDonald = new NPC("MCDONALD", 0, "A kind old man stands by the stove.", true);
     // place
-    static Building cave = new Building("Cave", " 🪨 You stand at a cave's entrance, peering into the darkness, where shadows seem to shift and secrets await. The faint sound of something stirring sends a chill down your spine.", sword, bat, true, "The cave's interior is cloaked in darkness, the air thick with dampness and the faint scent of earth.");
-    static Building cabin = new Building("Cabin", "You are standing on the steps of a log cabin, smoke gently curling from the chimney. The door is slightly ajar.", burger, mcDonald, true, "You are in a simple living room."); 
-    static Place forestPath = new Place("Forest Path", " 🍃🌿 You step onto a forest path, where the trees arch overhead, their shadows hiding whispers of the unknown ahead.", banana, null);
-    static Place forestClearing = new Place("Forest Clearing", " 🌱🌳☀️ You step into the forest clearing, sunlight spilling through the canopy.", key, null);
-    static Place forestTree = new Place("Forest w/ monkey", " 🌲🪵 A towering tree stands before you, its massive trunk scarred by time and its branches stretching high into the sky, whispering secrets of the forest through its rustling leaves.", null, monkey);
-    static Place field = new Place("Empty Field", " 🌾 You stand in an empty field, its quiet stillness broken only by the soft whisper of the wind.", null, null);
+    static Building cave = new Building("Cave",
+            " 🪨 You stand at a cave's entrance, peering into the darkness, where shadows seem to shift and secrets await. The faint sound of something stirring sends a chill down your spine.",
+            sword, bat, true,
+            "The cave's interior is cloaked in darkness, the air thick with dampness and the faint scent of earth.");
+    static Building toolshed = new Building("Toolshed",
+            "You stumble upon an ancient toolshed. Its small, weathered door sways gently in the breeze, the rusted hinges making a mournful creak. You hear some suspicious, rustling sound from the inside!",
+            null, thief, true,
+            "The broken light flickers erratically, casting shifting shadows, and in the dim glow, something looms before you.");
+    static Building cabin = new Building("Cabin",
+            "You are standing on the steps of a log cabin, smoke gently curling from the chimney. The door is slightly ajar.",
+            burger, mcDonald, true, "You are in a simple living room.");
+    static Place dark = new Place("Dark",
+            " 🍃🌿 You step into a dark shadow.",
+            null, wolf);
+    static Place forestPath = new Place("Forest Path",
+            " 🍃🌿 You step onto a forest path, where the trees arch overhead, their shadows hiding whispers of the unknown ahead.",
+            banana, null);
+    static Place forestClearing = new Place("Forest Clearing",
+            " 🌱🌳☀️ You step into the forest clearing, sunlight spilling through the canopy.", key, null);
+    static Place forestTree = new Place("Forest w/ monkey",
+            " 🌲🪵 A towering tree stands before you, its massive trunk scarred by time and its branches stretching high into the sky, whispering secrets of the forest through its rustling leaves.",
+            null, monkey);
+    static Place field = new Place("Empty Field",
+            " 🌾 You stand in an empty field, its quiet stillness broken only by the soft whisper of the wind.", null,
+            null);
     static Place start = new Place("Start", " 🪨 A large sheep-shaped rock stands before you.", null, null);
-    static Building barn = new Building("Barn", " 🚪 A red barn stands before you, its large door secured with chains and a large lock.", null, null, false, "The end!");
-    
+    static Building barn = new Building("Barn",
+            " 🚪 A red barn stands before you, its large door secured with chains and a large lock.", null, null, false,
+            "The end!");
 
-    static Place[][] map = { 
-            { start, field, field, field, cabin },
+    static Place[][] map = {
+            { start, field, toolshed, field, cabin },
             { field, field, cave, field, field },
-            { forestPath, forestClearing, field, field, field },
+            { forestPath, forestClearing, field, dark, field },
             { forestPath, forestTree, field, field, field },
             { field, field, field, field, barn }
 
@@ -65,10 +92,10 @@ public class GameMain {
             for (String input : inputWords) {
                 for (String direction : directions) {
                     if (input.equals(direction)) {
-                        try{
+                        try {
                             player.go(input);
                             System.out.println(map[player.getCurX()][player.getCurY()].describe());
-                        }catch(Exception e){
+                        } catch (Exception e) {
                             System.out.println(e);
                         }
                     }
@@ -110,16 +137,16 @@ public class GameMain {
                             case "FIGHT":
                                 try {
                                     String nextWord = inputWords[index + 1];
-                                    if(nextWord.equals("WITH")){
+                                    if (nextWord.equals("WITH")) {
                                         String objectToFightWith = inputWords[index + 2];
                                         stillPlaying = player.fight(objectToFightWith);
-                                    } else{
+                                    } else {
                                         System.out.println("Fight with what?");
                                     }
                                 } catch (ArrayIndexOutOfBoundsException e) {
-                                        System.out.println("Fight with what?");
+                                    System.out.println("Fight with what?");
                                 } catch (Exception e) {
-                                        System.out.println(e);
+                                    System.out.println(e);
                                 }
                                 break;
                             case "ENTER":
@@ -128,7 +155,7 @@ public class GameMain {
                                 } catch (Exception e) {
                                     System.out.println(e);
                                 }
-                                break; 
+                                break;
                             case "EXIT":
                                 try {
                                     player.exit();
@@ -137,30 +164,31 @@ public class GameMain {
                                 }
                                 break;
                             case "UNLOCK":
-                                try{
+                                try {
                                     player.unlock();
-                                }catch(Exception e){
+                                } catch (Exception e) {
                                     System.out.println(e);
                                 }
                                 break;
                             case "TALK":
                                 try {
                                     String nextWord = inputWords[index + 1];
-                                    if(nextWord.equals("TO")){
+                                    if (nextWord.equals("TO")) {
                                         String npc = inputWords[index + 2];
                                         player.talk(npc);
-                                    } else{
+                                    } else {
                                         System.out.println("Talk to who?");
                                     }
                                 } catch (ArrayIndexOutOfBoundsException e) {
-                                        System.out.println("Talk to who?");
+                                    System.out.println("Talk to who?");
                                 } catch (Exception e) {
-                                        System.out.println(e);
+                                    System.out.println(e);
                                 }
                                 break;
                             case "HELP":
                                 System.out.println("**********COMMAND LIST**********");
-                                System.out.println("-North\n-South\n-East\n-West\n-Enter\n-Exit\n-Grab\n-Drop\n-Fight\n-Eat\n-Unlock\n-Help");
+                                System.out.println(
+                                        "-North\n-South\n-East\n-West\n-Enter\n-Exit\n-Grab\n-Drop\n-Fight\n-Eat\n-Unlock\n-Help");
                                 break;
                             default:
                                 System.out.println("This is not a valid command.");
@@ -168,16 +196,15 @@ public class GameMain {
                         }
                     }
 
-                    
                 }
             }
 
-            if(player.isInside() && player.getCurX() == 5 && player.getCurY() == 5){ //player has made it to barn
+            if (player.isInside() && player.getCurX() == 5 && player.getCurY() == 5) { // player has made it to barn
                 stillPlaying = false;
-                if(player.getNumSheep() > 7){ 
-                    //WINNING PRIZE
-                }else{
-                    //LOSING PUNISHMENT
+                if (player.getNumSheep() > 7) {
+                    // WINNING PRIZE
+                } else {
+                    // LOSING PUNISHMENT
                 }
             }
 
