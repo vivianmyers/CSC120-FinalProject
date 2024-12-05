@@ -52,7 +52,7 @@ public class GameMain {
         System.out.println("Welcome " + userResponse + "!");
 
         String[] directions = { "NORTH", "SOUTH", "EAST", "WEST" };
-        String[] commands = { "GRAB", "DROP", "EAT", "FIGHT", "ENTER", "EXIT", "UNLOCK" };
+        String[] commands = { "GRAB", "DROP", "EAT", "FIGHT", "ENTER", "EXIT", "UNLOCK", "HELP" };
 
         System.out.println(
                 "You are a sheep herder with 10 sheep. You must find your way back to the barn with at least 7 sheep.");
@@ -142,6 +142,10 @@ public class GameMain {
                                 }catch(Exception e){
                                     System.out.println(e);
                                 }
+                                break;
+                            case "HELP":
+                                System.out.println("**********COMMAND LIST**********");
+                                System.out.println("-North\n-South\n-East\n-West\n-Enter\n-Exit\n-Grab\n-Drop\n-Fight\n-Eat\n-Unlock\n-Help");
                                 break;
                             default:
                                 System.out.println("This is not a valid command.");
