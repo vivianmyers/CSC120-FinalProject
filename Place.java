@@ -5,14 +5,16 @@ public class Place{
     private String description;
     public ArrayList<Item> items;
     private NPC npc;
+    private boolean forcedConversation;
  
 
-    public Place(String name, String description, Item item, NPC npc){
+    public Place(String name, String description, Item item, NPC npc, boolean forcedConversation){
         this.name = name;
         this.description = description;
         this.items = new ArrayList<>();
         this.items.add(item);
         this.npc = npc;
+        this.forcedConversation = forcedConversation;
     }
 
     public String getName(){
@@ -55,6 +57,7 @@ public class Place{
 
     public void killNPC(){
         this.npc = null;
+        this.forcedConversation = false;
     }
 
     public boolean isUnlocked(){
@@ -78,6 +81,10 @@ public class Place{
 
     public void setCharacter(boolean inside){
 
+    }
+
+    public boolean getForced(){
+        return this.forcedConversation;
     }
 
     
