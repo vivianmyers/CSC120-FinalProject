@@ -8,7 +8,7 @@ public class GameMain {
     static Item sword = new Item("SWORD", 8, "You spot a beautiful, gleaming, sharp sword lying on the ground. 🗡️ ");
     static Item banana = new Item("BANANA", 0, "A vibrant, ripe, glowing banana resides on the floor. 🍌 ");
     static Item burger = new Item("BURGER", 0, "The most beautiful, delicious, juicy burger is laying in front of you. 🍔 ");
-
+    static Item letter = new Item("LETTER", 0, "Instructions.");
     // npcs
     static NPC bat = new NPC("BAT", 2, " 🦇 A bat hovers in the shadows, its eyes gleaming with a predatory gleam as it lets out an eerie screech.", false);
     static NPC wolf = new NPC("WOLF", 7, " 🐺 A lone grey wolf emerges from the shadows of the trees, its piercing eyes locked onto you, unreadable and wild.", false);
@@ -22,7 +22,7 @@ public class GameMain {
     static Place forestClearing = new Place("Forest Clearing", " 🌱🌳☀️ You step into the forest clearing, sunlight spilling through the canopy.", key, null);
     static Place forestTree = new Place("Forest w/ monkey", " 🌲🪵 A towering tree stands before you, its massive trunk scarred by time and its branches stretching high into the sky, whispering secrets of the forest through its rustling leaves.", null, monkey);
     static Place field = new Place("Empty Field", " 🌾 You stand in an empty field, its quiet stillness broken only by the soft whisper of the wind.", null, null);
-    static Place start = new Place("Start", " 🪨 A large sheep-shaped rock stands before you.", null, null);
+    static Place start = new Place("Start", " 🪨 A large sheep-shaped rock stands before you.", letter, null);
     static Building barn = new Building("Barn", " 🚪 A red barn stands before you, its large door secured with chains and a large lock.", null, null, false, "The end!");
     
 
@@ -39,6 +39,8 @@ public class GameMain {
 
         // This is a "flag" to let us know when the loop should end
         boolean stillPlaying = true;
+        boolean inIntroduction = true;
+        int introCounter = 0;
 
         // We'll use this to get input from the user.
         Scanner userInput = new Scanner(System.in);
@@ -54,11 +56,47 @@ public class GameMain {
         String[] directions = { "NORTH", "SOUTH", "EAST", "WEST" };
         String[] commands = { "GRAB", "DROP", "EAT", "FIGHT", "ENTER", "EXIT", "UNLOCK", "TALK", "HELP" };
 
+        System.out.println("You wake up dazed, your vision blurring. As you get up, you realize you're surrounded by 10 white sheep. In front of you stands a large sheep-shaped rock glistening magesticaly in the sunlight.");
+        System.out.println("On the ground in front of you lies a mysterious letter.");
+
+        while(inIntroduction){
+            if(introCounter >= 1){
+                System.out.println("You must grab the letter.");
+            }
+
+            userResponse = userInput.nextLine().toUpperCase();
+            String[] inputWords = userResponse.split(" ");
+            
+            for (String input : inputWords) {
+                for (String command : commands) {
+                    if (input.equals(command)) {
+                        int index = Arrays.asList(inputWords).indexOf(input);
+                        switch (input) {
+                            case "GRAB":
+                                try {
+                                    String objectToGrab = inputWords[index + 1];
+                                    if(objectToGrab.equals("LETTER")){
+                                        inIntroduction = false;
+                                    }
+                                    player.grab(objectToGrab);
+                                } catch (ArrayIndexOutOfBoundsException e) {
+                                    System.out.println("You must grab the letter first.");
+                                } catch (Exception e) {
+                                    System.out.println(e);
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+            introCounter++;
+        }//end intro
+
         System.out.println(
-                "You are a sheep herder with 10 sheep. You must find your way back to the barn with at least 7 sheep.");
+                "Letter: You are a sheep herder with 10 sheep. You must find your way back to the barn with at least 7 sheep or else....");
 
         do {
-
+            
             userResponse = userInput.nextLine().toUpperCase();
             String[] inputWords = userResponse.split(" ");
 
@@ -167,7 +205,6 @@ public class GameMain {
                                 break;
                         }
                     }
-
                     
                 }
             }
