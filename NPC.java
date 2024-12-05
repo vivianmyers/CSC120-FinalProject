@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class NPC{
     private String name;
     private int strengthLevel;
@@ -11,10 +9,6 @@ public class NPC{
         this.strengthLevel = strengthLevel;
         this.description = description;
         this.conversable = conversable;
-    }
-
-    public void converse(){
-        
     }
 
     public String getName(){

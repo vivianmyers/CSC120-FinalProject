@@ -50,7 +50,7 @@ public class Character {
             throw new RuntimeException("You cannot drop an item you do not own.");
         }
 
-        if (this.name.equals("MONKEY")) {
+        if (curPlace.getNPC().getName().equals("MONKEY")) {
             if (curPlace.getName().equals("Forest w/ monkey") && item.equals("BANANA")) {
                 System.out.println("The monkey jumps down and grabs the banana!");
                 System.out.println("Monkey: Yum, thanks! I love bananas! Would you like a hint?");
@@ -220,10 +220,40 @@ public class Character {
         }
     }
 
-    public void conversation() {
+    public void talk(String npc) {
+        
         Place curPlace = GameMain.map[this.curX][this.curY];
-        if (curPlace.getNPC() != null && curPlace.getNPC().conversable) {
-            curPlace.getNPC();
+        NPC curNPC = curPlace.getNPC();
+
+        if (curNPC != null && curNPC.conversable) {
+
+            if(!npc.equals(curNPC.getName())){ //not a valid NPC (ex. talk to vivian)
+                throw new RuntimeException("Talk to who?");
+            }
+
+            //the code below can be copied and changed for each npc!
+            if(curNPC.getName().equals("MCDONALD")){
+                Scanner scanner = new Scanner(System.in); // we cannot close this without an error in main
+                String input = "";
+
+                System.out.println("McDonald: Hello! My name is McDonald, welcome to my home. Would you like to try one of my burgers?"); //idk this can be changed, just a blueprint
+
+                while (!input.equals("YES") && !input.equals("NO")) {
+                    System.out.print("Enter yes or no: "); //maybe remove this prompt?
+                    input = scanner.nextLine().toUpperCase();
+                }
+
+                if (input.equals("YES")) {
+                    System.out.println("McDonald: Ok here");
+                    
+                } else {
+                    System.out.println("McDonald: OK bye");
+                }
+
+            }
+
+        }else{
+            throw new RuntimeException("There is nothing here that you can talk to.");
         }
     }
 

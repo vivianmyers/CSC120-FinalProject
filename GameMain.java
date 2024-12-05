@@ -17,9 +17,9 @@ public class GameMain {
     static NPC mcDonald = new NPC("MCDONALD", 0, "A kind old man stands by the stove.", true);
     // place
     static Building cave = new Building("Cave", " 🪨 You stand at a cave's entrance, peering into the darkness, where shadows seem to shift and secrets await. The faint sound of something stirring sends a chill down your spine.", sword, bat, true, "The cave's interior is cloaked in darkness, the air thick with dampness and the faint scent of earth.");
-    static Building cabin = new Building("Cabin", "You are standing on the steps of a log cabin, smoke gently curling from the chimney. The door is slightly ajar.", key, mcDonald, true, "You are in a simple living room."); 
+    static Building cabin = new Building("Cabin", "You are standing on the steps of a log cabin, smoke gently curling from the chimney. The door is slightly ajar.", burger, mcDonald, true, "You are in a simple living room."); 
     static Place forestPath = new Place("Forest Path", " 🍃🌿 You step onto a forest path, where the trees arch overhead, their shadows hiding whispers of the unknown ahead.", banana, null);
-    static Place forestClearing = new Place("Forest Clearing", " 🌱🌳☀️ You step into the forest clearing, sunlight spilling through the canopy.", burger, null);
+    static Place forestClearing = new Place("Forest Clearing", " 🌱🌳☀️ You step into the forest clearing, sunlight spilling through the canopy.", key, null);
     static Place forestTree = new Place("Forest w/ monkey", " 🌲🪵 A towering tree stands before you, its massive trunk scarred by time and its branches stretching high into the sky, whispering secrets of the forest through its rustling leaves.", null, monkey);
     static Place field = new Place("Empty Field", " 🌾 You stand in an empty field, its quiet stillness broken only by the soft whisper of the wind.", null, null);
     static Place start = new Place("Start", " 🪨 A large sheep-shaped rock stands before you.", null, null);
@@ -52,7 +52,7 @@ public class GameMain {
         System.out.println("Welcome " + userResponse + "!");
 
         String[] directions = { "NORTH", "SOUTH", "EAST", "WEST" };
-        String[] commands = { "GRAB", "DROP", "EAT", "FIGHT", "ENTER", "EXIT", "UNLOCK" };
+        String[] commands = { "GRAB", "DROP", "EAT", "FIGHT", "ENTER", "EXIT", "UNLOCK", "TALK" };
 
         System.out.println(
                 "You are a sheep herder with 10 sheep. You must find your way back to the barn with at least 7 sheep.");
@@ -120,7 +120,7 @@ public class GameMain {
                                         System.out.println("Fight with what?");
                                 } catch (Exception e) {
                                         System.out.println(e);
-                                    }
+                                }
                                 break;
                             case "ENTER":
                                 try {
@@ -141,6 +141,21 @@ public class GameMain {
                                     player.unlock();
                                 }catch(Exception e){
                                     System.out.println(e);
+                                }
+                                break;
+                            case "TALK":
+                                try {
+                                    String nextWord = inputWords[index + 1];
+                                    if(nextWord.equals("TO")){
+                                        String npc = inputWords[index + 2];
+                                        player.talk(npc);
+                                    } else{
+                                        System.out.println("Talk to who?");
+                                    }
+                                } catch (ArrayIndexOutOfBoundsException e) {
+                                        System.out.println("Talk to who?");
+                                } catch (Exception e) {
+                                        System.out.println(e);
                                 }
                                 break;
                             default:
