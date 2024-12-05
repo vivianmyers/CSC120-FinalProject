@@ -43,7 +43,7 @@ public class Building extends Place{
         return super.getNPC();
     }
 
-    public void setlockStatus(boolean status){
+    public void setLockStatus(boolean status){
         unlocked = status;
     }
 
