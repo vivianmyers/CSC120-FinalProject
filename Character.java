@@ -245,9 +245,33 @@ public class Character {
 
                 if (input.equals("YES")) {
                     System.out.println("McDonald: Ok here");
-                    
+                    this.grab("Burger");
                 } else {
                     System.out.println("McDonald: OK bye");
+                }
+
+            }
+            if(curNPC.getName().equals("THIEF")){
+                Scanner scanner = new Scanner(System.in); // we cannot close this without an error in main
+                String input = "";
+
+                System.out.println("Thief: **draws a knife** Give me your sheep and you will not get hurt."); //idk this can be changed, just a blueprint
+
+                while (!input.equals("YES") && !input.equals("NO")) {
+                    System.out.print("Enter yes or no if the thief can have a sheep: "); //maybe remove this prompt?
+                    input = scanner.nextLine().toUpperCase();
+                }
+
+                if (input.equals("YES")) {
+                    System.out.println("Thief: Heh...that was easy.");
+                    this.numSheep --;
+                    System.out.print("You have ");
+                    for (int i = 0; i < this.numSheep; i++) {
+                        System.out.print("🐑 ");
+                    }
+                    System.out.println("remaining 🕊️ 🪦.");
+                } else {
+                    System.out.println("Thief: Prepare to die!");
                 }
 
             }

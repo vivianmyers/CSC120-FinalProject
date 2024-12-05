@@ -15,15 +15,16 @@ public class GameMain {
     static NPC thief = new NPC("THIEF", 9, " 🥷 You spot a dark, cloaked figure lingering in the shadows.", true);
     static NPC monkey = new NPC("MONKEY", 3, " 🐒 OOH OOH AAH AHH! A monkey peers at you from the dense foliage of the large tree, its curious eyes glinting with mischief.", true);
     static NPC mcDonald = new NPC("MCDONALD", 0, "A kind old man stands by the stove.", true);
+    static NPC riddler = new NPC("The Riddler", 10, "An wizened man sits criss cross applesauce on the ground. His wide eyes blink up at you.", true);
     // place
-    static Building cave = new Building("Cave", " 🪨 You stand at a cave's entrance, peering into the darkness, where shadows seem to shift and secrets await. The faint sound of something stirring sends a chill down your spine.", sword, bat, true, "The cave's interior is cloaked in darkness, the air thick with dampness and the faint scent of earth.");
-    static Building cabin = new Building("Cabin", "You are standing on the steps of a log cabin, smoke gently curling from the chimney. The door is slightly ajar.", burger, mcDonald, true, "You are in a simple living room."); 
-    static Place forestPath = new Place("Forest Path", " 🍃🌿 You step onto a forest path, where the trees arch overhead, their shadows hiding whispers of the unknown ahead.", banana, null);
-    static Place forestClearing = new Place("Forest Clearing", " 🌱🌳☀️ You step into the forest clearing, sunlight spilling through the canopy.", key, null);
-    static Place forestTree = new Place("Forest w/ monkey", " 🌲🪵 A towering tree stands before you, its massive trunk scarred by time and its branches stretching high into the sky, whispering secrets of the forest through its rustling leaves.", null, monkey);
-    static Place field = new Place("Empty Field", " 🌾 You stand in an empty field, its quiet stillness broken only by the soft whisper of the wind.", null, null);
-    static Place start = new Place("Start", " 🪨 A large sheep-shaped rock stands before you.", null, null);
-    static Building barn = new Building("Barn", " 🚪 A red barn stands before you, its large door secured with chains and a large lock.", null, null, false, "The end!");
+    static Building cave = new Building("Cave", " 🪨 You stand at a cave's entrance, peering into the darkness, where shadows seem to shift and secrets await. The faint sound of something stirring sends a chill down your spine.", sword, bat, true, "The cave's interior is cloaked in darkness, the air thick with dampness and the faint scent of earth.", false);
+    static Building cabin = new Building("Cabin", "You are standing on the steps of a log cabin, smoke gently curling from the chimney. The door is slightly ajar.", burger, mcDonald, true, "You are in a simple living room.", true); 
+    static Place forestPath = new Place("Forest Path", " 🍃🌿 You step onto a forest path, where the trees arch overhead, their shadows hiding whispers of the unknown ahead.", banana, null, false);
+    static Place forestClearing = new Place("Forest Clearing", " 🌱🌳☀️ You step into the forest clearing, sunlight spilling through the canopy.", key, riddler, true);
+    static Place forestTree = new Place("Forest w/ monkey", " 🌲🪵 A towering tree stands before you, its massive trunk scarred by time and its branches stretching high into the sky, whispering secrets of the forest through its rustling leaves.", null, monkey, false);
+    static Place field = new Place("Empty Field", " 🌾 You stand in an empty field, its quiet stillness broken only by the soft whisper of the wind.", null, null, false);
+    static Place start = new Place("Start", " 🪨 A large sheep-shaped rock stands before you.", null, null, false);
+    static Building barn = new Building("Barn", " 🚪 A red barn stands before you, its large door secured with chains and a large lock.", null, null, false, "The end!", false);
     
 
     static Place[][] map = { 
@@ -68,11 +69,23 @@ public class GameMain {
                         try{
                             player.go(input);
                             System.out.println(map[player.getCurX()][player.getCurY()].describe());
+                            if(GameMain.map[player.getCurX()][player.getCurY()].getForced()){
+                                if(GameMain.map[player.getCurX()][player.getCurY()] instanceof Building){
+                                    if(player.isInside()){
+                                        String curNPC = GameMain.map[player.getCurX()][player.getCurY()].getNPC().getName();
+                                        player.talk(curNPC);
+                                    }
+                                }else{
+                                    String curNPC = GameMain.map[player.getCurX()][player.getCurY()].getNPC().getName();
+                                    player.talk(curNPC);  
+                                }
+                            }
                         }catch(Exception e){
                             System.out.println(e);
                         }
                     }
                 }
+
                 for (String command : commands) {
                     if (input.equals(command)) {
                         int index = Arrays.asList(inputWords).indexOf(input);
@@ -125,6 +138,10 @@ public class GameMain {
                             case "ENTER":
                                 try {
                                     player.enter();
+                                    if(GameMain.map[player.getCurX()][player.getCurY()].getForced()){
+                                        String curNPC = GameMain.map[player.getCurX()][player.getCurY()].getNPC().getName();
+                                        player.talk(curNPC);
+                                    }
                                 } catch (Exception e) {
                                     System.out.println(e);
                                 }

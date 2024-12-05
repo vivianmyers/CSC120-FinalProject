@@ -5,8 +5,8 @@ public class Building extends Place{
     private boolean hasCharacter;
     
 
-    public Building(String name, String description, Item item, NPC npc, boolean unlocked, String insideDescription){
-        super(name, description, item, npc);
+    public Building(String name, String description, Item item, NPC npc, boolean unlocked, String insideDescription, boolean forcedConversation){
+        super(name, description, item, npc, forcedConversation);
         this.unlocked = unlocked;
         this.insideDescription = insideDescription;
     }
