@@ -236,14 +236,7 @@ public class Character {
                 String input = "";
 
                 System.out.println(
-                        "McDonald: Hello! My name is McDonald, welcome to my home. Would you like to try one of my burgers?"); // idk
-                                                                                                                               // this
-                                                                                                                               // can
-                                                                                                                               // be
-                                                                                                                               // changed,
-                                                                                                                               // just
-                                                                                                                               // a
-                                                                                                                               // blueprint
+                        "McDonald: Hello! My name is McDonald, welcome to my home. Would you like to try one of my burgers?"); 
 
                 while (!input.equals("YES") && !input.equals("NO")) {
                     System.out.print("Enter yes or no: "); // maybe remove this prompt?
@@ -252,7 +245,7 @@ public class Character {
 
                 if (input.equals("YES")) {
                     System.out.println("McDonald: Ok here");
-                    this.grab("Burger");
+                    this.grab("BURGER");
                 } else {
                     System.out.println("McDonald: OK bye");
                 }
@@ -262,12 +255,7 @@ public class Character {
                 Scanner scanner = new Scanner(System.in); // we cannot close this without an error in main
                 String input = "";
 
-                System.out.println("Thief: **draws a knife** Give me your sheep and you will not get hurt."); // idk
-                                                                                                              // this
-                                                                                                              // can be
-                                                                                                              // changed,
-                                                                                                              // just a
-                                                                                                              // blueprint
+                System.out.println("Thief: **draws a knife** Give me your sheep and you will not get hurt."); 
 
                 while (!input.equals("YES") && !input.equals("NO")) {
                     System.out.print("Enter yes or no if the thief can have a sheep: "); // maybe remove this prompt?
@@ -291,12 +279,7 @@ public class Character {
                 Scanner scanner = new Scanner(System.in); // we cannot close this without an error in main
                 String input = "";
 
-                System.out.println("Thief: **draws a knife** Give me your sheep and you will not get hurt."); // idk
-                                                                                                              // this
-                                                                                                              // can be
-                                                                                                              // changed,
-                                                                                                              // just a
-                                                                                                              // blueprint
+                System.out.println("Thief: **draws a knife** Give me your sheep and you will not get hurt."); 
 
                 while (!input.equals("YES") && !input.equals("NO")) {
                     System.out.print("Enter yes or no if the thief can have a sheep: "); // maybe remove this prompt?

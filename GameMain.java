@@ -24,36 +24,38 @@ public class GameMain {
     static NPC mcDonald = new NPC("MCDONALD", 0, "A kind old man stands by the stove.", true);
     static NPC riddler = new NPC("The Riddler", 10,
             "An wizened man sits criss cross applesauce on the ground. His wide eyes blink up at you.", true);
+    
+    
     // place
     static Building cave = new Building("Cave",
             " 🪨 You stand at a cave's entrance, peering into the darkness, where shadows seem to shift and secrets await. The faint sound of something stirring sends a chill down your spine.",
             sword, bat, true,
-            "The cave's interior is cloaked in darkness, the air thick with dampness and the faint scent of earth.");
+            "The cave's interior is cloaked in darkness, the air thick with dampness and the faint scent of earth.", false);
     static Building toolshed = new Building("Toolshed",
             "You stumble upon an ancient toolshed. Its small, weathered door sways gently in the breeze, the rusted hinges making a mournful creak. You hear some suspicious, rustling sound from the inside!",
             null, thief, true,
-            "The broken light flickers erratically, casting shifting shadows, and in the dim glow, something looms before you.");
+            "The broken light flickers erratically, casting shifting shadows, and in the dim glow, something looms before you.", false);
     static Building cabin = new Building("Cabin",
             "You are standing on the steps of a log cabin, smoke gently curling from the chimney. The door is slightly ajar.",
-            burger, mcDonald, true, "You are in a simple living room.");
+            burger, mcDonald, true, "You are in a simple living room.", true);
     static Place dark = new Place("Dark",
             " 🍃🌿 You step into a dark shadow.",
-            null, wolf);
+            null, wolf, false);
     static Place forestPath = new Place("Forest Path",
             " 🍃🌿 You step onto a forest path, where the trees arch overhead, their shadows hiding whispers of the unknown ahead.",
-            banana, null);
+            banana, null, false);
     static Place forestClearing = new Place("Forest Clearing",
-            " 🌱🌳☀️ You step into the forest clearing, sunlight spilling through the canopy.", key, null);
+            " 🌱🌳☀️ You step into the forest clearing, sunlight spilling through the canopy.", key, null, false);
     static Place forestTree = new Place("Forest w/ monkey",
             " 🌲🪵 A towering tree stands before you, its massive trunk scarred by time and its branches stretching high into the sky, whispering secrets of the forest through its rustling leaves.",
-            null, monkey);
+            null, monkey, false);
     static Place field = new Place("Empty Field",
             " 🌾 You stand in an empty field, its quiet stillness broken only by the soft whisper of the wind.", null,
-            null);
-    static Place start = new Place("Start", " 🪨 A large sheep-shaped rock stands before you.", null, null);
+            null, false);
+    static Place start = new Place("Start", " 🪨 A large sheep-shaped rock stands before you.", null, null, false);
     static Building barn = new Building("Barn",
             " 🚪 A red barn stands before you, its large door secured with chains and a large lock.", null, null, false,
-            "The end!");
+            "The end!", false);
 
     static Place[][] map = {
             { start, field, toolshed, field, cabin },
@@ -69,7 +71,6 @@ public class GameMain {
         // This is a "flag" to let us know when the loop should end
         boolean stillPlaying = true;
         boolean inIntroduction = true;
-        int introCounter = 0;
 
         // We'll use this to get input from the user.
         Scanner userInput = new Scanner(System.in);
@@ -90,36 +91,13 @@ public class GameMain {
         System.out.println("On the ground in front of you lies a mysterious letter.");
 
         while (inIntroduction) {
-            if (introCounter >= 1) {
-                System.out.println("You must grab the letter.");
-            }
-
             userResponse = userInput.nextLine().toUpperCase();
-            String[] inputWords = userResponse.split(" ");
-
-            for (String input : inputWords) {
-                for (String command : commands) {
-                    if (input.equals(command)) {
-                        int index = Arrays.asList(inputWords).indexOf(input);
-                        switch (input) {
-                            case "GRAB":
-                                try {
-                                    String objectToGrab = inputWords[index + 1];
-                                    if (objectToGrab.equals("LETTER")) {
-                                        inIntroduction = false;
-                                    }
-                                    player.grab(objectToGrab);
-                                } catch (ArrayIndexOutOfBoundsException e) {
-                                    System.out.println("You must grab the letter first.");
-                                } catch (Exception e) {
-                                    System.out.println(e);
-                                }
-                                break;
-                        }
-                    }
-                }
+            
+            if(userResponse.equals("GRAB LETTER")){
+                break;
+            }else{
+                System.out.println("You must grab the letter first.");
             }
-            introCounter++;
         } // end intro
 
         System.out.println(
