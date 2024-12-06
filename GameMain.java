@@ -22,7 +22,7 @@ public class GameMain {
             " 🐒 OOH OOH AAH AHH! A monkey peers at you from the dense foliage of the large tree, its curious eyes glinting with mischief.",
             true);
     static NPC mcDonald = new NPC("MCDONALD", 0, "A kind old man stands by the stove.", true);
-    static NPC riddler = new NPC("THE RIDDLER", 10,
+    static NPC riddler = new NPC("RIDDLER", 10,
             "An wizened man sits criss cross applesauce on the ground. His wide eyes blink up at you.", true);
     
     
@@ -45,7 +45,7 @@ public class GameMain {
             " 🍃🌿 You step onto a forest path, where the trees arch overhead, their shadows hiding whispers of the unknown ahead.",
             banana, null, false);
     static Place forestClearing = new Place("Forest Clearing",
-            " 🌱🌳☀️ You step into the forest clearing, sunlight spilling through the canopy.", key, null, false);
+            " 🌱🌳☀️ You step into the forest clearing, sunlight spilling through the canopy.", null, riddler, false);
     static Place forestTree = new Place("Forest w/ monkey",
             " 🌲🪵 A towering tree stands before you, its massive trunk scarred by time and its branches stretching high into the sky, whispering secrets of the forest through its rustling leaves.",
             null, monkey, false);
@@ -165,6 +165,9 @@ public class GameMain {
                                     }
                                 } catch (ArrayIndexOutOfBoundsException e) {
                                     System.out.println("Fight with what?");
+                                }catch (NoSheepException e){
+                                    stillPlaying = false;
+                                    System.out.println(e);
                                 } catch (Exception e) {
                                     System.out.println(e);
                                 }
@@ -205,7 +208,11 @@ public class GameMain {
                                         System.out.println("Talk to who?");
                                     }
                                 } catch (ArrayIndexOutOfBoundsException e) {
-                                    System.out.println("Talk to who?");
+                                    player.talk(GameMain.map[player.getCurX()][player.getCurY()].getNPC()
+                                    .getName());
+                                }catch (NoSheepException e){
+                                    stillPlaying = false;
+                                    System.out.println(e);
                                 } catch (Exception e) {
                                     System.out.println(e);
                                 }
@@ -213,7 +220,7 @@ public class GameMain {
                             case "HELP":
                                 System.out.println("**********COMMAND LIST**********");
                                 System.out.println(
-                                        "-North\n-South\n-East\n-West\n-Enter\n-Exit\n-Grab\n-Drop\n-Fight\n-Eat\n-Unlock\n-Help");
+                                        "-North\n-South\n-East\n-West\n-Enter\n-Exit\n-Grab\n-Drop\n-Fight\n-Eat\n-Unlock\n-Talk\n-Help");
                                 break;
                             default:
                                 System.out.println("This is not a valid command.");
@@ -224,12 +231,16 @@ public class GameMain {
                 }
             }
 
+            System.out.println();
+
             if (player.isInside() && player.getCurX() == 5 && player.getCurY() == 5) { // player has made it to barn
                 stillPlaying = false;
                 if (player.getNumSheep() > 7) {
                     // WINNING PRIZE
+                    System.out.println("You Win.");
                 } else {
                     // LOSING PUNISHMENT
+                    System.out.println("You lose.");
                 }
             }
 

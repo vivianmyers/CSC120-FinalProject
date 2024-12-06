@@ -48,7 +48,7 @@ public class Place{
 
     public Item findItemInPlace(String item){
         for(Item i: this.items){
-            if(i.getName().equals(item)){
+            if(i != null && i.getName().equals(item)){
                 return i;
             }
         }

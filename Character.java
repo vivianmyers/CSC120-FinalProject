@@ -130,7 +130,7 @@ public class Character {
             } else {
                 System.out.println("BAAAAAAAHH!!!!!💀 You swung your " + weapon.getName().toLowerCase()
                         + " at nothing and killed 1 sheep.");
-                this.numSheep--;
+                this.subtractSheep();
                 System.out.print("You have ");
                 for (int i = 0; i < this.numSheep; i++) {
                     System.out.print("🐑 ");
@@ -157,7 +157,7 @@ public class Character {
                 }
 
             } else {
-                System.out.println("You ");
+                System.out.println("You do not have a " + item);
             }
         }
         return true;
@@ -230,7 +230,7 @@ public class Character {
                 throw new RuntimeException("Talk to who?");
             }
             Scanner scanner = new Scanner(System.in);
-            
+
             // the code below can be copied and changed for each npc!
             if (curNPC.getName().equals("MCDONALD")) {
                  // we cannot close this without an error in main
@@ -265,38 +265,74 @@ public class Character {
 
                 if (input.equals("YES")) {
                     System.out.println("Thief: Heh...that was easy.");
-                    this.numSheep--;
-                    System.out.print("You have ");
-                    for (int i = 0; i < this.numSheep; i++) {
-                        System.out.print("🐑 ");
-                    }
-                    System.out.println("remaining 🕊️ 🪦.");
+                    this.subtractSheep();
+                    printSheep();
+
                 } else {
                     System.out.println("Thief: Prepare to die!");
                 }
 
             }
-            if (curNPC.getName().equals("THIEF")) {
-                
+            if (curNPC.getName().equals("RIDDLER")) {
+                int numCorrect = 0;
                 String input = "";
 
-                System.out.println("Thief: **draws a knife** Give me your sheep and you will not get hurt."); 
+                System.out.println("The Riddler: Well now, what do we have here? Is it riddles you desire, young one? Choose wisely, for the forest listens closely."); 
 
                 while (!input.equals("YES") && !input.equals("NO")) {
-                    System.out.print("Enter yes or no if the thief can have a sheep: "); // maybe remove this prompt?
+                    System.out.print("Enter yes or no: "); // maybe remove this prompt?
                     input = scanner.nextLine().toUpperCase();
                 }
 
                 if (input.equals("YES")) {
-                    System.out.println("Thief: Heh...that was easy.");
-                    this.numSheep--;
-                    System.out.print("You have ");
-                    for (int i = 0; i < this.numSheep; i++) {
-                        System.out.print("🐑 ");
+                    System.out.println("The Riddler: Excellent! Prepare yourself, traveler. Here comes your first riddle...");
+                    
+                    //riddle 1
+                    System.out.println("Riddle 1: What is a baby sheep called?");
+                    String answer1 = scanner.nextLine().toUpperCase();
+            
+                    if (answer1.equals("LAMB")) {
+                        System.out.println("The Riddler: Correct! The forest approves of your wisdom.");
+                        numCorrect++;
+                    } else {
+                        System.out.println("The Riddler: Wrong! The forest is not pleased.");
                     }
-                    System.out.println("remaining 🕊️ 🪦.");
+
+                    //riddle 2
+                    System.out.println("Riddle 2: True or False: Sheep have no upper teeth.");
+                    String answer2 = scanner.nextLine().toUpperCase();
+            
+                    if (answer2.equals("TRUE")) {
+                        System.out.println("The Riddler: Correct! The forest is pleased.");
+                        numCorrect++;
+                    } else {
+                        System.out.println("The Riddler: Wrong!");
+                    }
+
+                    //riddle 2
+                    System.out.println("Riddle 2: True or False: Sheep are the best animals in the world.");
+                    String answer3 = scanner.nextLine().toUpperCase();
+            
+                    if (answer3.equals("TRUE")) {
+                        System.out.println("The Riddler: Correct!");
+                        numCorrect++;
+                    } else {
+                        System.out.println("The Riddler: Wrong!");
+                    }
+
+                    //handle cases
+                    if(numCorrect == 3){ //give player key
+                        System.out.println("The Riddler: I'm impressed. Your wisdom has won you a key. Use it wisely.");
+                        curPlace.items.add(new Item("KEY", 0, "You see a shiny, golden key."));
+                        this.grab("KEY");
+                    }else{
+                        System.out.println("The Riddler: Alas, you have failed to get all 3 riddles correct. The forest demands a sacrifice... a sheep will be taken.");
+                        subtractSheep();
+                        printSheep();
+                    }
+                    
                 } else {
-                    System.out.println("Thief: Prepare to die!");
+                    System.out.println("The Riddler: So be it, traveler. The forest is not for everyone. May you find your path elsewhere.");
                 }
 
             }
@@ -316,6 +352,25 @@ public class Character {
 
     public int getNumSheep() {
         return numSheep;
+    }
+
+    public void subtractSheep(){
+        if(numSheep > 0){
+            numSheep--;
+        }else{
+            
+            throw new NoSheepException("You have run out of sheep.");
+        }
+        
+    }
+
+    public void printSheep(){
+        System.out.print("You have ");
+        for (int i = 0; i < this.numSheep; i++) {
+            System.out.print("🐑 ");
+        }
+        System.out.println("remaining 🕊️ 🪦.");
+
     }
 
     public Item findItemInInventory(String item) {
