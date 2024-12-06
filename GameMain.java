@@ -22,7 +22,7 @@ public class GameMain {
             " 🐒 OOH OOH AAH AHH! A monkey peers at you from the dense foliage of the large tree, its curious eyes glinting with mischief.",
             true);
     static NPC mcDonald = new NPC("MCDONALD", 0, "A kind old man stands by the stove.", true);
-    static NPC riddler = new NPC("The Riddler", 10,
+    static NPC riddler = new NPC("THE RIDDLER", 10,
             "An wizened man sits criss cross applesauce on the ground. His wide eyes blink up at you.", true);
     
     

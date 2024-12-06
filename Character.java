@@ -229,10 +229,11 @@ public class Character {
             if (!npc.equals(curNPC.getName())) { // not a valid NPC (ex. talk to vivian)
                 throw new RuntimeException("Talk to who?");
             }
-
+            Scanner scanner = new Scanner(System.in);
+            
             // the code below can be copied and changed for each npc!
             if (curNPC.getName().equals("MCDONALD")) {
-                Scanner scanner = new Scanner(System.in); // we cannot close this without an error in main
+                 // we cannot close this without an error in main
                 String input = "";
 
                 System.out.println(
@@ -252,7 +253,7 @@ public class Character {
 
             }
             if (curNPC.getName().equals("THIEF")) {
-                Scanner scanner = new Scanner(System.in); // we cannot close this without an error in main
+                
                 String input = "";
 
                 System.out.println("Thief: **draws a knife** Give me your sheep and you will not get hurt."); 
@@ -276,7 +277,7 @@ public class Character {
 
             }
             if (curNPC.getName().equals("THIEF")) {
-                Scanner scanner = new Scanner(System.in); // we cannot close this without an error in main
+                
                 String input = "";
 
                 System.out.println("Thief: **draws a knife** Give me your sheep and you will not get hurt."); 
