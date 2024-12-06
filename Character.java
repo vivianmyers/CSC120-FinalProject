@@ -287,7 +287,10 @@ public class Character {
                         }else{
                             throw new Exception("You did not type dodge! The thief knocked you out and stole a sheep.");
                         }
-        
+                    } catch (TimeoutException e) {
+                        System.out.println("You did not type dodge! The thief knocked you out and stole a sheep!");
+                        subtractSheep();
+                        printSheep();
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                         subtractSheep();
@@ -296,8 +299,7 @@ public class Character {
                         executor.shutdownNow();
                     }
 
-
-
+                    //for some reason, after executing the catch statements above, the code will wait for another input before you can actually input any commands
 
                 }
 
