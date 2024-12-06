@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.*;
 
 public class Character {
 
@@ -131,11 +132,8 @@ public class Character {
                 System.out.println("BAAAAAAAHH!!!!!💀 You swung your " + weapon.getName().toLowerCase()
                         + " at nothing and killed 1 sheep.");
                 this.subtractSheep();
-                System.out.print("You have ");
-                for (int i = 0; i < this.numSheep; i++) {
-                    System.out.print("🐑 ");
-                }
-                System.out.println("remaining 🕊️ 🪦.");
+                this.printSheep();
+                
                 return true;
             }
         } else {
@@ -237,7 +235,7 @@ public class Character {
                 String input = "";
 
                 System.out.println(
-                        "McDonald: Hello! My name is McDonald, welcome to my home. Would you like to try one of my burgers?"); 
+                        "McDonald: Hello! My name is McDonald, welcome to my home. Would you like to try one of my sheep-burgers?"); 
 
                 while (!input.equals("YES") && !input.equals("NO")) {
                     System.out.print("Enter yes or no: "); // maybe remove this prompt?
@@ -245,10 +243,10 @@ public class Character {
                 }
 
                 if (input.equals("YES")) {
-                    System.out.println("McDonald: Ok here");
+                    System.out.println("McDonald: Okay, here ya go!");
                     this.grab("BURGER");
                 } else {
-                    System.out.println("McDonald: OK bye");
+                    System.out.println("McDonald: Okay, your loss!");
                 }
 
             }
@@ -270,6 +268,37 @@ public class Character {
 
                 } else {
                     System.out.println("Thief: Prepare to die!");
+                    System.out.println("You have 10 seconds to DODGE the theif's attack!");
+
+                    ExecutorService executor = Executors.newSingleThreadExecutor();
+
+                    Callable<String> inputTask = () -> {
+                        System.out.print("DODGE the theif: ");
+                        return scanner.nextLine();
+                    };
+
+                    Future<String> future = executor.submit(inputTask);
+
+                    try {
+                        String input1 = future.get(10, TimeUnit.SECONDS);
+                        if(input1.toUpperCase().equals("DODGE")){
+                            System.out.println("You successfuly dodged the thief! The theif falls to the ground and your sheep eat him.");
+                            curPlace.killNPC();
+                        }else{
+                            throw new Exception("You did not type dodge! The thief knocked you out and stole a sheep.");
+                        }
+        
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        subtractSheep();
+                        printSheep();
+                    } finally {
+                        executor.shutdownNow();
+                    }
+
+
+
+
                 }
 
             }
@@ -358,7 +387,6 @@ public class Character {
         if(numSheep > 0){
             numSheep--;
         }else{
-            
             throw new NoSheepException("You have run out of sheep.");
         }
         
@@ -369,8 +397,7 @@ public class Character {
         for (int i = 0; i < this.numSheep; i++) {
             System.out.print("🐑 ");
         }
-        System.out.println("remaining 🕊️ 🪦.");
-
+        System.out.println(" sheep remaining.");
     }
 
     public Item findItemInInventory(String item) {

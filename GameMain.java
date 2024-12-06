@@ -4,7 +4,7 @@ import java.util.Arrays;
 public class GameMain {
 
     // items
-    static Item key = new Item("KEY", 0, "You see a shiny, golden key.");
+    //static Item key = new Item("KEY", 0, "You see a shiny, golden key."); //we may not need this as the riddler makes a new key item
     static Item sword = new Item("SWORD", 8, "You spot a beautiful, gleaming, sharp sword lying on the ground. 🗡️ ");
     static Item banana = new Item("BANANA", 0, "A vibrant, ripe, glowing banana resides on the floor. 🍌 ");
     static Item burger = new Item("BURGER", 0,
@@ -55,7 +55,7 @@ public class GameMain {
     static Place start = new Place("Start", " 🪨 A large sheep-shaped rock stands before you.", null, null, false);
     static Building barn = new Building("Barn",
             " 🚪 A red barn stands before you, its large door secured with chains and a large lock.", null, null, false,
-            "The end!", false);
+            "", false);
 
     static Place[][] map = {
             { start, field, toolshed, field, cabin },
@@ -84,7 +84,7 @@ public class GameMain {
         System.out.println("Welcome " + userResponse + "!");
 
         String[] directions = { "NORTH", "SOUTH", "EAST", "WEST" };
-        String[] commands = { "GRAB", "DROP", "EAT", "FIGHT", "ENTER", "EXIT", "UNLOCK", "TALK", "HELP" };
+        String[] commands = { "GRAB", "DROP", "EAT", "FIGHT", "ENTER", "EXIT", "UNLOCK", "TALK", "HELP", "SHEEP" };
 
         System.out.println(
                 "You wake up dazed, your vision blurring. As you get up, you realize you're surrounded by 10 white sheep. In front of you stands a large sheep-shaped rock glistening magesticaly in the sunlight.");
@@ -104,7 +104,7 @@ public class GameMain {
                 "Letter: You are a sheep herder with 10 sheep. You must find your way back to the barn with at least 7 sheep or else....");
 
         do {
-
+            System.out.println();
             userResponse = userInput.nextLine().toUpperCase();
             String[] inputWords = userResponse.split(" ");
 
@@ -200,6 +200,8 @@ public class GameMain {
                                 break;
                             case "TALK":
                                 try {
+                                    String npcCheck = GameMain.map[player.getCurX()][player.getCurY()].getNPC()
+                                    .getName();
                                     String nextWord = inputWords[index + 1];
                                     if (nextWord.equals("TO")) {
                                         String npc = inputWords[index + 2];
@@ -207,6 +209,9 @@ public class GameMain {
                                     } else {
                                         System.out.println("Talk to who?");
                                     }
+                                }catch (NullPointerException e){
+                                    System.out.println("There is no one to talk to here.");
+                                
                                 } catch (ArrayIndexOutOfBoundsException e) {
                                     player.talk(GameMain.map[player.getCurX()][player.getCurY()].getNPC()
                                     .getName());
@@ -217,10 +222,13 @@ public class GameMain {
                                     System.out.println(e);
                                 }
                                 break;
+                            case "SHEEP":
+                                player.printSheep();
+                                break;
                             case "HELP":
                                 System.out.println("**********COMMAND LIST**********");
                                 System.out.println(
-                                        "-North\n-South\n-East\n-West\n-Enter\n-Exit\n-Grab\n-Drop\n-Fight\n-Eat\n-Unlock\n-Talk\n-Help");
+                                        "-North\n-South\n-East\n-West\n-Enter\n-Exit\n-Grab\n-Drop\n-Fight\n-Eat\n-Unlock\n-Talk\n-Sheep\n-Help");
                                 break;
                             default:
                                 System.out.println("This is not a valid command.");
@@ -231,13 +239,13 @@ public class GameMain {
                 }
             }
 
-            System.out.println();
+            
 
             if (player.isInside() && player.getCurX() == 5 && player.getCurY() == 5) { // player has made it to barn
                 stillPlaying = false;
                 if (player.getNumSheep() > 7) {
                     // WINNING PRIZE
-                    System.out.println("You Win.");
+                    System.out.println("You step into the large barn");
                 } else {
                     // LOSING PUNISHMENT
                     System.out.println("You lose.");
