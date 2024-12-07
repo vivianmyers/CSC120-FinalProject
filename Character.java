@@ -161,8 +161,13 @@ public class Character {
             if (i.getName().equals(item)) {
                 if (i.getDangerLevel() == 0) {
                     inventory.remove(i);
-                    System.out.println("Successfully eaten a " + item);
-
+                    if (Math.random()*10 == 0){
+                        System.out.println("Oh no! You got choked on " + item + ". One of your sheep tries to save you by doing a Heimlich maneuver. The sheep is too heavy that you fall backwards onto it. Fortunately, the blockage came out as you fell, but the poor sheep was crushed to death under your body.");
+                        this.subtractSheep();
+                        this.printSheep();
+                    } else {
+                        System.out.println("Successfully eaten a " + item);
+                    }
                 } else {
                     System.out.println("You are dead");
                     return false;
@@ -383,7 +388,6 @@ public class Character {
                         subtractSheep();
                         printSheep();
                     }
-                    
                 } else {
                     System.out.println("The Riddler: So be it, traveler. The forest is not for everyone. May you find your path elsewhere.");
                 }
@@ -397,6 +401,23 @@ public class Character {
                 printSheep();
            }
 
+            if (curNPC.getName().equals("MCDONALD")) {
+                int numCorrect = 0;
+                String input = "";
+
+                System.out.println("McDonald: Hi there! Would you like a free sheep burger?"); 
+
+                while (!input.equals("YES") && !input.equals("NO")) {
+                    input = scanner.nextLine().toUpperCase();
+                }
+
+                if (input.equals("YES")) {
+                    System.out.println("McDonald: Enjoy!");
+                    this.grab("BURGER");
+                } else {
+                    System.out.println("McDonald: Alright. Come back any time when you change your mind!");
+                }
+            }
         } else {
             throw new RuntimeException("There is nothing here that you can talk to.");
         }
