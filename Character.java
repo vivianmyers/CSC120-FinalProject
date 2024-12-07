@@ -184,7 +184,7 @@ public class Character {
             throw new RuntimeException("You are already inside this location.");
         }
 
-        if (curPlace instanceof Building) {
+        if (curPlace instanceof Building) {w
             if (curPlace.isUnlocked()) {
                 inside = true;
                 System.out.println("You are now inside " + curPlace.getName() + ".");
