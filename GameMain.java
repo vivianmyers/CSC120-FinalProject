@@ -11,6 +11,7 @@ public class GameMain {
     static Item banana = new Item("BANANA", 0, "A vibrant, ripe, glowing banana resides on the floor. 🍌 ");
     static Item burger = new Item("BURGER", 0,
             "The most beautiful, delicious, juicy burger is laying in front of you. 🍔 ");
+    static Item hammerScrewdriver = new Item ("HAMMERSCREWDRIVER", 3, "A hammerscrewdriver with a sparkly pink handle sits, abandoned by an engineering first year. 🔨🪛");
     
     // npcs
     static NPC bat = new NPC("BAT", 2,
@@ -30,7 +31,7 @@ public class GameMain {
     // place
     static Building cave = new Building("Cave",
             " 🪨 You stand at a cave's entrance, peering into the darkness, where shadows seem to shift and secrets await. The faint sound of something stirring sends a chill down your spine.",
-            sword, bat, true,
+            null, bat, true,
             "The cave's interior is cloaked in darkness, the air thick with dampness and the faint scent of earth.",
             false);
     static Building toolshed = new Building("Toolshed",
@@ -59,13 +60,18 @@ public class GameMain {
     static Building barn = new Building("Barn",
             " 🚪 A red barn stands before you, its large door secured with chains and a large lock.", null, null, false,
             "", false);
+    static Building lagoon = new Building("Lagoon", "A glassy, dark lagoon stretches in front of you. It's black water laps gently on the shore.", null, null, true, "You enter the water. Your sheep attempt to save you from the waves. You escape, but one sheep sinks beneath the waves.", false);
+    static Place marsh = new Place("Marsh", "Your nostrils are assaulted by the smell of sulfur and death. In front of you is a bubbling, boil marsh. Twisted trees rise from the murky water.", hammerScrewdriver, null, false);
+    static Place dunes = new Place("Dunes", "Suddenly your boots meet sand. In front of you, a dune rises, bright sunlight reflecting off its top.", null, null, false);
+    static Place flowerGarden = new Place("Flower Garden", "An expanse of color graces your eyes. The largest flower garden you have ever seen.", null, null, false);
+    static Place forest = new Place("Forest", "Beautiful trees rise around you, their canopy filtering the sunlight. Birds chirp faintly and squirrels cling to tree trunks.", null, null, false);
 
     static Place[][] map = {
-            { start, field, toolshed, field, cabin },
-            { field, field, cave, field, field },
-            { forestPath, forestClearing, field, dark, field },
-            { forestPath, forestTree, field, field, field },
-            { field, field, field, field, barn }
+            { start, field, toolshed, flowerGarden, cabin },
+            { field, lagoon, field, cave, field },
+            { forestPath, forestClearing, forest, dark, field },
+            { forestPath, forestTree, forest, forest, field },
+            { field, marsh, field, dunes, barn }
 
     };
 

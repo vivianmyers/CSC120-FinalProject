@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.*;
 
-import javax.management.RuntimeErrorException;
-
 public class Character {
 
     private String name;
@@ -187,6 +185,12 @@ public class Character {
                 inside = true;
                 System.out.println("You are now inside " + curPlace.getName() + ".");
                 curPlace.setCharacter(true);
+                if(curPlace.getName().equals("Lagoon")){
+                    System.out.println(curPlace.describe());
+                    this.subtractSheep();
+                    this.printSheep();
+                    return;
+                }
                 System.out.println(curPlace.describe());
             } else { // building is locked
                 System.out.println("The " + curPlace.getName() + " is locked.");
