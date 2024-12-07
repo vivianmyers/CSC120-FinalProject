@@ -268,6 +268,7 @@ public class GameMain {
                     } catch(Exception e){
                     }
                 }
+                System.out.println("");
                 System.out.println("The Headmaster's eyes begin to flutter and he falls into a deep slumber💤. You won!");
             } else {
                 // LOSING PUNISHMENT
