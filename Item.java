@@ -1,5 +1,5 @@
 public class Item {
-    
+
     private String name;
     private int dangerLevel;
     private String description;
@@ -13,12 +13,12 @@ public class Item {
     public String getName() {
         return this.name;
     }
-    
+
     public int getDangerLevel() {
         return this.dangerLevel;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return this.description;
     }
 }

@@ -1,25 +1,25 @@
-public class NPC{
+public class NPC {
     private String name;
     private int strengthLevel;
     private String description;
     public boolean conversable;
 
-    public NPC(String name, int strengthLevel, String description, boolean conversable){
+    public NPC(String name, int strengthLevel, String description, boolean conversable) {
         this.name = name;
         this.strengthLevel = strengthLevel;
         this.description = description;
         this.conversable = conversable;
     }
 
-    public String getName(){
+    public String getName() {
         return this.name;
     }
-    
-    public int getStrengthLevel(){
+
+    public int getStrengthLevel() {
         return this.strengthLevel;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return this.description;
     }
 }

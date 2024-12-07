@@ -34,7 +34,7 @@ public class Character {
         if (curPlaceItem != null) {
             this.inventory.add(curPlaceItem);
             curPlace.items.remove(curPlaceItem);
-            System.out.println("You grabbed a " + item.toLowerCase());
+            System.out.println("You grabbed a " + item.toLowerCase() + ".");
         } else {
             throw new RuntimeException("You cannot pick up an item that does not exist here.");
         }
@@ -273,7 +273,7 @@ public class Character {
                     ExecutorService executor = Executors.newSingleThreadExecutor();
 
                     Callable<String> inputTask = () -> {
-                        System.out.print("DODGE the theif: ");
+                        System.out.print("Type dodge: ");
                         return scanner.nextLine();
                     };
 
@@ -366,7 +366,7 @@ public class Character {
                     System.out.println("The Riddler: So be it, traveler. The forest is not for everyone. May you find your path elsewhere.");
                 }
 
-            }
+            }//end riddler
 
         } else {
             throw new RuntimeException("There is nothing here that you can talk to.");
@@ -399,7 +399,22 @@ public class Character {
         for (int i = 0; i < this.numSheep; i++) {
             System.out.print("🐑 ");
         }
-        System.out.println(" sheep remaining.");
+        System.out.println("(" + numSheep + ")" + " sheep remaining.");
+    }
+
+    public void printInventory(){
+        String retStr = "";
+
+        if(inventory.size() == 0){
+            retStr += "Your inventory is empty.";
+        }else{
+            retStr += "Inventory: ";
+            for(Item item : inventory){
+                retStr += "\n- "+ item.getName();
+            }
+        }
+
+        System.out.println(retStr);
     }
 
     public Item findItemInInventory(String item) {

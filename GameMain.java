@@ -4,12 +4,13 @@ import java.util.Arrays;
 public class GameMain {
 
     // items
-    //static Item key = new Item("KEY", 0, "You see a shiny, golden key."); //we may not need this as the riddler makes a new key item
+    // static Item key = new Item("KEY", 0, "You see a shiny, golden key."); //we
+    // may not need this as the riddler makes a new key item
     static Item sword = new Item("SWORD", 8, "You spot a beautiful, gleaming, sharp sword lying on the ground. 🗡️ ");
     static Item banana = new Item("BANANA", 0, "A vibrant, ripe, glowing banana resides on the floor. 🍌 ");
     static Item burger = new Item("BURGER", 0,
             "The most beautiful, delicious, juicy burger is laying in front of you. 🍔 ");
-    static Item letter = new Item("LETTER", 0, "Instructions.");
+    
     // npcs
     static NPC bat = new NPC("BAT", 2,
             " 🦇 A bat hovers in the shadows, its eyes gleaming with a predatory gleam as it lets out an eerie screech.",
@@ -21,22 +22,23 @@ public class GameMain {
     static NPC monkey = new NPC("MONKEY", 3,
             " 🐒 OOH OOH AAH AHH! A monkey peers at you from the dense foliage of the large tree, its curious eyes glinting with mischief.",
             true);
-    static NPC mcDonald = new NPC("MCDONALD", 0, "A kind old man stands by the stove.", true);
+    static NPC mcDonald = new NPC("MCDONALD", 0, "🧍A kind old man stands by the stove.", true);
     static NPC riddler = new NPC("RIDDLER", 10,
-            "An wizened man sits criss cross applesauce on the ground. His wide eyes blink up at you.", true);
-    
-    
+            "🧙 An wizened man sits criss cross applesauce on the ground. His wide eyes blink up at you.", true);
+
     // place
     static Building cave = new Building("Cave",
             " 🪨 You stand at a cave's entrance, peering into the darkness, where shadows seem to shift and secrets await. The faint sound of something stirring sends a chill down your spine.",
             sword, bat, true,
-            "The cave's interior is cloaked in darkness, the air thick with dampness and the faint scent of earth.", false);
+            "The cave's interior is cloaked in darkness, the air thick with dampness and the faint scent of earth.",
+            false);
     static Building toolshed = new Building("Toolshed",
-            "You stumble upon an ancient toolshed. Its small, weathered door sways gently in the breeze, the rusted hinges making a mournful creak. You hear some suspicious, rustling sound from the inside!",
+            " 🏠 You stumble upon an ancient toolshed. Its small, weathered door sways gently in the breeze, the rusted hinges making a mournful creak. You hear some suspicious, rustling sound from the inside!",
             null, thief, true,
-            "The broken light flickers erratically, casting shifting shadows, and in the dim glow, something looms before you.", false);
+            "The broken light flickers erratically, casting shifting shadows, and in the dim glow, something looms before you.",
+            false);
     static Building cabin = new Building("Cabin",
-            "You are standing on the steps of a log cabin, smoke gently curling from the chimney. The door is slightly ajar.",
+            " 🏡 You are standing on the steps of a log cabin, smoke gently curling from the chimney. The door is slightly ajar.",
             burger, mcDonald, true, "You are in a simple living room.", true);
     static Place dark = new Place("Dark",
             " 🍃🌿 You step into a dark shadow.",
@@ -84,19 +86,23 @@ public class GameMain {
         System.out.println("Welcome " + userResponse + "!");
 
         String[] directions = { "NORTH", "SOUTH", "EAST", "WEST" };
-        String[] commands = { "GRAB", "DROP", "EAT", "FIGHT", "ENTER", "EXIT", "UNLOCK", "TALK", "HELP", "SHEEP" };
+        String[] commands = { "GRAB", "DROP", "EAT", "FIGHT", "ENTER", "EXIT", "UNLOCK", "TALK", "HELP", "SHEEP",
+                "INVENTORY" };
+
+        System.out.println();
 
         System.out.println(
                 "You wake up dazed, your vision blurring. As you get up, you realize you're surrounded by 10 white sheep. In front of you stands a large sheep-shaped rock glistening magesticaly in the sunlight.");
-        System.out.println("On the ground in front of you lies a mysterious letter.");
+        System.out.println("On the ground in front of you lies a mysterious letter.\n");
 
         while (inIntroduction) {
             userResponse = userInput.nextLine().toUpperCase();
-            
-            if(userResponse.equals("GRAB LETTER")){
+
+            if (userResponse.equals("READ LETTER")) {
                 break;
-            }else{
-                System.out.println("You must grab the letter first.");
+            } else {
+                System.out.println("You must read the letter first.\n");
+
             }
         } // end intro
 
@@ -107,7 +113,7 @@ public class GameMain {
             System.out.println();
             userResponse = userInput.nextLine().toUpperCase();
             String[] inputWords = userResponse.split(" ");
-
+            System.out.println();
             for (String input : inputWords) {
                 for (String direction : directions) {
                     if (input.equals(direction)) {
@@ -165,7 +171,7 @@ public class GameMain {
                                     }
                                 } catch (ArrayIndexOutOfBoundsException e) {
                                     System.out.println("Fight with what?");
-                                }catch (NoSheepException e){
+                                } catch (NoSheepException e) {
                                     stillPlaying = false;
                                     System.out.println(e);
                                 } catch (Exception e) {
@@ -201,7 +207,7 @@ public class GameMain {
                             case "TALK":
                                 try {
                                     String npcCheck = GameMain.map[player.getCurX()][player.getCurY()].getNPC()
-                                    .getName();
+                                            .getName();
                                     String nextWord = inputWords[index + 1];
                                     if (nextWord.equals("TO")) {
                                         String npc = inputWords[index + 2];
@@ -209,13 +215,13 @@ public class GameMain {
                                     } else {
                                         System.out.println("Talk to who?");
                                     }
-                                }catch (NullPointerException e){
+                                } catch (NullPointerException e) {
                                     System.out.println("There is no one to talk to here.");
-                                
+
                                 } catch (ArrayIndexOutOfBoundsException e) {
                                     player.talk(GameMain.map[player.getCurX()][player.getCurY()].getNPC()
-                                    .getName());
-                                }catch (NoSheepException e){
+                                            .getName());
+                                } catch (NoSheepException e) {
                                     stillPlaying = false;
                                     System.out.println(e);
                                 } catch (Exception e) {
@@ -227,8 +233,15 @@ public class GameMain {
                                 break;
                             case "HELP":
                                 System.out.println("**********COMMAND LIST**********");
-                                System.out.println(
-                                        "-North\n-South\n-East\n-West\n-Enter\n-Exit\n-Grab\n-Drop\n-Fight\n-Eat\n-Unlock\n-Talk\n-Sheep\n-Help");
+                                for (String dir : directions) {
+                                    System.out.println("- " + dir);
+                                }
+                                for (String str : commands) {
+                                    System.out.println("- " + str);
+                                }
+                                break;
+                            case "INVENTORY":
+                                player.printInventory();
                                 break;
                             default:
                                 System.out.println("This is not a valid command.");
@@ -238,8 +251,6 @@ public class GameMain {
 
                 }
             }
-
-            
 
             if (player.isInside() && player.getCurX() == 5 && player.getCurY() == 5) { // player has made it to barn
                 stillPlaying = false;
