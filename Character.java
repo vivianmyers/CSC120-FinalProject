@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.*;
 
+import javax.management.RuntimeErrorException;
+
 public class Character {
 
     private String name;
@@ -31,6 +33,11 @@ public class Character {
     public void grab(String item) {
         Place curPlace = GameMain.map[this.curX][this.curY];
         Item curPlaceItem = curPlace.findItemInPlace(item);
+
+        if(curPlace instanceof Building && !inside){ //trying to pick up item thats inside without entering
+            throw new RuntimeException("You cannot pick up an item that does not exist here.");    
+        }
+
         if (curPlaceItem != null) {
             this.inventory.add(curPlaceItem);
             curPlace.items.remove(curPlaceItem);
@@ -43,6 +50,11 @@ public class Character {
     public void drop(String item) {
         Place curPlace = GameMain.map[this.curX][this.curY];
         Item curItemInventory = this.findItemInInventory(item);
+
+        if(curPlace instanceof Building && !inside){ //Idk how sensible this is....but i think its nessecary
+            throw new RuntimeException("You cannot drop an item outside a building.");    
+        }
+
         if (curItemInventory != null) {
             this.inventory.remove(curItemInventory);
             curPlace.items.add(curItemInventory);
@@ -51,6 +63,7 @@ public class Character {
             throw new RuntimeException("You cannot drop an item you do not own.");
         }
 
+        //monkey event
         if (curPlace.getNPC().getName().equals("MONKEY")) {
             if (curPlace.getName().equals("Forest w/ monkey") && item.equals("BANANA")) {
                 System.out.println("The monkey jumps down and grabs the banana!");
@@ -222,11 +235,12 @@ public class Character {
         Place curPlace = GameMain.map[this.curX][this.curY];
         NPC curNPC = curPlace.getNPC();
 
+        if(curPlace instanceof Building && !this.inside){
+            throw new RuntimeException("There is no one here to talk to.");
+        }
+
         if (curNPC != null && curNPC.conversable) {
 
-            if (!npc.equals(curNPC.getName())) { // not a valid NPC (ex. talk to vivian)
-                throw new RuntimeException("Talk to who?");
-            }
             Scanner scanner = new Scanner(System.in);
 
             // the code below can be copied and changed for each npc!

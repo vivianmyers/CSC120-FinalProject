@@ -206,22 +206,15 @@ public class GameMain {
                                 break;
                             case "TALK":
                                 try {
-                                    String npcCheck = GameMain.map[player.getCurX()][player.getCurY()].getNPC()
-                                            .getName();
-                                    String nextWord = inputWords[index + 1];
-                                    if (nextWord.equals("TO")) {
-                                        String npc = inputWords[index + 2];
-                                        player.talk(npc);
-                                    } else {
-                                        System.out.println("Talk to who?");
+                                    NPC curNPC = GameMain.map[player.getCurX()][player.getCurY()].getNPC();
+                                    if(GameMain.map[player.getCurX()][player.getCurY()].getNPC() == null){ //no npc in place (ex field)
+                                        throw new NullPointerException();
                                     }
-                                } catch (NullPointerException e) {
-                                    System.out.println("There is no one to talk to here.");
+                                    player.talk(curNPC.getName());
 
-                                } catch (ArrayIndexOutOfBoundsException e) {
-                                    player.talk(GameMain.map[player.getCurX()][player.getCurY()].getNPC()
-                                            .getName());
-                                } catch (NoSheepException e) {
+                                }catch (NullPointerException e) {
+                                    System.out.println("There is no one to talk to here.");
+                                } catch (NoSheepException e) { //for encounters where sheep may be depleted
                                     stillPlaying = false;
                                     System.out.println(e);
                                 } catch (Exception e) {
