@@ -12,14 +12,16 @@ public class GameMain {
     static Item burger = new Item("BURGER", 0,
             "The most beautiful, delicious, juicy burger is laying in front of you. 🍔 ");
     static Item hammerScrewdriver = new Item ("HAMMERSCREWDRIVER", 3, "A hammerscrewdriver with a sparkly pink handle sits, abandoned by an engineering first year. 🔨🪛");
+    static Item bow = new Item("BOW", 6, "A sleek, well-crafted bow is lying before you, its string taut. 🏹");
+    static Item dagger = new Item("DAGGER", 5, "A slender, silver dagger glints in the dappled sunlight, its hilt wrapped in worn leather. 🗡️");
     
     // npcs
     static NPC bat = new NPC("BAT", 2,
             " 🦇 A bat hovers in the shadows, its eyes gleaming with a predatory gleam as it lets out an eerie screech.",
             false);
     static NPC wolf = new NPC("WOLF", 7,
-            " 🐺 A lone grey wolf emerges from the shadows of the trees, its piercing eyes locked onto you, unreadable and wild.",
-            false);
+            " 🐺 A lone grey wolf emerges from the shadows of the rubble, its piercing eyes locked onto you, unreadable and wild.",
+            true);
     static NPC thief = new NPC("THIEF", 9, " 🥷 You spot a dark, cloaked figure lingering in the shadows.", true);
     static NPC monkey = new NPC("MONKEY", 3,
             " 🐒 OOH OOH AAH AHH! A monkey peers at you from the dense foliage of the large tree, its curious eyes glinting with mischief.",
@@ -42,9 +44,9 @@ public class GameMain {
     static Building cabin = new Building("Cabin",
             " 🏡 You are standing on the steps of a log cabin, smoke gently curling from the chimney. The door is slightly ajar.",
             burger, mcDonald, true, "You are in a simple living room.", true);
-    static Place dark = new Place("Dark",
-            " 🍃🌿 You step into a dark shadow.",
-            null, wolf, false);
+    static Place wastelands = new Place("Wastelands",
+            " 🍃🌿  A vast desert of gray ash and charred bone expands before you, where the wind carries an unearthly howl.",
+            null, wolf, true);
     static Place forestPath = new Place("Forest Path",
             " 🍃🌿 You step onto a forest path, where the trees arch overhead, their shadows hiding whispers of the unknown ahead.",
             banana, null, false);
@@ -62,14 +64,14 @@ public class GameMain {
             "", false);
     static Building lagoon = new Building("Lagoon", "A glassy, dark lagoon stretches in front of you. It's black water laps gently on the shore.", null, null, true, "You enter the water. Your sheep attempt to save you from the waves. You escape, but one sheep sinks beneath the waves.", false);
     static Place marsh = new Place("Marsh", "Your nostrils are assaulted by the smell of sulfur and death. In front of you is a bubbling, boil marsh. Twisted trees rise from the murky water.", hammerScrewdriver, null, false);
-    static Place dunes = new Place("Dunes", "Suddenly your boots meet sand. In front of you, a dune rises, bright sunlight reflecting off its top.", null, null, false);
-    static Place flowerGarden = new Place("Flower Garden", "An expanse of color graces your eyes. The largest flower garden you have ever seen.", null, null, false);
+    static Place dunes = new Place("Dunes", "Suddenly your boots meet sand. In front of you, a dune rises, bright sunlight reflecting off its top.", bow, null, false);
+    static Place flowerGarden = new Place("Flower Garden", "An expanse of color graces your eyes. The largest flower garden you have ever seen.", dagger, null, false);
     static Place forest = new Place("Forest", "Beautiful trees rise around you, their canopy filtering the sunlight. Birds chirp faintly and squirrels cling to tree trunks.", null, null, false);
 
     static Place[][] map = {
             { start, field, toolshed, flowerGarden, cabin },
             { field, lagoon, field, cave, field },
-            { forestPath, forestClearing, forest, dark, field },
+            { forestPath, forestClearing, forest, wastelands, field },
             { forestPath, forestTree, forest, forest, field },
             { field, marsh, field, dunes, barn }
 
