@@ -43,8 +43,10 @@ public class Building extends Place {
         return super.getNPC();
     }
 
+    @Override
     public void setLockStatus(boolean status) {
-        unlocked = status;
+        super.setLockStatus(status);
+        this.unlocked = status;
     }
 
     public String getInsideDesc1() {

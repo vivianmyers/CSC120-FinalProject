@@ -219,7 +219,7 @@ public class Character {
 
         if (curPlace instanceof Building) {
             if (findItemInInventory("KEY") != null) { // has key?
-                curPlace.setlockStatus(true);
+                curPlace.setLockStatus(true);
                 System.out.println("Successfully unlocked door.");
 
             } else {
@@ -282,7 +282,7 @@ public class Character {
 
                 } else {
                     System.out.println("Thief: Prepare to die!");
-                    System.out.println("You have 10 seconds to DODGE the theif's attack!");
+                    System.out.println("You have 5 seconds to DODGE the thief's attack!");
 
                     ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -294,9 +294,9 @@ public class Character {
                     Future<String> future = executor.submit(inputTask);
 
                     try {
-                        String input1 = future.get(10, TimeUnit.SECONDS);
+                        String input1 = future.get(5, TimeUnit.SECONDS);
                         if(input1.toUpperCase().equals("DODGE")){
-                            System.out.println("You successfuly dodged the thief! The theif falls to the ground and your sheep eat him.");
+                            System.out.println("You successfuly dodged the thief! The thief falls to the ground and your sheep eat him.");
                             curPlace.killNPC();
                         }else{
                             throw new Exception("You did not type dodge! The thief knocked you out and stole a sheep.");
@@ -314,7 +314,7 @@ public class Character {
                     }
 
                     //for some reason, after executing the catch statements above, the code will wait for another input before you can actually input any commands
-
+                    scanner.close();
                 }
 
             }

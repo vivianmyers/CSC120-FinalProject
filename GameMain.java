@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.Arrays;
 
 public class GameMain {
@@ -92,7 +93,7 @@ public class GameMain {
         System.out.println();
 
         System.out.println(
-                "You wake up dazed, your vision blurring. As you get up, you realize you're surrounded by 10 white sheep. In front of you stands a large sheep-shaped rock glistening magesticaly in the sunlight.");
+                "You wake up dazed, your vision blurring. As you get up, you realize you're surrounded by 10 white, fluffy sheep. In front of you stands a large sheep-shaped rock glistening magesticaly in the sunlight.");
         System.out.println("On the ground in front of you lies a mysterious letter.\n");
 
         while (inIntroduction) {
@@ -245,19 +246,42 @@ public class GameMain {
                 }
             }
 
-            if (player.isInside() && player.getCurX() == 5 && player.getCurY() == 5) { // player has made it to barn
+            if (player.isInside() && player.getCurX() == 4 && player.getCurY() == 4) { // player has made it to barn
                 stillPlaying = false;
-                if (player.getNumSheep() > 7) {
-                    // WINNING PRIZE
-                    System.out.println("You step into the large barn");
-                } else {
-                    // LOSING PUNISHMENT
-                    System.out.println("You lose.");
-                }
             }
 
         } while (stillPlaying);
 
+            if (player.getNumSheep() > 7) {
+                // WINNING PRIZE
+                System.out.println("You step into the large barn and in front of you is a raised platform made of gold. Upon the platform a cloaked figure lounges on a throne.");
+                try{
+                    TimeUnit.SECONDS.sleep(1);
+                } catch(Exception e){
+                }
+                System.out.println("Headmaster: Approach and allow me to count your sheep.");
+                System.out.println("***Headmaster begins to count***");
+                for(int i = 1; i<=player.getNumSheep(); i ++){
+                    System.out.print(i + "🐑...");
+                    try{
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch(Exception e){
+                    }
+                }
+                System.out.println("The Headmaster's eyes begin to flutter and he falls into a deep slumber💤. You won!");
+            } else {
+                // LOSING PUNISHMENT
+                System.out.println("You step into the large barn and in front of you is a raised platform made of gold. Upon the platform a cloaked figure lounges on a throne.");
+                System.out.println("Headmaster: Approach and allow me to count your sheep.");
+                System.out.println("***Headmaster begins to count***");
+                for(int i = 1; i<=player.getNumSheep(); i ++){
+                    System.out.print(i + "...");
+                }
+                System.out.println("Headmaster: YOU FAILED! I CANNOT FALL ASLEEP WITHOUT AT LEAST 7 SHEEP TO COUNT!");
+                System.out.println("The Headmaster lunges toward you...your vision goes black.");
+                System.out.println("END.");
+                System.out.print("\033[H\033[2J");
+            }
         userInput.close();
 
     }

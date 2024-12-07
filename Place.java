@@ -68,7 +68,8 @@ public class Place {
         return 1;
     }
 
-    public void setlockStatus(boolean status) {
+    public void setLockStatus(boolean status) {
+
     }
 
     public String getInsideDesc1() {
