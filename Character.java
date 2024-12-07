@@ -38,6 +38,10 @@ public class Character {
             throw new RuntimeException("You cannot pick up an item that does not exist here.");    
         }
 
+        if(inventory.size() > 5){
+            throw new RuntimeException("Your backpack is too heavy. Try dropping an item first.");
+        }
+
         if (curPlaceItem != null) {
             this.inventory.add(curPlaceItem);
             curPlace.items.remove(curPlaceItem);
@@ -381,6 +385,13 @@ public class Character {
                 }
 
             }//end riddler
+
+            //start wolf
+            if (curNPC.getName().equals("WOLF")) {
+                System.out.println("The wolf lunges at your sheep and kills one, then retreats back to the shadows.");
+                subtractSheep();
+                printSheep();
+           }
 
         } else {
             throw new RuntimeException("There is nothing here that you can talk to.");

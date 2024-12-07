@@ -17,8 +17,8 @@ public class GameMain {
             " 🦇 A bat hovers in the shadows, its eyes gleaming with a predatory gleam as it lets out an eerie screech.",
             false);
     static NPC wolf = new NPC("WOLF", 7,
-            " 🐺 A lone grey wolf emerges from the shadows of the trees, its piercing eyes locked onto you, unreadable and wild.",
-            false);
+            " 🐺 A lone grey wolf emerges from the shadows of the rubble, its piercing eyes locked onto you, unreadable and wild.",
+            true);
     static NPC thief = new NPC("THIEF", 9, " 🥷 You spot a dark, cloaked figure lingering in the shadows.", true);
     static NPC monkey = new NPC("MONKEY", 3,
             " 🐒 OOH OOH AAH AHH! A monkey peers at you from the dense foliage of the large tree, its curious eyes glinting with mischief.",
@@ -41,9 +41,9 @@ public class GameMain {
     static Building cabin = new Building("Cabin",
             " 🏡 You are standing on the steps of a log cabin, smoke gently curling from the chimney. The door is slightly ajar.",
             burger, mcDonald, true, "You are in a simple living room.", true);
-    static Place dark = new Place("Dark",
-            " 🍃🌿 You step into a dark shadow.",
-            null, wolf, false);
+    static Place wastelands = new Place("Wastelands",
+            " 🍃🌿  A vast desert of gray ash and charred bone expands before you, where the wind carries an unearthly howl.",
+            null, wolf, true);
     static Place forestPath = new Place("Forest Path",
             " 🍃🌿 You step onto a forest path, where the trees arch overhead, their shadows hiding whispers of the unknown ahead.",
             banana, null, false);
@@ -63,7 +63,7 @@ public class GameMain {
     static Place[][] map = {
             { start, field, toolshed, field, cabin },
             { field, field, cave, field, field },
-            { forestPath, forestClearing, field, dark, field },
+            { forestPath, forestClearing, field, wastelands, field },
             { forestPath, forestTree, field, field, field },
             { field, field, field, field, barn }
 
