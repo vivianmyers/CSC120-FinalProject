@@ -70,7 +70,7 @@ public class GameMain {
     static Place dunes = new Place("Dunes", "Suddenly your boots meet sand. In front of you, a dune rises, bright sunlight reflecting off its top.", null, null, true);
     static Place flowerGarden = new Place("Flower Garden", "An expanse of color graces your eyes. The largest flower garden you have ever seen.", dagger, null, false);
     static Place forest = new Place("Forest", "Beautiful trees rise around you, their canopy filtering the sunlight. Birds chirp faintly and squirrels cling to tree trunks.", null, null, false);
-    static Building casino = new Building("Casino", "A casino looms before you, a towering fortress of neon and gold, its glowing signs flickering like a siren's call in the shadowy night.", null, casinoOwner, true, "At the center of the casino stands a towering wheel, its shimmering gold and emerald wedges boldly marked with sheep icons 🐑 or red Xs ❌, making it clear: spin, and you'll either gain a sheep or lose one.", true);
+    static Building casino = new Building("Casino", "A casino looms before you, a towering fortress of neon and gold, its glowing signs flickering like a siren's call in the shadowy night.", null, casinoOwner, true, "At the center of the casino stands a towering wheel, its shimmering gold and emerald wedges boldly marked with sheep icons 🐑 or red Xs ❌.", true);
 
     static Place[][] map = {
             { start, field, toolshed, flowerGarden, cabin },
@@ -264,36 +264,35 @@ public class GameMain {
 
             if (player.isInside() && player.getCurX() == 4 && player.getCurY() == 4) { // player has made it to barn
                 stillPlaying = false;
-            }
 
-        } while (stillPlaying);
-
-        System.out.println("You step into the large barn and in front of you is a raised platform made of gold. Upon the platform a cloaked figure lounges on a throne.");
-            try{
-                TimeUnit.SECONDS.sleep(1);
-            } catch(Exception e){
-            }
-            System.out.println("Headmaster: Approach and allow me to count your sheep.");
-            System.out.println("***Headmaster begins to count***");
-            for(int i = 1; i<=player.getNumSheep(); i ++){
-                System.out.print(i + "🐑...");
+                System.out.println("You step into the large barn and in front of you is a raised platform made of gold. Upon the platform a cloaked figure lounges on a throne.");
                 try{
                     TimeUnit.SECONDS.sleep(1);
                 } catch(Exception e){
                 }
+                System.out.println("Headmaster: Approach and allow me to count your sheep.");
+                System.out.println("***Headmaster begins to count***");
+                for(int i = 1; i<=player.getNumSheep(); i ++){
+                    System.out.print(i + "🐑...");
+                    
+                }
+                if (player.getNumSheep() > 7) {
+                    // WINNING PRIZE
+                    System.out.println();
+                    System.out.println("The Headmaster's eyes begin to flutter and he falls into a deep slumber💤. You won!");
+                } else {
+                    // LOSING PUNISHMENT
+                    
+                    System.out.println("Headmaster: YOU FAILED! I CANNOT FALL ASLEEP WITHOUT AT LEAST 7 SHEEP TO COUNT!");
+                    System.out.println("The Headmaster lunges toward you...your vision goes black.");
+                    System.out.println("END.");
+                    System.out.print("\033[H\033[2J");
+                }
             }
-            if (player.getNumSheep() > 7) {
-                // WINNING PRIZE
-                System.out.println();
-                System.out.println("The Headmaster's eyes begin to flutter and he falls into a deep slumber💤. You won!");
-            } else {
-                // LOSING PUNISHMENT
-                
-                System.out.println("Headmaster: YOU FAILED! I CANNOT FALL ASLEEP WITHOUT AT LEAST 7 SHEEP TO COUNT!");
-                System.out.println("The Headmaster lunges toward you...your vision goes black.");
-                System.out.println("END.");
-                System.out.print("\033[H\033[2J");
-            }
+
+        } while (stillPlaying);
+
+        
         userInput.close();
 
     }
