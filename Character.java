@@ -16,7 +16,7 @@ public class Character {
         this.inventory = new ArrayList<Item>();
         this.curX = 0;
         this.curY = 0;
-        this.numSheep = 10;
+        this.numSheep = 5;
         this.inside = false;
     }
 
@@ -156,7 +156,7 @@ public class Character {
         }
     }
 
-    public boolean eat(String item) {
+    public void eat(String item) {
         for (Item i : inventory) {
             if (i.getName().equals(item)) {
                 if (i.getDangerLevel() == 0) {
@@ -167,19 +167,18 @@ public class Character {
                         this.subtractSheep();
                         this.printSheep();
                     } else {
-                        System.out.println("Successfully eaten a " + item);
+                        System.out.println("Successfully eaten a " + item + ".");
                     }
                 } else {
-                    System.out.println("You are dead");
-                    return false;
+                    throw new RuntimeException("You ate a dangerous " + item + " and died.");
 
                 }
 
             } else {
-                System.out.println("You do not have a " + item);
+                System.out.println("You do not have a " + item + ".");
             }
         }
-        return true;
+        
     }
 
     public void enter() {
