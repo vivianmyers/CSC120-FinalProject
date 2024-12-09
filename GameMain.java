@@ -13,8 +13,6 @@ public class GameMain {
     static Item hammerScrewdriver = new Item ("HAMMERSCREWDRIVER", 3, "A hammerscrewdriver with a sparkly pink handle sits, abandoned by an engineering first year. 🔨🪛");
     static Item dagger = new Item("DAGGER", 5, "A slender, silver dagger glints in the dappled sunlight, its hilt wrapped in worn leather. 🗡️");
     static Item mushroom = new Item("MUSHROOM", 10, "A neon glowing mushroom peaks out from beneath the leaves.");
-
-
     // npcs
     static NPC bat = new NPC("BAT", 2,
             " 🦇 A bat hovers in the shadows, its eyes gleaming with a predatory gleam as it lets out an eerie screech.",
@@ -73,7 +71,7 @@ public class GameMain {
 
     static Place[][] map = {
             { start, field, toolshed, flowerGarden, cabin },
-            { field, field, field, cave, lagoon },
+            { field, cave, field, field, lagoon },
             { forestPath, forestClearing, forest, wastelands, field },
             { forestPath, forestTree, field, casino, field },
             { field, marsh, field, dunes, barn }
@@ -99,7 +97,7 @@ public class GameMain {
 
         String[] directions = { "NORTH", "SOUTH", "EAST", "WEST" };
         String[] commands = { "GRAB", "DROP", "EAT", "FIGHT", "ENTER", "EXIT", "UNLOCK", "TALK", "HELP", "SHEEP",
-                "INVENTORY" };
+                "INVENTORY", "READ" };
 
         System.out.println();
 
@@ -255,6 +253,17 @@ public class GameMain {
                             case "INVENTORY":
                                 player.printInventory();
                                 break;
+                            case "READ":
+                                try {
+                                    String objectToRead = inputWords[index + 1];
+                                    player.read(objectToRead);
+                                } catch (ArrayIndexOutOfBoundsException e){
+                                    System.out.println("Read what?");
+                                }catch (Exception e) {
+                                    System.out.println(e);
+                                }
+                                break;
+                                
                             default:
                                 System.out.println("This is not a valid command.");
                                 break;

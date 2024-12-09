@@ -16,7 +16,7 @@ public class Character {
         this.inventory = new ArrayList<Item>();
         this.curX = 0;
         this.curY = 0;
-        this.numSheep = 5;
+        this.numSheep = 10;
         this.inside = false;
     }
 
@@ -314,6 +314,9 @@ public class Character {
                             System.out.println(
                                     "You successfuly dodged the thief! The thief falls to the ground and your sheep eat him.");
                             curPlace.killNPC();
+                            System.out.println("The thief drops a messily drawn map onto the floor of the shed.");
+                            curPlace.items.add(new Item("MAP", 0, "An old map lies on the ground."));
+
                         } else {
                             throw new Exception("You did not type dodge! The thief knocked you out and stole a sheep.");
                         }
@@ -455,6 +458,21 @@ public class Character {
         } else {
             throw new RuntimeException("There is nothing here that you can talk to.");
         }
+    }
+
+    public void read(String str){
+        if(!str.equals("MAP")){
+            throw new RuntimeException("You cannot read this.");
+        }
+
+        if(this.findItemInInventory(str) != null){
+            System.out.println("--- Map ---");
+            System.out.println("🪨 🌾 🏠 🌸 🏡 \n" + "🌾 🕳️ 🌾 🌾 🌊 \n" + "👣 🌱 🌳 🏚️ 🌾 \n" + "👣 🌲 🌾 🎰 🌾 \n" + "🌾 🪷 🌾 🏜️ 🐑 ");
+        }
+        else{
+            throw new RuntimeException("You don't have a map.");
+        }
+        System.out.println();
     }
 
     public void setInside() {
