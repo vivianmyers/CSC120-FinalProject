@@ -29,6 +29,7 @@ public class GameMain {
     static NPC mcDonald = new NPC("MCDONALD", 0, "🧍A kind old man stands by the stove.", true);
     static NPC riddler = new NPC("RIDDLER", 10,
             "🧙 An wizened man sits criss cross applesauce on the ground. His wide eyes blink up at you.", true);
+    static NPC engineeringStudent = new NPC("ENGINEERING STUDENT", 0, "A distracted, worn out college student hovers over diagrams and engineering textbooks. It is an exhausted engineering student.", true);
 
     // place
     static Building cave = new Building("Cave",
@@ -67,12 +68,13 @@ public class GameMain {
     static Place dunes = new Place("Dunes", "Suddenly your boots meet sand. In front of you, a dune rises, bright sunlight reflecting off its top.", bow, null, false);
     static Place flowerGarden = new Place("Flower Garden", "An expanse of color graces your eyes. The largest flower garden you have ever seen.", dagger, null, false);
     static Place forest = new Place("Forest", "Beautiful trees rise around you, their canopy filtering the sunlight. Birds chirp faintly and squirrels cling to tree trunks.", null, null, false);
+    static Place waterfall = new Place("Waterfall", "Suddenly, the roar of rushing water fills your ears. Cold droplets hit your cheeks from a massive waterfall, pouring relentlessly in front of you.", null, engineeringStudent, true);
 
     static Place[][] map = {
             { start, field, toolshed, flowerGarden, cabin },
-            { field, lagoon, field, cave, field },
+            { forest, lagoon, field, cave, field },
             { forestPath, forestClearing, forest, wastelands, field },
-            { forestPath, forestTree, forest, forest, field },
+            { forestPath, forestTree, forest, forest, waterfall },
             { field, marsh, field, dunes, barn }
 
     };
