@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.*;
+import java.util.Iterator;
+
 
 public class Character {
 
@@ -157,27 +159,34 @@ public class Character {
     }
 
     public void eat(String item) {
-        for (Item i : inventory) {
+        Iterator<Item> iterator = inventory.iterator(); 
+        boolean itemFound = false; 
+
+        while (iterator.hasNext()) {
+            Item i = iterator.next();
             if (i.getName().equals(item)) {
+                itemFound = true; 
                 if (i.getDangerLevel() == 0) {
-                    inventory.remove(i);
                     if (Math.random() * 10 == 0) {
-                        System.out.println("Oh no! You got choked on " + item
+                        iterator.remove(); 
+                        System.out.println("Oh no! You got choked on " + item.toLowerCase()
                                 + ". One of your sheep tries to save you by doing a Heimlich maneuver. The sheep is too heavy that you fall backwards onto it. Fortunately, the blockage came out as you fell, but the poor sheep was crushed to death under your body.");
                         this.subtractSheep();
                         this.printSheep();
                     } else {
-                        System.out.println("Successfully eaten a " + item + ".");
+                        System.out.println("Successfully eaten a " + item.toLowerCase() + ".");
                     }
                 } else {
-                    throw new RuntimeException("You ate a dangerous " + item + " and died.");
-
+                    throw new RuntimeException("You ate a dangerous " + item.toLowerCase() + " and died.");
                 }
-
-            } else {
-                System.out.println("You do not have a " + item + ".");
+                break; 
             }
-        }
+    }
+
+    if (!itemFound) {
+        System.out.println("You do not have a " + item.toLowerCase() + ".");
+    }
+        
         
     }
 
