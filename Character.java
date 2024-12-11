@@ -202,9 +202,8 @@ public class Character {
                 System.out.println("----------------- " + curPlace.getName() + " -----------------");
                 System.out.println("You are now inside " + curPlace.getName() + ".");
                 curPlace.setCharacter(true);
-                System.out.println(curPlace.describe());
-
-                if (curPlace.getName().equals("Lagoon")) {
+                if(curPlace.getName().equals("Lagoon")){
+                    System.out.println(curPlace.describe());
                     this.subtractSheep();
                     this.printSheep();
                     this.exit();
@@ -269,7 +268,8 @@ public class Character {
 
             // the code below can be copied and changed for each npc!
             if (curNPC.getName().equals("MCDONALD")) {
-                // we cannot close this without an error in main
+                 // we cannot close this without an error in main
+                String input = "";
 
                 System.out.println(
                         "McDonald: Hello! My name is McDonald, welcome to my home. Would you like to try one of my sheep-burgers?");
@@ -288,8 +288,10 @@ public class Character {
 
             }
             if (curNPC.getName().equals("THIEF")) {
+                
+                String input3 = "";
 
-                System.out.println("🥷Thief: **draws a knife** Give me your sheep and you will not get hurt.");
+                System.out.println("Thief: **draws a knife** Give me your sheep and you will not get hurt."); 
 
                 while (!input.equals("YES") && !input.equals("NO")) {
                     System.out.print("Enter yes or no if the thief can have a sheep: "); // maybe remove this prompt?
@@ -316,15 +318,11 @@ public class Character {
                     Future<String> future = executor.submit(inputTask);
 
                     try {
-                        String input1 = future.get(6, TimeUnit.SECONDS);
-                        if (input1.toUpperCase().equals("DODGE")) {
-                            System.out.println(
-                                    "You successfuly dodged the thief! The thief falls to the ground and your sheep eat him.");
+                        String input1 = future.get(5, TimeUnit.SECONDS);
+                        if(input1.toUpperCase().equals("DODGE")){
+                            System.out.println("You successfuly dodged the thief! The thief falls to the ground and your sheep eat him.");
                             curPlace.killNPC();
-                            System.out.println("The thief drops an old map onto the floor of the shed.");
-                            curPlace.items.add(new Item("MAP", 0, "An old, weathered map lies on the ground."));
-
-                        } else {
+                        }else{
                             throw new Exception("You did not type dodge! The thief knocked you out and stole a sheep.");
                         }
                     } catch (TimeoutException e) {
@@ -339,15 +337,49 @@ public class Character {
                         executor.shutdownNow();
                     }
 
-                    // scanner.close();
+                    //for some reason, after executing the catch statements above, the code will wait for another input before you can actually input any commands
+                    scanner.close();
                 }
 
             }
+            if (curNPC.getName().equals("ENGINEERING STUDENT")) {
+                String input2 = "";
+                System.out.println(
+                        "Engineering Student: I don't have time to talk! I lost my hammerscrewdriver and it is due soon!");
+                System.out.println("Help the engineering student? Type yes or no: ");
+
+                input = scanner.nextLine().toUpperCase();
+                if (input.equals("YES")) {
+                    if (inventory.size() > 0) {
+                        for (int i = 0; i<inventory.size(); i++) {
+                            Item current = inventory.get(i);
+                            if (current.getName().equals("HAMMERSCREWDRIVER")) {
+                                System.out.println(
+                                        "You have a hammerscrewdriver! Do you want to drop it for them? Enter yes or no: ");
+                                input = scanner.nextLine().toUpperCase();
+                                if (input.equals("YES")) {
+                                    this.inventory.remove(current);
+                                    System.out.println(
+                                            "Engineering Student: Oh my god thank you!! In return I shall give you a sheep.");
+                                    this.numSheep++;
+                                    this.printSheep();
+                                } else {
+                                    System.out.println(
+                                            "Engineering Student: If you're just gonna stand there and do nothing go away!!!");
+                                }
+                            }
+                        }
+                    } else{
+                        System.out.println(
+                                     "You don't seem to have the hammerscrewdriver they are looking for...maybe you can find it somewhere.");
+                    }
+                }
+            }
+
             if (curNPC.getName().equals("RIDDLER")) {
                 int numCorrect = 0;
 
-                System.out.println(
-                        "🧙The Riddler: Well now, what do we have here? Is it riddles you desire, young one? Choose wisely, for the forest listens closely.");
+                System.out.println("The Riddler: Well now, what do we have here? Is it riddles you desire, young one? Choose wisely, for the forest listens closely."); 
 
                 while (!input.equals("YES") && !input.equals("NO")) {
                     System.out.print("Enter yes or no: "); // maybe remove this prompt?
@@ -355,10 +387,9 @@ public class Character {
                 }
 
                 if (input.equals("YES")) {
-                    System.out.println(
-                            "🧙The Riddler: Excellent! Prepare yourself, traveler. Here comes your first riddle...");
-
-                    // riddle 1
+                    System.out.println("The Riddler: Excellent! Prepare yourself, traveler. Here comes your first riddle...");
+                    
+                    //riddle 1
                     System.out.println("Riddle 1: What is a baby sheep called?");
                     String answer1 = scanner.nextLine().toUpperCase();
 
@@ -369,8 +400,8 @@ public class Character {
                         System.out.println("🧙The Riddler: Wrong! The forest is not pleased.");
                     }
 
-                    // riddle 2
-                    System.out.println("🧙Riddle 2: True or False: Sheep have no upper teeth.");
+                    //riddle 2
+                    System.out.println("Riddle 2: True or False: Sheep have no upper teeth.");
                     String answer2 = scanner.nextLine().toUpperCase();
 
                     if (answer2.equals("TRUE")) {
@@ -380,8 +411,8 @@ public class Character {
                         System.out.println("🧙The Riddler: Wrong!");
                     }
 
-                    // riddle 2
-                    System.out.println("🧙Riddle 2: True or False: Sheep are the best animals in the world.");
+                    //riddle 2
+                    System.out.println("Riddle 2: True or False: Sheep are the best animals in the world.");
                     String answer3 = scanner.nextLine().toUpperCase();
 
                     if (answer3.equals("TRUE")) {
@@ -397,15 +428,13 @@ public class Character {
                                 .println("🧙The Riddler: I'm impressed. Your wisdom has won you a key. Use it wisely.");
                         curPlace.items.add(new Item("KEY", 0, "You see a shiny, golden key."));
                         this.grab("KEY");
-                    } else {
-                        System.out.println(
-                                "🧙The Riddler: Alas, you have failed to get all 3 riddles correct. The forest demands a sacrifice... a sheep will be taken.");
+                    }else{
+                        System.out.println("The Riddler: Alas, you have failed to get all 3 riddles correct. The forest demands a sacrifice... a sheep will be taken.");
                         subtractSheep();
                         printSheep();
                     }
                 } else {
-                    System.out.println(
-                            "🧙The Riddler: So be it, traveler. The forest is not for everyone. May you find your path elsewhere.");
+                    System.out.println("The Riddler: So be it, traveler. The forest is not for everyone. May you find your path elsewhere.");
                 }
 
             } // end riddler
@@ -421,11 +450,13 @@ public class Character {
                 printSheep();
             }
 
-            if (curNPC.getName().equals("CASINO OWNER")) {
-                System.out.println(
-                        "🤵Casino Owner: Welcome to the Fleece Fortune Palace! Would you like to spin the wheel of fortune? ");
-                while (true) {
+            if (curNPC.getName().equals("MCDONALD")) {
+                int numCorrect = 0;
+                String input = "";
 
+                System.out.println("McDonald: Hi there! Would you like a free sheep burger?"); 
+
+                while (!input.equals("YES") && !input.equals("NO")) {
                     input = scanner.nextLine().toUpperCase();
 
                     if (input.equals("YES")) {
@@ -498,8 +529,8 @@ public class Character {
     public void subtractSheep() {
         if (numSheep > 0) {
             numSheep--;
-        } else {
-            throw new NoSheepException("You have run out of sheep. You are consumed by dark thoughts of fear and die.");
+        }else{
+            throw new NoSheepException("You have run out of sheep.");
         }
 
     }
