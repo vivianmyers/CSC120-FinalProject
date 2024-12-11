@@ -290,7 +290,7 @@ public class Character {
             }
             if (curNPC.getName().equals("THIEF")) {
                 
-                String input = "";
+                String input3 = "";
 
                 System.out.println("Thief: **draws a knife** Give me your sheep and you will not get hurt."); 
 
@@ -344,7 +344,7 @@ public class Character {
 
             }
             if (curNPC.getName().equals("ENGINEERING STUDENT")) {
-                String input = "";
+                String input2 = "";
                 System.out.println(
                         "Engineering Student: I don't have time to talk! I lost my hammerscrewdriver and it is due soon!");
                 System.out.println("Help the engineering student? Type yes or no: ");
