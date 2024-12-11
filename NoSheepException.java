@@ -3,4 +3,3 @@ class NoSheepException extends RuntimeException {
         super(message);
     }
 }
-

@@ -3,7 +3,6 @@ import java.util.Scanner;
 import java.util.concurrent.*;
 import java.util.Iterator;
 
-
 public class Character {
 
     private String name;
@@ -159,17 +158,18 @@ public class Character {
     }
 
     public void eat(String item) {
-        Iterator<Item> iterator = inventory.iterator(); 
-        boolean itemFound = false; 
+        Iterator<Item> iterator = inventory.iterator();
+        boolean itemFound = false;
 
         while (iterator.hasNext()) {
             Item i = iterator.next();
             if (i.getName().equals(item)) {
-                itemFound = true; 
+                itemFound = true;
                 if (i.getDangerLevel() == 0) {
-                    inventory.remove(i);
-                    if (Math.random()*10 == 0){
-                        System.out.println("Oh no! You got choked on " + item + ". One of your sheep tries to save you by doing a Heimlich maneuver. The sheep is too heavy that you fall backwards onto it. Fortunately, the blockage came out as you fell, but the poor sheep was crushed to death under your body.");
+                    if (Math.random() * 10 == 0) {
+                        iterator.remove();
+                        System.out.println("Oh no! You got choked on " + item.toLowerCase()
+                                + ". One of your sheep tries to save you by doing a Heimlich maneuver. The sheep is too heavy that you fall backwards onto it. Fortunately, the blockage came out as you fell, but the poor sheep was crushed to death under your body.");
                         this.subtractSheep();
                         this.printSheep();
                     } else {
@@ -178,15 +178,14 @@ public class Character {
                 } else {
                     throw new RuntimeException("You ate a dangerous " + item.toLowerCase() + " and died.");
                 }
-                break; 
+                break;
             }
-    }
+        }
 
-    if (!itemFound) {
-        System.out.println("You do not have a " + item.toLowerCase() + ".");
-    }
-        
-        
+        if (!itemFound) {
+            System.out.println("You do not have a " + item.toLowerCase() + ".");
+        }
+
     }
 
     public void enter() {
@@ -200,7 +199,7 @@ public class Character {
         if (curPlace instanceof Building) {
             if (curPlace.isUnlocked()) {
                 inside = true;
-                System.out.println("----------------- "+ curPlace.getName() + " -----------------");
+                System.out.println("----------------- " + curPlace.getName() + " -----------------");
                 System.out.println("You are now inside " + curPlace.getName() + ".");
                 curPlace.setCharacter(true);
                 if(curPlace.getName().equals("Lagoon")){
@@ -423,9 +422,10 @@ public class Character {
                         System.out.println("🧙The Riddler: Wrong!");
                     }
 
-                    //handle cases
-                    if(numCorrect == 3){ //give player key
-                        System.out.println("The Riddler: I'm impressed. Your wisdom has won you a key. Use it wisely.");
+                    // handle cases
+                    if (numCorrect == 3) { // give player key
+                        System.out
+                                .println("🧙The Riddler: I'm impressed. Your wisdom has won you a key. Use it wisely.");
                         curPlace.items.add(new Item("KEY", 0, "You see a shiny, golden key."));
                         this.grab("KEY");
                     }else{
@@ -499,16 +499,16 @@ public class Character {
         }
     }
 
-    public void read(String str){
-        if(!str.equals("MAP")){
+    public void read(String str) {
+        if (!str.equals("MAP")) {
             throw new RuntimeException("You cannot read this.");
         }
 
-        if(this.findItemInInventory(str) != null){
+        if (this.findItemInInventory(str) != null) {
             System.out.println("--- Map ---");
-            System.out.println("🪨 🌾 🏠 🌸 🏡 \n" + "🌾 🕳️ 🌾 🌾 🌊 \n" + "👣 🌱 🌳 🏚️ 🌾 \n" + "👣 🌲 🌾 🎰 🌾 \n" + "🌾 🪷 🌾 🏜️ 🐑 ");
-        }
-        else{
+            System.out.println("🪨 🌾 🏠 🌸 🏡 \n" + "🌾 🕳️ 🌾 🌾 🌊 \n" + "👣 🌱 🌳 🏚️ 🌾 \n" + "👣 🌲 🌾 🎰 🌾 \n"
+                    + "🌾 🪷 🌾 🏜️ 🐑 ");
+        } else {
             throw new RuntimeException("You don't have a map.");
         }
         System.out.println();
