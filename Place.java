@@ -64,20 +64,8 @@ public class Place {
         return true;
     }
 
-    public int getNumFloors() {
-        return 1;
-    }
-
     public void setLockStatus(boolean status) {
 
-    }
-
-    public String getInsideDesc1() {
-        return "";
-    }
-
-    public String getInsideDesc2() {
-        return "";
     }
 
     public void setCharacter(boolean inside) {
