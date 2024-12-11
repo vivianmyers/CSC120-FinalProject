@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.*;
+import java.util.Iterator;
+
 
 public class Character {
 
@@ -69,7 +71,7 @@ public class Character {
         if (curPlace.getNPC().getName().equals("MONKEY")) {
             if (curPlace.getName().equals("Forest w/ monkey") && item.equals("BANANA")) {
                 System.out.println("The monkey jumps down and grabs the banana!");
-                System.out.println("Monkey: Yum, thanks! I love bananas! Would you like a hint?");
+                System.out.println("🐒Monkey: Yum, thanks! I love bananas! Would you like a hint?");
 
                 Scanner scanner2 = new Scanner(System.in); // we cannot close this without an error in main
                 String input = "";
@@ -80,7 +82,7 @@ public class Character {
                 }
 
                 if (input.equals("YES")) {
-                    System.out.println("Monkey: The barn is southeast from here. Good luck!");
+                    System.out.println("🐒Monkey: The barn is southeast from here. Good luck!");
                 } else {
                     System.out.println("OOH OOH AHH AHH! Good luck anyways!");
                 }
@@ -136,7 +138,7 @@ public class Character {
         if (weapon != null) {
             if (curNPC != null) {
                 if (weapon.getDangerLevel() > curNPC.getStrengthLevel()) {
-                    System.out.println("You killed " + curNPC.getName().toLowerCase());
+                    System.out.println("You killed " + curNPC.getName().toLowerCase() + ".");
                     curPlace.killNPC();
                     return true;
                 } else {
@@ -156,30 +158,35 @@ public class Character {
         }
     }
 
-    public boolean eat(String item) {
-        for (Item i : inventory) {
+    public void eat(String item) {
+        Iterator<Item> iterator = inventory.iterator(); 
+        boolean itemFound = false; 
+
+        while (iterator.hasNext()) {
+            Item i = iterator.next();
             if (i.getName().equals(item)) {
+                itemFound = true; 
                 if (i.getDangerLevel() == 0) {
                     inventory.remove(i);
-                    if (Math.random() * 10 == 0) {
-                        System.out.println("Oh no! You got choked on " + item
-                                + ". One of your sheep tries to save you by doing a Heimlich maneuver. The sheep is too heavy that you fall backwards onto it. Fortunately, the blockage came out as you fell, but the poor sheep was crushed to death under your body.");
+                    if (Math.random()*10 == 0){
+                        System.out.println("Oh no! You got choked on " + item + ". One of your sheep tries to save you by doing a Heimlich maneuver. The sheep is too heavy that you fall backwards onto it. Fortunately, the blockage came out as you fell, but the poor sheep was crushed to death under your body.");
                         this.subtractSheep();
                         this.printSheep();
                     } else {
-                        System.out.println("Successfully eaten a " + item);
+                        System.out.println("Successfully eaten a " + item.toLowerCase() + ".");
                     }
                 } else {
-                    System.out.println("You are dead");
-                    return false;
-
+                    throw new RuntimeException("You ate a dangerous " + item.toLowerCase() + " and died.");
                 }
-
-            } else {
-                System.out.println("You do not have a " + item);
+                break; 
             }
-        }
-        return true;
+    }
+
+    if (!itemFound) {
+        System.out.println("You do not have a " + item.toLowerCase() + ".");
+    }
+        
+        
     }
 
     public void enter() {
@@ -193,15 +200,17 @@ public class Character {
         if (curPlace instanceof Building) {
             if (curPlace.isUnlocked()) {
                 inside = true;
+                System.out.println("----------------- "+ curPlace.getName() + " -----------------");
                 System.out.println("You are now inside " + curPlace.getName() + ".");
                 curPlace.setCharacter(true);
-                if (curPlace.getName().equals("Lagoon")) {
+                if(curPlace.getName().equals("Lagoon")){
                     System.out.println(curPlace.describe());
                     this.subtractSheep();
                     this.printSheep();
+                    this.exit();
                     return;
                 }
-                System.out.println(curPlace.describe());
+
             } else { // building is locked
                 System.out.println("The " + curPlace.getName() + " is locked.");
             }
@@ -256,10 +265,11 @@ public class Character {
         if (curNPC != null && curNPC.conversable) {
 
             Scanner scanner = new Scanner(System.in);
+            String input = "";
 
             // the code below can be copied and changed for each npc!
             if (curNPC.getName().equals("MCDONALD")) {
-                // we cannot close this without an error in main
+                 // we cannot close this without an error in main
                 String input = "";
 
                 System.out.println(
@@ -271,18 +281,18 @@ public class Character {
                 }
 
                 if (input.equals("YES")) {
-                    System.out.println("McDonald: Okay, here ya go!");
+                    System.out.println("McDonald: Enjoy!");
                     this.grab("BURGER");
                 } else {
-                    System.out.println("McDonald: Okay, your loss!");
+                    System.out.println("McDonald: Alright. Come back any time when you change your mind!");
                 }
 
             }
             if (curNPC.getName().equals("THIEF")) {
-
+                
                 String input = "";
 
-                System.out.println("Thief: **draws a knife** Give me your sheep and you will not get hurt.");
+                System.out.println("Thief: **draws a knife** Give me your sheep and you will not get hurt."); 
 
                 while (!input.equals("YES") && !input.equals("NO")) {
                     System.out.print("Enter yes or no if the thief can have a sheep: "); // maybe remove this prompt?
@@ -290,18 +300,19 @@ public class Character {
                 }
 
                 if (input.equals("YES")) {
-                    System.out.println("Thief: Heh...that was easy.");
+                    System.out.println("🥷Thief: Heh...that was easy.");
                     this.subtractSheep();
                     printSheep();
 
                 } else {
-                    System.out.println("Thief: Prepare to die!");
+                    System.out.println("🥷Thief: Prepare to die!");
                     System.out.println("You have 5 seconds to DODGE the thief's attack!");
 
                     ExecutorService executor = Executors.newSingleThreadExecutor();
 
                     Callable<String> inputTask = () -> {
-                        System.out.print("Type dodge: ");
+                        System.out.print("Type dodge: "); // weird error when u type something that isnt dodge when
+                                                          // scanner is closed
                         return scanner.nextLine();
                     };
 
@@ -309,11 +320,10 @@ public class Character {
 
                     try {
                         String input1 = future.get(5, TimeUnit.SECONDS);
-                        if (input1.toUpperCase().equals("DODGE")) {
-                            System.out.println(
-                                    "You successfuly dodged the thief! The thief falls to the ground and your sheep eat him.");
+                        if(input1.toUpperCase().equals("DODGE")){
+                            System.out.println("You successfuly dodged the thief! The thief falls to the ground and your sheep eat him.");
                             curPlace.killNPC();
-                        } else {
+                        }else{
                             throw new Exception("You did not type dodge! The thief knocked you out and stole a sheep.");
                         }
                     } catch (TimeoutException e) {
@@ -328,8 +338,7 @@ public class Character {
                         executor.shutdownNow();
                     }
 
-                    // for some reason, after executing the catch statements above, the code will
-                    // wait for another input before you can actually input any commands
+                    //for some reason, after executing the catch statements above, the code will wait for another input before you can actually input any commands
                     scanner.close();
                 }
 
@@ -370,10 +379,8 @@ public class Character {
 
             if (curNPC.getName().equals("RIDDLER")) {
                 int numCorrect = 0;
-                String input = "";
 
-                System.out.println(
-                        "The Riddler: Well now, what do we have here? Is it riddles you desire, young one? Choose wisely, for the forest listens closely.");
+                System.out.println("The Riddler: Well now, what do we have here? Is it riddles you desire, young one? Choose wisely, for the forest listens closely."); 
 
                 while (!input.equals("YES") && !input.equals("NO")) {
                     System.out.print("Enter yes or no: "); // maybe remove this prompt?
@@ -381,62 +388,63 @@ public class Character {
                 }
 
                 if (input.equals("YES")) {
-                    System.out.println(
-                            "The Riddler: Excellent! Prepare yourself, traveler. Here comes your first riddle...");
-
-                    // riddle 1
+                    System.out.println("The Riddler: Excellent! Prepare yourself, traveler. Here comes your first riddle...");
+                    
+                    //riddle 1
                     System.out.println("Riddle 1: What is a baby sheep called?");
                     String answer1 = scanner.nextLine().toUpperCase();
 
                     if (answer1.equals("LAMB")) {
-                        System.out.println("The Riddler: Correct! The forest approves of your wisdom.");
+                        System.out.println("🧙The Riddler: Correct! The forest approves of your wisdom.");
                         numCorrect++;
                     } else {
-                        System.out.println("The Riddler: Wrong! The forest is not pleased.");
+                        System.out.println("🧙The Riddler: Wrong! The forest is not pleased.");
                     }
 
-                    // riddle 2
+                    //riddle 2
                     System.out.println("Riddle 2: True or False: Sheep have no upper teeth.");
                     String answer2 = scanner.nextLine().toUpperCase();
 
                     if (answer2.equals("TRUE")) {
-                        System.out.println("The Riddler: Correct! The forest is pleased.");
+                        System.out.println("🧙The Riddler: Correct! The forest is pleased.");
                         numCorrect++;
                     } else {
-                        System.out.println("The Riddler: Wrong!");
+                        System.out.println("🧙The Riddler: Wrong!");
                     }
 
-                    // riddle 2
+                    //riddle 2
                     System.out.println("Riddle 2: True or False: Sheep are the best animals in the world.");
                     String answer3 = scanner.nextLine().toUpperCase();
 
                     if (answer3.equals("TRUE")) {
-                        System.out.println("The Riddler: Correct!");
+                        System.out.println("🧙The Riddler: Correct!");
                         numCorrect++;
                     } else {
-                        System.out.println("The Riddler: Wrong!");
+                        System.out.println("🧙The Riddler: Wrong!");
                     }
 
-                    // handle cases
-                    if (numCorrect == 3) { // give player key
+                    //handle cases
+                    if(numCorrect == 3){ //give player key
                         System.out.println("The Riddler: I'm impressed. Your wisdom has won you a key. Use it wisely.");
                         curPlace.items.add(new Item("KEY", 0, "You see a shiny, golden key."));
                         this.grab("KEY");
-                    } else {
-                        System.out.println(
-                                "The Riddler: Alas, you have failed to get all 3 riddles correct. The forest demands a sacrifice... a sheep will be taken.");
+                    }else{
+                        System.out.println("The Riddler: Alas, you have failed to get all 3 riddles correct. The forest demands a sacrifice... a sheep will be taken.");
                         subtractSheep();
                         printSheep();
                     }
                 } else {
-                    System.out.println(
-                            "The Riddler: So be it, traveler. The forest is not for everyone. May you find your path elsewhere.");
+                    System.out.println("The Riddler: So be it, traveler. The forest is not for everyone. May you find your path elsewhere.");
                 }
 
             } // end riddler
 
             // start wolf
             if (curNPC.getName().equals("WOLF")) {
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (Exception e) {
+                }
                 System.out.println("The wolf lunges at your sheep and kills one, then retreats back to the shadows.");
                 subtractSheep();
                 printSheep();
@@ -446,22 +454,64 @@ public class Character {
                 int numCorrect = 0;
                 String input = "";
 
-                System.out.println("McDonald: Hi there! Would you like a free sheep burger?");
+                System.out.println("McDonald: Hi there! Would you like a free sheep burger?"); 
 
                 while (!input.equals("YES") && !input.equals("NO")) {
                     input = scanner.nextLine().toUpperCase();
-                }
 
-                if (input.equals("YES")) {
-                    System.out.println("McDonald: Enjoy!");
-                    this.grab("BURGER");
-                } else {
-                    System.out.println("McDonald: Alright. Come back any time when you change your mind!");
+                    if (input.equals("YES")) {
+                        double randomChance = Math.random();
+                        System.out.println("The wheel spins");
+                        for (int i = 0; i < 3; i++) {
+                            try {
+                                TimeUnit.SECONDS.sleep(1);
+                                System.out.println(".");
+                            } catch (Exception e) {
+                            }
+                        }
+
+                        if (randomChance < 0.45) {
+
+                            System.out.println("🤵Casino Owner: Congratulations! You have won a sheep!");
+                            numSheep++;
+
+                        } else {
+
+                            System.out.println("🤵Casino Owner: Oh no! You lost a sheep!");
+                            subtractSheep();
+                        }
+                        printSheep();
+
+                        System.out.println("🤵Casino Owner: Would you like to spin again?");
+
+                    } else if (input.equals("NO")) {
+                        System.out.println(
+                                "🤵Casino Owner: Did you know that 99% of gamblers quit right before they win big? Your loss!");
+                        break;
+                    } else {
+                        System.out.println("Enter yes or no.");
+                    }
                 }
             }
+
         } else {
             throw new RuntimeException("There is nothing here that you can talk to.");
         }
+    }
+
+    public void read(String str){
+        if(!str.equals("MAP")){
+            throw new RuntimeException("You cannot read this.");
+        }
+
+        if(this.findItemInInventory(str) != null){
+            System.out.println("--- Map ---");
+            System.out.println("🪨 🌾 🏠 🌸 🏡 \n" + "🌾 🕳️ 🌾 🌾 🌊 \n" + "👣 🌱 🌳 🏚️ 🌾 \n" + "👣 🌲 🌾 🎰 🌾 \n" + "🌾 🪷 🌾 🏜️ 🐑 ");
+        }
+        else{
+            throw new RuntimeException("You don't have a map.");
+        }
+        System.out.println();
     }
 
     public void setInside() {
@@ -479,7 +529,7 @@ public class Character {
     public void subtractSheep() {
         if (numSheep > 0) {
             numSheep--;
-        } else {
+        }else{
             throw new NoSheepException("You have run out of sheep.");
         }
 

@@ -1,20 +1,18 @@
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 public class GameMain {
 
     // items
-    // static Item key = new Item("KEY", 0, "You see a shiny, golden key."); //we
-    // may not need this as the riddler makes a new key item
     static Item sword = new Item("SWORD", 8, "You spot a beautiful, gleaming, sharp sword lying on the ground. 🗡️ ");
     static Item banana = new Item("BANANA", 0, "A vibrant, ripe, glowing banana resides on the floor. 🍌 ");
     static Item burger = new Item("BURGER", 0,
             "The most beautiful, delicious, juicy burger is laying in front of you. 🍔 ");
     static Item hammerScrewdriver = new Item ("HAMMERSCREWDRIVER", 3, "A hammerscrewdriver with a sparkly pink handle sits, abandoned by an engineering first year. 🔨🪛");
-    static Item bow = new Item("BOW", 6, "A sleek, well-crafted bow is lying before you, its string taut. 🏹");
     static Item dagger = new Item("DAGGER", 5, "A slender, silver dagger glints in the dappled sunlight, its hilt wrapped in worn leather. 🗡️");
-    
+    static Item mushroom = new Item("MUSHROOM", 10, "A neon glowing mushroom peaks out from beneath the leaves.");
     // npcs
     static NPC bat = new NPC("BAT", 2,
             " 🦇 A bat hovers in the shadows, its eyes gleaming with a predatory gleam as it lets out an eerie screech.",
@@ -29,6 +27,8 @@ public class GameMain {
     static NPC mcDonald = new NPC("MCDONALD", 0, "🧍A kind old man stands by the stove.", true);
     static NPC riddler = new NPC("RIDDLER", 10,
             "🧙 An wizened man sits criss cross applesauce on the ground. His wide eyes blink up at you.", true);
+    static NPC casinoOwner = new NPC("CASINO OWNER", 8, "A man in a suit stands next to the wheel.", true);
+
     static NPC engineeringStudent = new NPC("ENGINEERING STUDENT", 0, "A distracted, worn out college student hovers over diagrams and engineering textbooks. It is an exhausted engineering student.", true);
 
     // place
@@ -65,16 +65,17 @@ public class GameMain {
             "", false);
     static Building lagoon = new Building("Lagoon", "A glassy, dark lagoon stretches in front of you. It's black water laps gently on the shore.", null, null, true, "You enter the water. Your sheep attempt to save you from the waves. You escape, but one sheep sinks beneath the waves.", false);
     static Place marsh = new Place("Marsh", "Your nostrils are assaulted by the smell of sulfur and death. In front of you is a bubbling, boil marsh. Twisted trees rise from the murky water.", hammerScrewdriver, null, false);
-    static Place dunes = new Place("Dunes", "Suddenly your boots meet sand. In front of you, a dune rises, bright sunlight reflecting off its top.", bow, null, false);
+    static Place dunes = new Place("Dunes", "Suddenly your boots meet sand. In front of you, a dune rises, bright sunlight reflecting off its top.", null, null, true);
     static Place flowerGarden = new Place("Flower Garden", "An expanse of color graces your eyes. The largest flower garden you have ever seen.", dagger, null, false);
-    static Place forest = new Place("Forest", "Beautiful trees rise around you, their canopy filtering the sunlight. Birds chirp faintly and squirrels cling to tree trunks.", null, null, false);
+    static Place forest = new Place("Forest", "Beautiful trees rise around you, their canopy filtering the sunlight. Birds chirp faintly and squirrels cling to tree trunks.", mushroom, null, false);
+    static Building casino = new Building("Casino", "A casino looms before you, a towering fortress of neon and gold, its glowing signs flickering like a siren's call in the shadowy night.", null, casinoOwner, true, "At the center of the casino stands a towering wheel, its shimmering gold and emerald wedges boldly marked with sheep icons 🐑 or red Xs ❌.", true);
     static Place waterfall = new Place("Waterfall", "Suddenly, the roar of rushing water fills your ears. Cold droplets hit your cheeks from a massive waterfall, pouring relentlessly in front of you.", null, engineeringStudent, true);
 
     static Place[][] map = {
             { start, field, toolshed, flowerGarden, cabin },
-            { forest, lagoon, field, cave, field },
+            { field, cave, field, field, lagoon },
             { forestPath, forestClearing, forest, wastelands, field },
-            { forestPath, forestTree, forest, forest, waterfall },
+            { forestPath, forestTree, field, casino, field },
             { field, marsh, field, dunes, barn }
 
     };
@@ -98,7 +99,7 @@ public class GameMain {
 
         String[] directions = { "NORTH", "SOUTH", "EAST", "WEST" };
         String[] commands = { "GRAB", "DROP", "EAT", "FIGHT", "ENTER", "EXIT", "UNLOCK", "TALK", "HELP", "SHEEP",
-                "INVENTORY" };
+                "INVENTORY", "READ" };
 
         System.out.println();
 
@@ -118,11 +119,15 @@ public class GameMain {
         } // end intro
 
         System.out.println(
-                "Letter: You are a sheep herder with 10 sheep. You must find your way back to the barn with at least 7 sheep or else....");
+                "Letter: Dear Sheep-herder, My name is the Headmaster. I have been having trouble sleeping and need to count sheep to cure my insomnia. You must find your way back to the barn with 7 sheep or else.");
 
         do {
             System.out.println();
-            userResponse = userInput.nextLine().toUpperCase();
+            try{
+                userResponse = userInput.nextLine().toUpperCase();
+            }catch(NoSuchElementException e){
+                System.out.println();
+            }
             String[] inputWords = userResponse.split(" ");
             System.out.println();
             for (String input : inputWords) {
@@ -144,9 +149,12 @@ public class GameMain {
                             case "EAT":
                                 try {
                                     String objectToEat = inputWords[index + 1];
-                                    stillPlaying = player.eat(objectToEat);
+                                    player.eat(objectToEat);
                                 } catch (ArrayIndexOutOfBoundsException e) {
                                     System.out.println("Eat what?");
+                                } catch (RuntimeException e){
+                                    stillPlaying = false;
+                                    System.out.println(e);
                                 } catch (Exception e) {
                                     System.out.println(e);
                                 }
@@ -247,6 +255,17 @@ public class GameMain {
                             case "INVENTORY":
                                 player.printInventory();
                                 break;
+                            case "READ":
+                                try {
+                                    String objectToRead = inputWords[index + 1];
+                                    player.read(objectToRead);
+                                } catch (ArrayIndexOutOfBoundsException e){
+                                    System.out.println("Read what?");
+                                }catch (Exception e) {
+                                    System.out.println(e);
+                                }
+                                break;
+                                
                             default:
                                 System.out.println("This is not a valid command.");
                                 break;
@@ -258,12 +277,7 @@ public class GameMain {
 
             if (player.isInside() && player.getCurX() == 4 && player.getCurY() == 4) { // player has made it to barn
                 stillPlaying = false;
-            }
 
-        } while (stillPlaying);
-
-            if (player.getNumSheep() > 7) {
-                // WINNING PRIZE
                 System.out.println("You step into the large barn and in front of you is a raised platform made of gold. Upon the platform a cloaked figure lounges on a throne.");
                 try{
                     TimeUnit.SECONDS.sleep(1);
@@ -272,27 +286,34 @@ public class GameMain {
                 System.out.println("Headmaster: Approach and allow me to count your sheep.");
                 System.out.println("***Headmaster begins to count***");
                 for(int i = 1; i<=player.getNumSheep(); i ++){
-                    System.out.print(i + "🐑...");
                     try{
                         TimeUnit.SECONDS.sleep(1);
                     } catch(Exception e){
                     }
+                    System.out.print(i + "🐑...");
+                    
                 }
-                System.out.println("");
-                System.out.println("The Headmaster's eyes begin to flutter and he falls into a deep slumber💤. You won!");
-            } else {
-                // LOSING PUNISHMENT
-                System.out.println("You step into the large barn and in front of you is a raised platform made of gold. Upon the platform a cloaked figure lounges on a throne.");
-                System.out.println("Headmaster: Approach and allow me to count your sheep.");
-                System.out.println("***Headmaster begins to count***");
-                for(int i = 1; i<=player.getNumSheep(); i ++){
-                    System.out.print(i + "...");
+                if (player.getNumSheep() > 7) {
+                    // WINNING PRIZE
+                    System.out.println();
+                    System.out.println("The Headmaster's eyes begin to flutter and he falls into a deep slumber💤. You won!");
+                } else {
+                    // LOSING PUNISHMENT
+                    
+                    System.out.println("Headmaster: YOU FAILED! I CANNOT FALL ASLEEP WITHOUT AT LEAST 7 SHEEP TO COUNT!");
+                    System.out.println("The Headmaster lunges toward you...your vision goes black.");
+                    System.out.println("END.");
+                    try{
+                        TimeUnit.SECONDS.sleep(10);
+                    } catch(Exception e){
+                    }
+                    System.out.print("\033[H\033[2J");
                 }
-                System.out.println("Headmaster: YOU FAILED! I CANNOT FALL ASLEEP WITHOUT AT LEAST 7 SHEEP TO COUNT!");
-                System.out.println("The Headmaster lunges toward you...your vision goes black.");
-                System.out.println("END.");
-                System.out.print("\033[H\033[2J");
             }
+
+        } while (stillPlaying);
+
+        
         userInput.close();
 
     }
