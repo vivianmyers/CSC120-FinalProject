@@ -343,6 +343,39 @@ public class Character {
                 }
 
             }
+            
+            if (curNPC.getName().equals("ENGINEERING STUDENT")) {
+                System.out.println(
+                        "Engineering Student: I don't have time to talk! I lost my hammerscrewdriver and it is due soon!");
+                System.out.println("Help the engineering student? Type yes or no: ");
+                input = scanner.nextLine().toUpperCase();
+                if (input.equals("YES")) {
+                    if (inventory.size() > 0) {
+                        for (int i = 0; i<inventory.size(); i++) {
+                            Item current = inventory.get(i);
+                            if (current.getName().equals("HAMMERSCREWDRIVER")) {
+                                System.out.println(
+                                        "You have a hammerscrewdriver! Do you want to drop it for them? Enter yes or no: ");
+                                input = scanner.nextLine().toUpperCase();
+                                if (input.equals("YES")) {
+                                    this.inventory.remove(current);
+                                    System.out.println(
+                                            "Engineering Student: Oh my god thank you!! In return I shall give you a sheep.");
+                                    this.numSheep++;
+                                    this.printSheep();
+                                } else {
+                                    System.out.println(
+                                            "Engineering Student: If you're just gonna stand there and do nothing go away!!!");
+                                }
+                            }
+                        }
+                    } else{
+                        System.out.println(
+                                     "You don't seem to have the hammerscrewdriver they are looking for...maybe you can find it somewhere.");
+                    }
+                }
+            }
+
             if (curNPC.getName().equals("RIDDLER")) {
                 int numCorrect = 0;
 

@@ -32,6 +32,8 @@ public class GameMain {
     static NPC riddler = new NPC("RIDDLER", 10,
             "🧙 An wizened man sits criss cross applesauce on the ground. His wide eyes blink up at you.", true);
     static NPC casinoOwner = new NPC("CASINO OWNER", 8, "A man in a suit stands next to the wheel.", true);
+    static NPC engineeringStudent = new NPC("ENGINEERING STUDENT", 0, "A distracted, worn out college student hovers over diagrams and engineering textbooks. It is an exhausted engineering student.", true);
+
 
     // place
     static Building cave = new Building("Cave",
@@ -86,10 +88,11 @@ public class GameMain {
             null, casinoOwner, true,
             "At the center of the casino stands a towering wheel, its shimmering gold and emerald wedges boldly marked with sheep icons 🐑 or red Xs ❌.",
             true);
+            static Place waterfall = new Place("Waterfall", "Suddenly, the roar of rushing water fills your ears. Cold droplets hit your cheeks from a massive waterfall, pouring relentlessly in front of you.", null, engineeringStudent, true);
 
     static Place[][] map = {
             { start, field, toolshed, flowerGarden, cabin },
-            { field, cave, field, field, lagoon },
+            { field, cave, field, waterfall, lagoon },
             { forestPath, forestClearing, forest, wastelands, field },
             { forestPath, forestTree, field, casino, field },
             { field, marsh, field, dunes, barn }
