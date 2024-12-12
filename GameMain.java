@@ -1,8 +1,10 @@
+//Import scanner, timeunit, array, and no such element exception classes
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
+// Game setup class
 public class GameMain {
 
     // items
@@ -106,21 +108,25 @@ public class GameMain {
         // Storage for user's responses
         String userResponse = "";
 
+         // Introduction to player
         System.out.println("What is your name? ");
         userResponse = userInput.nextLine();
         Character player = new Character(userResponse);
         System.out.println("Welcome " + userResponse + "!");
 
+        // Recognizable directions and commands input by user
         String[] directions = { "NORTH", "SOUTH", "EAST", "WEST" };
         String[] commands = { "GRAB", "DROP", "EAT", "FIGHT", "ENTER", "EXIT", "UNLOCK", "TALK", "HELP", "SHEEP",
                 "INVENTORY", "READ" };
 
         System.out.println();
 
+        // Game introduction and premise
         System.out.println(
                 "You wake up dazed, your vision blurring. As you get up, you realize you're surrounded by 10 white, fluffy sheep. In front of you stands a large sheep-shaped rock glistening magesticaly in the sunlight.");
         System.out.println("On the ground in front of you lies a mysterious letter.\n");
 
+        // User can only continue if they read the letter first
         while (inIntroduction) {
             userResponse = userInput.nextLine().toUpperCase();
 
@@ -132,20 +138,26 @@ public class GameMain {
             }
         } // end intro
 
+        // Letter print out
         System.out.println(
                 "Letter: Dear Sheep-herder, My name is the Headmaster. I have been having trouble sleeping and need to count sheep to cure my insomnia. You must find your way back to the barn with 7 sheep or else.");
 
+        // Do/While loop to continue game play until the game is over
         do {
             System.out.println();
             try {
+                // Turn all input to all uppercase when possible
                 userResponse = userInput.nextLine().toUpperCase();
             } catch (NoSuchElementException e) {
                 System.out.println();
             }
+            // Split users response by the spaces
             String[] inputWords = userResponse.split(" ");
             System.out.println();
+            // Finds direction words in the input array
             for (String input : inputWords) {
                 for (String direction : directions) {
+                    // Goes in the found direction
                     if (input.equals(direction)) {
                         try {
                             player.go(input);
@@ -156,11 +168,14 @@ public class GameMain {
                     }
                 }
 
+                // Find commands in the input arrays
                 for (String command : commands) {
                     if (input.equals(command)) {
                         int index = Arrays.asList(inputWords).indexOf(input);
+                        // Switch case to get command words and execute commands
                         switch (input) {
                             case "EAT":
+                                // Executes eat if the player names what they are eating
                                 try {
                                     String objectToEat = inputWords[index + 1];
                                     player.eat(objectToEat);
@@ -174,6 +189,7 @@ public class GameMain {
                                 }
                                 break;
                             case "GRAB":
+                                // Executes grab if the player names the object to grab
                                 try {
                                     String objectToGrab = inputWords[index + 1];
                                     player.grab(objectToGrab);
@@ -184,6 +200,7 @@ public class GameMain {
                                 }
                                 break;
                             case "DROP":
+                                // Executes drop if the player names the object to drop
                                 try {
                                     String objectToDrop = inputWords[index + 1];
                                     player.drop(objectToDrop);
@@ -194,6 +211,7 @@ public class GameMain {
                                 }
                                 break;
                             case "FIGHT":
+                                // Executes fight if the player uses the format "Fight with (weapon in their inventory)"
                                 try {
                                     String nextWord = inputWords[index + 1];
                                     if (nextWord.equals("WITH")) {
@@ -212,6 +230,7 @@ public class GameMain {
                                 }
                                 break;
                             case "ENTER":
+                                // Executes entering if the player is at a building
                                 try {
                                     player.enter();
                                     if (GameMain.map[player.getCurX()][player.getCurY()].getForced()) {
@@ -224,6 +243,7 @@ public class GameMain {
                                 }
                                 break;
                             case "EXIT":
+                                // Executes exit command
                                 try {
                                     player.exit();
                                 } catch (Exception e) {
@@ -231,6 +251,7 @@ public class GameMain {
                                 }
                                 break;
                             case "UNLOCK":
+                                // Executes unlocking command
                                 try {
                                     player.unlock();
                                 } catch (Exception e) {
@@ -238,12 +259,10 @@ public class GameMain {
                                 }
                                 break;
                             case "TALK":
+                                // Talks to an NPC if they are with one
                                 try {
                                     NPC curNPC = GameMain.map[player.getCurX()][player.getCurY()].getNPC();
-                                    if (GameMain.map[player.getCurX()][player.getCurY()].getNPC() == null) { // no npc
-                                                                                                             // in place
-                                                                                                             // (ex
-                                                                                                             // field)
+                                    if (GameMain.map[player.getCurX()][player.getCurY()].getNPC() == null) { //no npc
                                         throw new NullPointerException();
                                     }
                                     player.talk(curNPC.getName());
@@ -258,9 +277,11 @@ public class GameMain {
                                 }
                                 break;
                             case "SHEEP":
+                                // Prints the remaining sheep
                                 player.printSheep();
                                 break;
                             case "HELP":
+                                // Prints the command options
                                 System.out.println("**********COMMAND LIST**********");
                                 for (String dir : directions) {
                                     System.out.println("- " + dir);
@@ -270,9 +291,11 @@ public class GameMain {
                                 }
                                 break;
                             case "INVENTORY":
+                                // Prints the player's inventory
                                 player.printInventory();
                                 break;
                             case "READ":
+                                // Reads the letter
                                 try {
                                     String objectToRead = inputWords[index + 1];
                                     player.read(objectToRead);
@@ -284,6 +307,7 @@ public class GameMain {
                                 break;
 
                             default:
+                                // Default response
                                 System.out.println("This is not a valid command.");
                                 break;
                         }
@@ -291,16 +315,18 @@ public class GameMain {
 
                 }
             }
-
+            // Ending sequence executes if the player is at the barn and inside the barn
             if (player.isInside() && player.getCurX() == 4 && player.getCurY() == 4) { // player has made it to barn
                 stillPlaying = false;
 
+                // Description plus a pause
                 System.out.println(
                         "You step into the large barn and in front of you is a raised platform made of gold. Upon the platform a cloaked figure lounges on a throne.");
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (Exception e) {
                 }
+                // Headmaster communicates and counts the user's sheep
                 System.out.println("Headmaster: Approach and allow me to count your sheep.");
                 System.out.println("***Headmaster begins to count***");
                 for (int i = 1; i <= player.getNumSheep(); i++) {
@@ -311,6 +337,7 @@ public class GameMain {
                     System.out.print(i + "🐑...");
 
                 }
+                // If the user has enough sheep the headmaster will sleep and the player wins and the game ends
                 if (player.getNumSheep() > 7) {
                     // WINNING PRIZE
                     System.out.println();

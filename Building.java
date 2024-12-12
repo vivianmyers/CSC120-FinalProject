@@ -1,9 +1,19 @@
 public class Building extends Place {
+    // Attributes
+    public boolean unlocked; // Whether or not a building is unlocked/enterable without a key
+    private String insideDescription; // Description of building inside
+    private boolean hasCharacter; // Whether or not the player is inside the building
 
-    public boolean unlocked;
-    private String insideDescription;
-    private boolean hasCharacter;
-
+    /**
+     * Constructs a building by calling the super constructor (call to place)
+     * @param name of the building
+     * @param description of the outside of the building
+     * @param item at that place
+     * @param npc at that place
+     * @param unlocked t/f if the building is unlocked
+     * @param insideDescription description of inside of the building
+     * @param forcedConversation whether or not conversation is automatic
+     */
     public Building(String name, String description, Item item, NPC npc, boolean unlocked, String insideDescription,
             boolean forcedConversation) {
         super(name, description, item, npc, forcedConversation);
