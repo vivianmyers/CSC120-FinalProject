@@ -1,3 +1,4 @@
+
 //Import scanner, timeunit, array, and no such element exception classes
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -32,10 +33,11 @@ public class GameMain {
     static NPC riddler = new NPC("RIDDLER", 10,
             "🧙 An wizened man sits criss cross applesauce on the ground. His wide eyes blink up at you.", true);
     static NPC casinoOwner = new NPC("CASINO OWNER", 8, "A man in a suit stands next to the wheel.", true);
+    static NPC engineeringStudent = new NPC("ENGINEERING STUDENT", 0,
+            "A distracted, worn out college student hovers over diagrams and engineering textbooks. It is an exhausted engineering student.",
+            true);
 
-    static NPC engineeringStudent = new NPC("ENGINEERING STUDENT", 0, "A distracted, worn out college student hovers over diagrams and engineering textbooks. It is an exhausted engineering student.", true);
-
-    // places
+    // place
     static Building cave = new Building("Cave",
             " 🪨 You stand at a cave's entrance, peering into the darkness, where shadows seem to shift and secrets await. The faint sound of something stirring sends a chill down your spine.",
             null, bat, true,
@@ -88,12 +90,13 @@ public class GameMain {
             null, casinoOwner, true,
             "At the center of the casino stands a towering wheel, its shimmering gold and emerald wedges boldly marked with sheep icons 🐑 or red Xs ❌.",
             true);
-    static Place waterfall = new Place("Waterfall", "Suddenly, the roar of rushing water fills your ears. Cold droplets hit your cheeks from a massive waterfall, pouring relentlessly in front of you.", null, engineeringStudent, true);
+    static Place waterfall = new Place("Waterfall",
+            "Suddenly, the roar of rushing water fills your ears. Cold droplets hit your cheeks from a massive waterfall, pouring relentlessly in front of you.",
+            null, engineeringStudent, true);
 
-    // Static 2D array of places to form the map
     static Place[][] map = {
             { start, field, toolshed, flowerGarden, cabin },
-            { field, cave, field, field, lagoon },
+            { field, cave, field, waterfall, lagoon },
             { forestPath, forestClearing, forest, wastelands, field },
             { forestPath, forestTree, field, casino, field },
             { field, marsh, field, dunes, barn }
@@ -106,7 +109,7 @@ public class GameMain {
         boolean stillPlaying = true;
         boolean inIntroduction = true;
 
-        // Get input from the user.
+        // We'll use this to get input from the user.
         Scanner userInput = new Scanner(System.in);
 
         // Storage for user's responses
@@ -130,9 +133,10 @@ public class GameMain {
                 "You wake up dazed, your vision blurring. As you get up, you realize you're surrounded by 10 white, fluffy sheep. In front of you stands a large sheep-shaped rock glistening magesticaly in the sunlight.");
         System.out.println("On the ground in front of you lies a mysterious letter.\n");
 
+        // User can only continue if they read the letter first
         while (inIntroduction) {
             userResponse = userInput.nextLine().toUpperCase();
-            // User can only continue if they read the letter first
+
             if (userResponse.equals("READ LETTER")) {
                 break;
             } else {
@@ -142,19 +146,30 @@ public class GameMain {
         } // end intro
 
         // Letter print out
+        System.out.print(
+                "Letter: Dear Sheep-herder, I'm the Headmaster. ");
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (Exception e) {
+        }
         System.out.println(
-                "Letter: Dear Sheep-herder, My name is the Headmaster. I have been having trouble sleeping and need to count sheep to cure my insomnia. You must find your way back to the barn with 7 sheep or else.");
+                "I have been having trouble sleeping and need to count sheep to cure my insomnia. ");
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (Exception e) {
+        }
+        System.out.println(
+                "You must find your way back to the barn with at least 7 sheep. \nStart your journey now! ");
 
         // Do/While loop to continue game play until the game is over
         do {
             System.out.println();
-            // Turn all input to all uppercase when possible
             try {
+                // Turn all input to all uppercase when possible
                 userResponse = userInput.nextLine().toUpperCase();
             } catch (NoSuchElementException e) {
                 System.out.println();
             }
-
             // Split users response by the spaces
             String[] inputWords = userResponse.split(" ");
             System.out.println();
@@ -215,7 +230,8 @@ public class GameMain {
                                 }
                                 break;
                             case "FIGHT":
-                                // Executes fight if the player uses the format "Fight with (weapon in their inventory)"
+                                // Executes fight if the player uses the format "Fight with (weapon in their
+                                // inventory)"
                                 try {
                                     String nextWord = inputWords[index + 1];
                                     if (nextWord.equals("WITH")) {
@@ -267,9 +283,6 @@ public class GameMain {
                                 try {
                                     NPC curNPC = GameMain.map[player.getCurX()][player.getCurY()].getNPC();
                                     if (GameMain.map[player.getCurX()][player.getCurY()].getNPC() == null) { // no npc
-                                                                                                             // in place
-                                                                                                             // (ex
-                                                                                                             // field)
                                         throw new NullPointerException();
                                     }
                                     player.talk(curNPC.getName());
@@ -322,7 +335,6 @@ public class GameMain {
 
                 }
             }
-
             // Ending sequence executes if the player is at the barn and inside the barn
             if (player.isInside() && player.getCurX() == 4 && player.getCurY() == 4) { // player has made it to barn
                 stillPlaying = false;
@@ -345,13 +357,14 @@ public class GameMain {
                     System.out.print(i + "🐑...");
 
                 }
-                // If the user has enough sheep the headmaster will sleep and the player wins and the game ends
+                // If the user has enough sheep the headmaster will sleep and the player wins
+                // and the game ends
                 if (player.getNumSheep() > 7) {
                     // WINNING PRIZE
                     System.out.println();
                     System.out.println(
                             "The Headmaster's eyes begin to flutter and he falls into a deep slumber💤. You won!");
-                } else { // If not, the player is killed and the game ends
+                } else {
                     // LOSING PUNISHMENT
 
                     System.out
@@ -368,7 +381,6 @@ public class GameMain {
 
         } while (stillPlaying);
 
-        // Close scanner
         userInput.close();
 
     }

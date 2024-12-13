@@ -24,6 +24,10 @@ Commands:
 - INVENTORY (displays player's current inventory)
 - READ (displays map)
 
+Map:
+
+Image in a seperate file.
+
 Challenges:
 
 Player must acquire a key to unlock the barn by completeing the Riddler's test in the forest clearing.

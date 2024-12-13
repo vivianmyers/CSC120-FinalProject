@@ -1,6 +1,5 @@
 public class Building extends Place {
-
-    //Attributes
+    // Attributes
     public boolean unlocked; // Whether or not a building is unlocked/enterable without a key
     private String insideDescription; // Description of building inside
     private boolean hasCharacter; // Whether or not the player is inside the building
@@ -21,7 +20,6 @@ public class Building extends Place {
         this.unlocked = unlocked;
         this.insideDescription = insideDescription;
     }
-
 
     public String describe() {
         String desc = "";
@@ -47,9 +45,6 @@ public class Building extends Place {
         return desc;
     }
 
-    /**
-     * 
-     */
     public boolean isUnlocked() {
         return unlocked;
     }
