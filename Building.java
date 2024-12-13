@@ -22,7 +22,7 @@ public class Building extends Place {
         this.insideDescription = insideDescription;
     }
 
-    
+
     public String describe() {
         String desc = "";
         if (this.hasCharacter) { // inside
