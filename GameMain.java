@@ -1,3 +1,4 @@
+
 //Import scanner, timeunit, array, and no such element exception classes
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -32,8 +33,9 @@ public class GameMain {
     static NPC riddler = new NPC("RIDDLER", 10,
             "🧙 An wizened man sits criss cross applesauce on the ground. His wide eyes blink up at you.", true);
     static NPC casinoOwner = new NPC("CASINO OWNER", 8, "A man in a suit stands next to the wheel.", true);
-    static NPC engineeringStudent = new NPC("ENGINEERING STUDENT", 0, "A distracted, worn out college student hovers over diagrams and engineering textbooks. It is an exhausted engineering student.", true);
-
+    static NPC engineeringStudent = new NPC("ENGINEERING STUDENT", 0,
+            "A distracted, worn out college student hovers over diagrams and engineering textbooks. It is an exhausted engineering student.",
+            true);
 
     // place
     static Building cave = new Building("Cave",
@@ -88,7 +90,9 @@ public class GameMain {
             null, casinoOwner, true,
             "At the center of the casino stands a towering wheel, its shimmering gold and emerald wedges boldly marked with sheep icons 🐑 or red Xs ❌.",
             true);
-            static Place waterfall = new Place("Waterfall", "Suddenly, the roar of rushing water fills your ears. Cold droplets hit your cheeks from a massive waterfall, pouring relentlessly in front of you.", null, engineeringStudent, true);
+    static Place waterfall = new Place("Waterfall",
+            "Suddenly, the roar of rushing water fills your ears. Cold droplets hit your cheeks from a massive waterfall, pouring relentlessly in front of you.",
+            null, engineeringStudent, true);
 
     static Place[][] map = {
             { start, field, toolshed, flowerGarden, cabin },
@@ -111,7 +115,7 @@ public class GameMain {
         // Storage for user's responses
         String userResponse = "";
 
-         // Introduction to player
+        // Introduction to player
         System.out.println("What is your name? ");
         userResponse = userInput.nextLine();
         Character player = new Character(userResponse);
@@ -142,8 +146,20 @@ public class GameMain {
         } // end intro
 
         // Letter print out
+        System.out.print(
+                "Letter: Dear Sheep-herder, I'm the Headmaster. ");
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (Exception e) {
+        }
         System.out.println(
-                "Letter: Dear Sheep-herder, My name is the Headmaster. I have been having trouble sleeping and need to count sheep to cure my insomnia. You must find your way back to the barn with 7 sheep or else.");
+                "I have been having trouble sleeping and need to count sheep to cure my insomnia. ");
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (Exception e) {
+        }
+        System.out.println(
+                "You must find your way back to the barn with at least 7 sheep. \nStart your journey now! ");
 
         // Do/While loop to continue game play until the game is over
         do {
@@ -214,7 +230,8 @@ public class GameMain {
                                 }
                                 break;
                             case "FIGHT":
-                                // Executes fight if the player uses the format "Fight with (weapon in their inventory)"
+                                // Executes fight if the player uses the format "Fight with (weapon in their
+                                // inventory)"
                                 try {
                                     String nextWord = inputWords[index + 1];
                                     if (nextWord.equals("WITH")) {
@@ -265,7 +282,7 @@ public class GameMain {
                                 // Talks to an NPC if they are with one
                                 try {
                                     NPC curNPC = GameMain.map[player.getCurX()][player.getCurY()].getNPC();
-                                    if (GameMain.map[player.getCurX()][player.getCurY()].getNPC() == null) { //no npc
+                                    if (GameMain.map[player.getCurX()][player.getCurY()].getNPC() == null) { // no npc
                                         throw new NullPointerException();
                                     }
                                     player.talk(curNPC.getName());
@@ -340,7 +357,8 @@ public class GameMain {
                     System.out.print(i + "🐑...");
 
                 }
-                // If the user has enough sheep the headmaster will sleep and the player wins and the game ends
+                // If the user has enough sheep the headmaster will sleep and the player wins
+                // and the game ends
                 if (player.getNumSheep() > 7) {
                     // WINNING PRIZE
                     System.out.println();
