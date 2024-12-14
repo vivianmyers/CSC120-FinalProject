@@ -21,6 +21,11 @@ public class Building extends Place {
         this.insideDescription = insideDescription;
     }
 
+    /**
+     * Overide the place describe method
+     * If the character is inside the building it describes the inside, otherwise it calls the place describe method
+     * @return String for the description
+     */
     public String describe() {
         String desc = "";
         if (this.hasCharacter) { // inside
@@ -45,24 +50,44 @@ public class Building extends Place {
         return desc;
     }
 
+    /**
+     * Accessor for unlocked attribute
+     * @return t/f for unlocked
+     */
     public boolean isUnlocked() {
         return unlocked;
     }
 
+    /**
+     * Accessor for npc (overide place method)
+     * @return NPC for npc at that place
+     */
     public NPC getNPC() {
         return super.getNPC();
     }
 
+    /**
+     * Override place method to set status based on input
+     * @param status t/f for locked or unlocked
+     */
     @Override
     public void setLockStatus(boolean status) {
         super.setLockStatus(status);
         this.unlocked = status;
     }
 
+    /**
+     * Accessor for inside description
+     * @return String for inside description
+     */
     public String getInsideDesc1() {
         return insideDescription;
     }
 
+    /**
+     * Set character to inside or outside the building
+     * @param inside t/f if the character is in or out of the building
+     */
     public void setCharacter(boolean inside) {
         this.hasCharacter = inside;
     }
