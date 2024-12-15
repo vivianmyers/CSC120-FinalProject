@@ -418,7 +418,8 @@ public class Character {
                                     "You did not type dodge! The thief knocked you out, stole a sheep, and ran away...");
                         }
                     } catch (TimeoutException e) {
-                        System.out.println("You did not type dodge! The thief knocked you out and stole a sheep!");
+                        System.out.println(
+                                "You did not type dodge! The thief knocked you out and stole a sheep, and ran away...");
                         subtractSheep();
                         printSheep();
                     } catch (Exception e) {
@@ -606,7 +607,7 @@ public class Character {
 
         if (this.findItemInInventory(str) != null) {
             System.out.println("--- Map ---");
-            System.out.println("🪨 🌾 🏠 🌸 🏡 \n" + "🌾 🕳️ 🌾 🌾 🌊 \n" + "👣 🌱 🌳 🏚️ 🌾 \n" + "👣 🌲 🌾 🎰 🌾 \n"
+            System.out.println("🏁 🌾 🏠 🌸 🏡 \n" + "🌾 🪨 🌾 💧 🌊 \n" + "👣 🌱 🌳 🏜️ 🌾 \n" + "👣 🌲 🌾 🎰 🌾 \n"
                     + "🌾 🪷 🌾 🏜️ 🐑 ");
         } else {
             throw new RuntimeException("You don't have a map.");

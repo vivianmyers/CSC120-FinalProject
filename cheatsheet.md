@@ -7,6 +7,8 @@ Note: It's a good idea to also make this list available inside the game, in resp
 If your game includes challenges that must be overcome to win, also list them below.
 
 Commands:
+
+- READ LETTER (starts the game)
 - NORTH (moves player one space north)
 - SOUTH (moves player one space south)
 - EAST (moves player one space east)
@@ -22,13 +24,14 @@ Commands:
 - HELP (displays commands)
 - SHEEP (displays number of sheep)
 - INVENTORY (displays player's current inventory)
-- READ (displays map)
+- READ MAP (displays map if the player has a map in its inventory)
 
 Map:
 
-Image in a seperate file.
+Image(map.jpg) in a separate file.
 
 Challenges:
 
-Player must acquire a key to unlock the barn by completeing the Riddler's test in the forest clearing.
+Player must acquire a key to unlock the barn by completing the Riddler's test in the forest clearing.
 Player must maintain at least 7 sheep to win.
+Player must not be killed by NPCs.
